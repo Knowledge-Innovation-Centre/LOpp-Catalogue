@@ -1,0 +1,73 @@
+{
+    "name": "learning-opportunities-catalogue",
+    "version": "1.0.0",
+    "description": "Here is a short description of the plugin.",
+    "keywords": [
+        "wordpress",
+        "learning-opportunities-catalogue"
+    ],
+    "homepage": "https://github.com/Knowledge-Innovation-Centre/LOpp-Catalogue#readme",
+    "bugs": {
+        "url": "https://github.com/Knowledge-Innovation-Centre/LOpp-Catalogue/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://git@github.com/Knowledge-Innovation-Centre/LOpp-Catalogue.git"
+    },
+    "license": "GPL-3.0-or-later",
+    "author": {
+        "name": "Jure Jager",
+        "url": "https://knowledgeinnovation.eu/"
+    },
+    "scripts": {
+        "build": "run-s build:*",
+        "build:1unmin": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --no-minify --no-source-maps --public-url ./",
+        "build:2min": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --out-dir dist/min --public-url ./",
+        "check-licenses": "run-p \"wp-scripts check-licenses --prod --gpl2\" \"wp-scripts check-licenses --dev\"",
+        "cleanup": "rimraf .cache .parcel-cache dist",
+        "nuke": "rimraf ./vendor ./node_modules;  composer install; npm install",
+        "restart": "run-s cleanup start",
+        "start": "parcel ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --https --hmr-hostname localhost --public-url ./",
+        "tric": "echo \"***tric: (!!!assuming command initiated from this plugin folder!!!) make sure current target...***\"; cd ..; tric here; cd learning-opportunities-catalogue; tric use; tric site-cli cli info",
+        "zip": "run-s zip:*",
+        "zip:2": "echo \"*** Composer: only production packages before zip... ***\"; composer install --no-dev --optimize-autoloader;",
+        "zip:3": "echo \"*** NPM: build the distributables... ***\"; npm run build",
+        "zip:4": "echo \"*** Composer: generate the zip with production files... ***\"; composer archive --file learning-opportunities-catalogue",
+        "zip:5": "echo \"*** Composer: add back development packages after zip... ***\"; composer install; composer dump-autoload;"
+    },
+    "babel": {
+        "presets": [
+            "@wordpress/default"
+        ]
+    },
+    "browserslist": [
+        "extends @wordpress/browserslist-config"
+    ],
+    "dependencies": {
+        "axios": "^0.21.1",
+        "react-notifications-component": "^3.0.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@fullhuman/postcss-purgecss": "^2.3.0",
+        "@wordpress/scripts": "^12.6.0",
+        "autoprefixer": "^9.8.6",
+        "npm-run-all": "^4.1.5",
+        "parcel-bundler": "^1.12.4",
+        "parcel-plugin-externals": "^0.5.2",
+        "postcss": "^7.0.35",
+        "postcss-advanced-variables": "^3.0.1",
+        "postcss-import": "^12.0.1",
+        "postcss-nested": "^4.2.3",
+        "postcss-nested-ancestors": "^2.0.0",
+        "prettier": "^1.19.1",
+        "puppeteer": ">=1.20.0 < 3",
+        "rimraf": "^3.0.2",
+        "tailwindcss": "^1.9.6",
+        "tsutils": "^2.29.0",
+        "typescript": "^3.9.7"
+    },
+    "externals": {
+        "@wordpress/element": "wp.element"
+    }
+}
