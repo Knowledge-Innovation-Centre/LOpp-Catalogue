@@ -19,6 +19,7 @@ if ( ! class_exists( Manage::class ) ) {
 		 */
 		public $shortcode_classes = [
 			'TK_Request',
+			'Catalog_Item_Search',
 		];
 
 		/**

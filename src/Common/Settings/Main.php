@@ -41,9 +41,9 @@ if ( ! class_exists( Main::class ) ) {
 		/**
 		 * Get the option prefix.
 		 *
+		 * @return string
 		 * @see get_prefixed_option_key()
 		 *
-		 * @return string
 		 */
 		public function get_option_prefix(): string {
 			// Just a way to identify where the prefix ends and the unique key starts.
@@ -117,7 +117,7 @@ if ( ! class_exists( Main::class ) ) {
 		 * Get the raw value of a single option from the database with an optional fallback value.
 		 *
 		 * @param string $key
-		 * @param mixed  $default
+		 * @param mixed $default
 		 *
 		 * @return mixed
 		 */
@@ -150,12 +150,12 @@ if ( ! class_exists( Main::class ) ) {
 		/**
 		 * Get a single option from the database as an array with an optional fallback value.
 		 *
-		 * @todo Is array_keys() really what we want here?
-		 *
 		 * @param string $key
-		 * @param mixed  $default
+		 * @param mixed $default
 		 *
 		 * @return array
+		 * @todo Is array_keys() really what we want here?
+		 *
 		 */
 		public function get_option_as_array( string $key, $default = '' ): array {
 			$result = $this->get_option( $key, $default );
@@ -174,9 +174,9 @@ if ( ! class_exists( Main::class ) ) {
 		/**
 		 * Delete all of the saved options from the database.
 		 *
+		 * @return bool
 		 * @see delete_option()
 		 *
-		 * @return bool
 		 */
 		public function delete_all_options(): bool {
 			return delete_option( PluginData::plugin_text_domain_underscores() );
@@ -290,24 +290,6 @@ if ( ! class_exists( Main::class ) ) {
 					],
 				]
 			);
-			//
-			// $capability = 'manage_options';
-			// $slug       = 'learning-opportunities-catalogue';
-			//
-			// add_menu_page( __( 'Catalogue', 'learning-opportunities-catalogue' ), __( 'Catalogue', 'learning-opportunities-catalogue' ), $capability, $slug,  );
-			//
-			// register_post_type('loc_catalogue_item',
-			// 	array(
-			// 		'labels'      => array(
-			// 			'name'          => __('Catalog items', 'learning-opportunities-catalogue'),
-			// 			'singular_name' => __('Catalog item', 'learning-opportunities-catalogue'),
-			// 		),
-			// 		'public'      => true,
-			// 		'has_archive' => true,
-			// 		'show_in_nav_menus' => true,
-			//
-			// 	)
-			// );
 
 		}
 

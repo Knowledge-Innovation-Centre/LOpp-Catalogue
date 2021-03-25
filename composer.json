@@ -16,7 +16,10 @@
         "tgmpa/tgm-plugin-activation": "dev-develop",
         "voku/stringy": "^6.2",
         "htmlburger/carbon-fields": "^3.2",
-        "johnbillion/extended-cpts": "^4.5"
+        "johnbillion/extended-cpts": "^4.5",
+        "meilisearch/meilisearch-php": "^0.17.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "http-interop/http-factory-guzzle": "^1.0"
     },
     "require-dev": {
         "php": "^7.0 || ^8.0",

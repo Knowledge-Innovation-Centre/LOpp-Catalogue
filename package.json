@@ -23,17 +23,19 @@
         "build": "run-s build:*",
         "build:1unmin": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --no-minify --no-source-maps --public-url ./",
         "build:2min": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --out-dir dist/min --public-url ./",
+        "build:3pot": "tric site-cli i18n make-pot ./wp-content/plugins/cliff-wp-plugin-boilerplate ./wp-content/plugins/cliff-wp-plugin-boilerplate/languages/cliff-wp-plugin-boilerplate.pot --headers='{\"Report-Msgid-Bugs-To\":\"Your Name or Your Company <https://www.example.com/>\"}' --exclude=\".cache,.github,.parcel-cache,_entry,test,tests\" --debug",
         "check-licenses": "run-p \"wp-scripts check-licenses --prod --gpl2\" \"wp-scripts check-licenses --dev\"",
         "cleanup": "rimraf .cache .parcel-cache dist",
-        "nuke": "rimraf ./vendor ./node_modules;  composer install; npm install",
+        "nuke": "rimraf ./vendor ./node_modules; tric composer install; yarn install",
         "restart": "run-s cleanup start",
         "start": "parcel ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --https --hmr-hostname localhost --public-url ./",
-        "tric": "echo \"***tric: (!!!assuming command initiated from this plugin folder!!!) make sure current target...***\"; cd ..; tric here; cd learning-opportunities-catalogue; tric use; tric site-cli cli info",
+        "tric": "echo \"***tric: (!!!assuming command initiated from this plugin folder!!!) make sure current target...***\"; cd ..; tric here; cd cliff-wp-plugin-boilerplate; tric use; tric site-cli cli info",
         "zip": "run-s zip:*",
-        "zip:2": "echo \"*** Composer: only production packages before zip... ***\"; composer install --no-dev --optimize-autoloader;",
-        "zip:3": "echo \"*** NPM: build the distributables... ***\"; npm run build",
-        "zip:4": "echo \"*** Composer: generate the zip with production files... ***\"; composer archive --file learning-opportunities-catalogue",
-        "zip:5": "echo \"*** Composer: add back development packages after zip... ***\"; composer install; composer dump-autoload;"
+        "zip:1": "yarn tric",
+        "zip:2": "echo \"*** Composer: only production packages before zip... ***\"; tric composer install --no-dev --optimize-autoloader;",
+        "zip:3": "echo \"*** NPM: build the distributables... ***\"; yarn build",
+        "zip:4": "echo \"*** Composer: generate the zip with production files... ***\"; tric composer archive --file cliff-wp-plugin-boilerplate",
+        "zip:5": "echo \"*** Composer: add back development packages after zip... ***\"; tric composer install; tric composer dump-autoload;"
     },
     "babel": {
         "presets": [
@@ -44,12 +46,20 @@
         "extends @wordpress/browserslist-config"
     ],
     "dependencies": {
+        "@meilisearch/instant-meilisearch": "^0.3.2",
         "axios": "^0.21.1",
-        "react-notifications-component": "^3.0.3"
+        "instantsearch.css": "^7.4.5",
+        "react-notifications-component": "^3.0.3",
+        "v-calendar": "^2.3.0",
+        "vue": "^2.6.12",
+        "vue-hot-reload-api": "^2.3.4",
+        "vue-instantsearch": "^3.5.0",
+        "vue-slider-component": "^3.2.11"
     },
     "devDependencies": {
         "@babel/core": "^7.12.10",
         "@fullhuman/postcss-purgecss": "^2.3.0",
+        "@vue/component-compiler-utils": "^3.2.0",
         "@wordpress/scripts": "^12.6.0",
         "autoprefixer": "^9.8.6",
         "npm-run-all": "^4.1.5",
@@ -65,7 +75,8 @@
         "rimraf": "^3.0.2",
         "tailwindcss": "^1.9.6",
         "tsutils": "^2.29.0",
-        "typescript": "^3.9.7"
+        "typescript": "^3.9.7",
+        "vue-template-compiler": "^2.6.12"
     },
     "externals": {
         "@wordpress/element": "wp.element"
