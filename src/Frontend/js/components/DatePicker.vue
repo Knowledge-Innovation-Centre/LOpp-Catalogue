@@ -3,22 +3,26 @@
                  v-model="date"
                  is-range>
     <template v-slot="{ inputValue, inputEvents }">
-      <input
-          :value="inputValue.start"
-          v-on="inputEvents.start"
-          placeholder="Select date"
-      />
-      <input
-          :value="inputValue.end"
-          v-on="inputEvents.end"
-          placeholder="Select date"
-      />
+      <div class="flex flex-row">
+
+        <input
+            :value="inputValue.start"
+            v-on="inputEvents.start"
+            placeholder="From"
+            type="text"
+        />
+        <input
+            :value="inputValue.end"
+            v-on="inputEvents.end"
+            placeholder="To"
+            type="text"
+        />
+      </div>
     </template>
   </v-date-picker>
 </template>
 
 <script>
-import VueSlider from "vue-slider-component";
 import {DatePicker} from 'v-calendar';
 
 export default {
@@ -35,14 +39,12 @@ export default {
     }
   },
   components: {
-    VueSlider,
     VDatePicker: DatePicker,
   },
 
   methods: {
     dateChanged(date) {
-      this.emit()
-      console.log(date);
+      this.$emit('input', date)
     }
   }
 }

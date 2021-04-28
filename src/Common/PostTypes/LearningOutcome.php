@@ -4,20 +4,23 @@ namespace LearningOpportunitiesCatalogue\Common\PostTypes;
 
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
+use Exception;
+use LearningOpportunitiesCatalogue\Common\PostTypes\LearningOutcomeFields;
 
 // Abort if this file is called directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( Knowledge::class ) ) {
+if ( ! class_exists( LearningOutcome::class ) ) {
 	/**
 	 * The functionality shared between the admin and public-facing areas of the plugin.
 	 *
 	 * Useful for things that affect both back-end and front-end.
 	 */
-	class Knowledge {
-		public $post_type = 'loc_knowledge';
+	class LearningOutcome {
+		public $post_type = 'loc_learning_outcome';
+		const POST_TYPE = 'loc_learning_outcome';
 
 		public function register() {
 			register_extended_post_type( $this->post_type, [
@@ -25,8 +28,8 @@ if ( ! class_exists( Knowledge::class ) ) {
 			], [
 
 				# Override the base names used for labels:
-				'singular' => 'Knowledge',
-				'plural'   => 'Knowledge',
+				'singular' => 'Learning Outcome',
+				'plural'   => 'Learning Outcomes',
 
 			] );
 
@@ -38,22 +41,19 @@ if ( ! class_exists( Knowledge::class ) ) {
 					'title'    => 'Unique ID',
 					'meta_key' => '_unique_id',
 				],
-				'level'     => [
-					'title'    => 'Level',
-					'meta_key' => '_level',
-				],
 			];
 
 		}
 
 		public function custom_fields() {
-			Container::make( 'post_meta', 'Knowledge additional data' )
+
+			Container::make( 'post_meta', 'Catalogue item data' )
 			         ->where( 'post_type', '=', $this->post_type )
-			         ->add_fields( [
-				         Field::make( "text", "unique_id", __( "Unique ID" ) ),
-				         Field::make( "text", "level", __( "Level" ) ),
-			         ] );
+			         ->set_priority( 'low' )
+			         ->add_fields( LearningOutcomeFields::get_carbon_fields( 'get_general_fields' ) );
+
 		}
+
 
 	}
 }

@@ -90,6 +90,16 @@ if ( ! class_exists( Main::class ) ) {
 			return PluginData::plugin_text_domain() . '-settings';
 		}
 
+
+		/**
+		 * The plugin's Settings page slug.
+		 *
+		 * @return string
+		 */
+		public function get_importer_page_slug(): string {
+			return PluginData::plugin_text_domain() . '-importer';
+		}
+
 		/**
 		 * The translatable "Settings" text.
 		 *

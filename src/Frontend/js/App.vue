@@ -1,122 +1,240 @@
 <template>
   <div class="container">
-    <ais-instant-search
-        :search-client="searchClient"
-        index-name="loc_catalogue_item"
-    >
-      <div class="search-panel__filters">
-        <ais-clear-refinements>
-          <span slot="resetLabel">Clear all filters</span>
-        </ais-clear-refinements>
+    <div class="grid grid-cols-4 gap-10">
 
-        <div v-for="(filterField, index) in filterFields" :key="index">
-          <h3>{{ filterField.title }}</h3>
-          <date-picker v-if="filterField.type === 'date'" @input="filterRecords()"></date-picker>
+      <div class="col-span-1">
+      </div>
+      <div class="col-span-3 flex justify-between">
+        <div>
+          <select v-model="limit">
+            <option :value="3">3</option>
+            <option :value="6">6</option>
+            <option :value="12">12</option>
+            <option :value="24">24</option>
+            <option :value="48">48</option>
+            <option :value="96">96</option>
+          </select>
+        </div>
+        <input v-model="searchString" placeholder="Search..." type="text"></input>
+      </div>
+      <div class="col-span-1">
 
-          <ais-range-input v-else-if="filterField.type === 'numeric'" :attribute="filterField.field">
-            <div slot-scope="{ currentRefinement, range, refine }">
-              <vue-slider
-                  :min="range.min"
-                  :max="range.max"
-                  :lazy="true"
-                  :value="toValue(currentRefinement, range)"
-                  @change="refine({ min: $event[0], max: $event[1] })"
-              />
-            </div>
-          </ais-range-input>
-          <ais-refinement-list v-else :attribute="filterField.field"></ais-refinement-list>
+        <div v-for="(filterField, index) in filterFields" class=" mb-5" :key="index">
+          <h4 class="mb-3">{{ filterField.title }}</h4>
+          <date-picker v-if="filterField.type === 'date'" @input="filterDate($event, filterField.field)"></date-picker>
+
+          <vue-slider
+              v-else-if="filterField.type === 'slider'"
+              :min="filterField.min"
+              :max="filterField.max"
+              :lazy="true"
+              v-model="filterValues[filterField.field]"
+              @change="search()"
+
+          ></vue-slider>
+
+          <ul v-else class="list-none p-0">
+
+            <li class="flex items-center" v-for="value in filterField.values" :key="value">
+              <input type="checkbox"
+                     v-model="filterValues[filterField.field]" @change="search()" :value="value">
+              <span class="ml-5">{{ value }}</span>
+            </li>
+          </ul>
+
         </div>
       </div>
-
-      <div class="search-panel__results">
-        <ais-search-box submit-title="Submit the query"></ais-search-box>
-        <ais-hits>
-          <template slot="item" slot-scope="{ item }">
-            <div>
-              <div class="hit-name">
-                <a :href="item.guid">
-                  <ais-highlight :hit="item" attribute="post_title"></ais-highlight>
-                </a>
-              </div>
-              <!--                <img :src="item.image" align="left" :alt="item.image"/>-->
-              <div class="hit-description">
-                <ais-snippet :hit="item" attribute="post_content"></ais-snippet>
-              </div>
-              <div class="hit-info">type: {{ item.type }}</div>
-              <div class="hit-info">start date: {{ item.start_date }}</div>
-            </div>
-          </template>
-        </ais-hits>
-
-        <ais-configure
-            :attributesToSnippet="['description:50']"
-            snippetEllipsisText="…"
-        ></ais-configure>
-        <ais-pagination></ais-pagination>
+      <div class="col-span-3">
+        <div v-if="loading" class="loader">Loading...</div>
+        <hits v-else :hits="hits"></hits>
       </div>
-    </ais-instant-search>
+      <div class="col-span-4">
+        <pagination :limit="limit" :offset="offset" :nb-hits="nbHits"
+                    @update-offset="updateOffset($event)"></pagination>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
-import "instantsearch.css/themes/algolia-min.css";
-import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
-import VueSlider from 'vue-slider-component';
-import 'vue-slider-component/theme/default.css'
+import Api from "../../Common/js/Api.js";
+
+import VueSlider from 'vue-slider-component'; // NEW
+import 'vue-slider-component/theme/antd.css'; // NEW
 import DatePicker from "./components/DatePicker"
+import Pagination from "./components/Pagination"
+
+import {MeiliSearch} from 'meilisearch'
+import Hits from "./components/Hits";
+import debounce from "lodash/debounce"
+
 
 export default {
   data() {
     return {
-      searchClient: instantMeiliSearch(
-          "http://127.0.0.1:7700",
-          "dc3fedaf922de8937fdea01f0a7d59557f1fd31832cb8440ce94231cfdde7f25"
-      ),
-      filterFields: [
-        {
-          type: 'checkbox',
-          field: 'type',
-          title: 'Type'
-        },
-        {
-          type: 'checkbox',
-          field: 'language',
-          title: 'Language'
-        },
-        {
-          type: 'date',
-          field: 'start_date',
-          title: 'Start date'
-        },
-        {
-          type: 'date',
-          field: 'end_date',
-          title: 'End date'
-        },
-        {
-          type: 'numeric',
-          field: 'fees',
-          title: 'Fees'
-        },
-        {
-          type: 'numeric',
-          field: 'duration',
-          title: 'Duration'
-        },
-      ]
+      loading: false,
+      searchClient: null,
+      meilisearchUrl: null,
+      meilisearchKey: null,
+      searchString: null,
+      fees: null,
+      filterFields: [],
+      filterValues: {},
+      limit: 12,
+      offset: 0,
+      nbHits: 0,
+      hits: []
     };
   },
   components: {
+    Hits,
     VueSlider,
-    DatePicker
+    DatePicker,
+    Pagination
+  },
+  watch: {
+    async searchString() {
+      this.querySearch();
+    },
+    limit() {
+      this.search();
+    }
+  },
+  created() {
+
+    this.loadData();
   },
   methods: {
-    toValue(value, range) {
-      return [
-        value.min !== null ? value.min : range.min,
-        value.max !== null ? value.max : range.max,
-      ];
+    querySearch: debounce(async function () {
+      await this.search();
+    }, 500),
+    loadData() {
+      let formData = new FormData();
+      formData.append("action", "get_meilisearch_key");
+      Api.post(ajaxurl, formData).then(response => {
+        this.meilisearchUrl = response.data.url;
+        this.meilisearchKey = response.data.key;
+
+        this.searchClient = new MeiliSearch({
+          host: this.meilisearchUrl,
+          apiKey: this.meilisearchKey
+        })
+      })
+      formData = new FormData();
+      formData.append("action", "get_xml_fields");
+      Api.post(ajaxurl, formData).then(response => {
+        for (let field of response.data) {
+          if (!field.filter) {
+            continue;
+          }
+          if (field.filter === 'disabled') {
+            continue;
+          }
+          let filter = {
+            type: field.filter,
+            field: field.slug,
+            title: field.title
+          }
+
+          if (field.filter === 'slider') {
+            filter.max = field.max;
+            filter.min = field.min;
+            this.$set(this.filterValues, field.slug, [field.min, field.max])
+
+          }
+          if (field.filter === 'checkbox') {
+            filter.values = field.values;
+            this.$set(this.filterValues, field.slug, [])
+          }
+          this.filterFields.push(filter)
+        }
+        this.search();
+      })
     },
+    async search() {
+      this.loading = true;
+      let filters = this.getFilters();
+      let facets = this.getFacets();
+      let searchParams = {}
+      if (filters.length) {
+        searchParams.filters = filters.join(' AND ')
+      }
+      if (facets.length) {
+        searchParams.facetFilters = facets
+      }
+      searchParams.limit = this.limit
+      searchParams.offset = this.offset
+      let search = await this.searchClient.index('loc_catalogue_item').search(this.searchString, searchParams)
+      this.hits = search.hits;
+
+      this.nbHits = search.nbHits;
+
+      this.loading = false;
+    },
+
+    getFilters() {
+      let filters = [];
+      for (let filterField of this.filterFields) {
+        if (!this.filterValues[filterField.field]) {
+          continue;
+        }
+        const value = this.filterValues[filterField.field];
+        const slug = filterField.field;
+        if (filterField.type === 'slider') {
+          if (value[0] == filterField.min && value[1] == filterField.max) {
+            continue;
+          }
+          filters.push(" ((" + slug + " >= " + value[0] + " AND " + slug + " <= " + value[1] + ") OR " + slug + " = '') ")
+        }
+        if (filterField.type === 'date') {
+          if (!value[0] && value[1] == filterField.max) {
+            continue;
+          }
+          filters.push(" ((" + slug + " >= " + value[0] + " AND " + slug + " <= " + value[1] + ") OR " + slug + " = '') ")
+        }
+      }
+      return filters;
+    },
+    getFacets() {
+      let facets = [];
+      for (let filterField of this.filterFields) {
+        if (!this.filterValues[filterField.field]) {
+          continue;
+        }
+        const values = this.filterValues[filterField.field];
+        const slug = filterField.field;
+        if (filterField.type === 'checkbox') {
+          let facetItems = [];
+          for (let value of values) {
+            if (value) {
+              facetItems.push(slug + ":" + value)
+            }
+          }
+          if (facetItems.length) {
+
+            facets.push(facetItems)
+          }
+        }
+      }
+      return facets;
+    },
+    filterDate(dates, slug) {
+      if (!dates) {
+        this.filterValues[slug] = null;
+        this.search();
+        return;
+      }
+
+      this.filterValues[slug] = [dates.start.getTime() / 1000, dates.end.getTime() / 1000]
+
+      this.search();
+    },
+    updateOffset(offset) {
+      this.offset = offset;
+      this.search();
+    }
   },
 };
 </script>
@@ -127,88 +245,50 @@ export default {
   max-width: 1280px !important;
 }
 
-.ais-Hits-item {
-  margin-bottom: 1em;
-  width: calc(50% - 1rem);
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
 }
 
-.ais-Hits-item img {
-  margin-right: 1em;
-  width: 100%;
-  height: 100%;
-  margin-bottom: 0.5em;
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
 }
 
-.ais-Highlight-highlighted {
-  background: cyan;
-  font-style: normal;
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
-.disclaimer {
-  margin-left: 1em;
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
-.hit-name {
-  margin-bottom: 0.5em;
-}
 
-.hit-info {
-  font-size: 90%;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  min-height: 50px;
-  padding: 0.5rem 1rem;
-  background-image: linear-gradient(to right, #4dba87, #2f9088);
-  color: #fff;
-  margin-bottom: 1rem;
-}
-
-.header-title {
-  font-size: 1.2rem;
-  font-weight: normal;
-}
-
-.hit-description {
-  font-size: 90%;
-  margin-bottom: 0.5em;
-  color: grey;
-}
-
-.header-title::after {
-  content: " ▸ ";
-  padding: 0 0.5rem;
-}
-
-.header-subtitle {
-  font-size: 1.2rem;
-}
-
-.container {
-  padding: 1rem;
-}
-
-.ais-InstantSearch {
-  margin: 0;
-}
-
-.search-panel__filters {
-  float: left;
-  width: 250px;
-}
-
-.search-panel__results {
-  margin-left: 260px;
-}
-
-.ais-SearchBox {
-  margin-bottom: 2rem;
-}
-
-.ais-Pagination {
-  margin: 2rem auto;
-  text-align: center;
-}
 </style>

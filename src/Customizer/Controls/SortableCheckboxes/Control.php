@@ -27,9 +27,10 @@ if ( ! class_exists( Control::class ) ) {
 
 		/**
 		 * Initialize the class and set its properties, extending the parent class.
+		 *
 		 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-		 * @param string               $id      Control ID.
-		 * @param array                $args    {
+		 * @param string $id Control ID.
+		 * @param array $args {
 		 */
 		public function __construct( WP_Customize_Manager $manager, string $id, array $args = [] ) {
 			parent::__construct( $manager, $id, $args );
@@ -40,8 +41,14 @@ if ( ! class_exists( Control::class ) ) {
 		 * TODO: `customize_controls_enqueue_scripts` hook per https://wordpress.stackexchange.com/a/138646/22702
 		 */
 		public function enqueue(): void {
-			wp_enqueue_script( $this->handle( 'js' ), plugin_dir_url( __FILE__ ) . 'js/script.js', [ 'jquery', 'jquery-ui-sortable' ], PluginData::plugin_version(), true );
+			wp_enqueue_script( $this->handle( 'js' ), plugin_dir_url( __FILE__ ) . 'js/script.js', [
+				'jquery',
+				'jquery-ui-sortable'
+			], PluginData::plugin_version(), true );
 			wp_enqueue_style( $this->handle(), plugin_dir_url( __FILE__ ) . 'css/style.css', [], PluginData::plugin_version(), 'all' );
+
+			wp_localize_script( $this->handle( 'js' ), 'my_ajax_object',
+				array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		}
 
 		/**

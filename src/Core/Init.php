@@ -75,32 +75,29 @@ if ( ! class_exists( Init::class ) ) {
 			// Example: $this->loader->add_filter( 'gform_currencies', $common, 'gf_currency_usd_whole_dollars', 50 );
 			$carbon_fields = new Common\CarbonFields();
 			$this->loader->add_action( 'after_setup_theme', $carbon_fields, 'init' );
-			$this->loader->add_action( 'carbon_fields_register_fields', $carbon_fields, 'plugin_options' );
+			$this->loader->add_action( 'carbon_fields_register_fields', $carbon_fields, 'register_fields' );
+			$this->loader->add_action( 'carbon_fields_theme_options_container_saved', $carbon_fields, 'theme_options_container_saved' );
+
 
 			$catalogue = new Common\PostTypes\Catalogue();
 			$this->loader->add_action( 'init', $catalogue, 'register' );
-			$this->loader->add_action( 'delete_post', $catalogue, 'post_updated', 10, 3 );
-			$this->loader->add_action( 'post_updated', $catalogue, 'post_updated', 10, 3 );
+			$this->loader->add_action( 'delete_post', $catalogue, 'save_post', 10, 3 );
+			$this->loader->add_action( 'updated_post_meta', $catalogue, 'save_post', 10, 4 );
 			$this->loader->add_action( 'carbon_fields_register_fields', $catalogue, 'custom_fields' );
-			$this->loader->add_action( 'wp_ajax_loc_catalog_import_xml', $catalogue, 'import' );
 
-			$describer = new Common\PostTypes\Describer();
-			$this->loader->add_action( 'init', $describer, 'register' );
-			$this->loader->add_action( 'carbon_fields_register_fields', $describer, 'custom_fields' );
+			$catalogueImporter = new Common\PostTypes\CatalogueImporter();
+			$this->loader->add_action( 'wp_ajax_loc_catalog_import_xml', $catalogueImporter, 'import' );
 
-			$knowledge = new Common\PostTypes\Knowledge();
-			$this->loader->add_action( 'init', $knowledge, 'register' );
-			$this->loader->add_action( 'carbon_fields_register_fields', $knowledge, 'custom_fields' );
+			$learning_outcome = new Common\PostTypes\LearningOutcome();
+			$this->loader->add_action( 'init', $learning_outcome, 'register' );
+			$this->loader->add_action( 'carbon_fields_register_fields', $learning_outcome, 'custom_fields' );
 
-			$skill = new Common\PostTypes\Skill();
-			$this->loader->add_action( 'init', $skill, 'register' );
-			$this->loader->add_action( 'carbon_fields_register_fields', $skill, 'custom_fields' );
-
-			$attitude = new Common\PostTypes\Attitude();
-			$this->loader->add_action( 'init', $attitude, 'register' );
-			$this->loader->add_action( 'carbon_fields_register_fields', $attitude, 'custom_fields' );
-
-			$this->loader->add_filter( 'the_content', $catalogue, 'add_content_after' );
+			$ajaxFrontEnd = new Frontend\Ajax();
+			$this->loader->add_action( 'wp_ajax_get_xml_fields', $ajaxFrontEnd, 'get_xml_fields' );
+			$this->loader->add_action( 'wp_ajax_nopriv_get_xml_fields', $ajaxFrontEnd, 'get_xml_fields' );
+			$this->loader->add_action( 'wp_ajax_get_meilisearch_key', $ajaxFrontEnd, 'get_meilisearch_key' );
+			$this->loader->add_action( 'wp_ajax_nopriv_get_meilisearch_key', $ajaxFrontEnd, 'get_meilisearch_key' );
+			$this->loader->add_action( 'wp_head', $ajaxFrontEnd, 'ajax_url' );
 
 
 			// Settings Fields must not be behind an `is_admin()` check, since it's too late.
