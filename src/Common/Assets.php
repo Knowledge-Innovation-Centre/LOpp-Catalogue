@@ -62,9 +62,9 @@ if ( ! class_exists( Assets::class ) ) {
 		 *
 		 * @param string $file_name Name of file that exists in the 'dist' directory, without the file extension.
 		 *                          Examples: 'frontend' or 'admin-settings'.
-		 * @param string $handle    Will fallback to $file_name before getting prefixed.
-		 * @param string $version   Manually set if you wish, else will be the Plugin's version.
-		 * @param array  $deps
+		 * @param string $handle Will fallback to $file_name before getting prefixed.
+		 * @param string $version Manually set if you wish, else will be the Plugin's version.
+		 * @param array $deps
 		 * @param string $media
 		 *
 		 * @return bool False if file does not exist, else the result from wp_register_style().
@@ -82,9 +82,9 @@ if ( ! class_exists( Assets::class ) ) {
 
 			// Protect against silent fails from imperfect usage.
 			$file_name = $this->strings->stringy( $file_name )
-				->removeRight( '.min.css' )
-				->removeRight( '.css' )
-				->toString();
+			                           ->removeRight( '.min.css' )
+			                           ->removeRight( '.css' )
+			                           ->toString();
 
 			$file_path = $this->get_file_path( $file_name, 'css' );
 
@@ -104,13 +104,13 @@ if ( ! class_exists( Assets::class ) ) {
 		/**
 		 * Enqueue an already-registered style.
 		 *
-		 * @see register_style() Must register style before enqueuing.
-		 *
 		 * @param string $handle Must match the $handle (optional param) or $file_name (required param) from register.
 		 *                       Examples: 'frontend' or 'admin-settings'.
 		 *
 		 * @return bool True if style handle is detected as registered and enqueuing was called.
 		 *              False if style handle wasn't registered so we didn't try to enqueue.
+		 * @see register_style() Must register style before enqueuing.
+		 *
 		 */
 		public function enqueue_style( string $handle ): bool {
 			$handle = self::get_asset_handle( $handle );
@@ -129,10 +129,10 @@ if ( ! class_exists( Assets::class ) ) {
 		 *
 		 * @param string $file_name Name of file that exists in the 'dist' directory, without the file extension.
 		 *                          Examples: 'frontend' or 'admin-settings'.
-		 * @param string $handle    Will fallback to $file_name before getting prefixed.
-		 * @param array  $deps      This function will auto-include the 'dist' directory's PHP file as a dependency.
-		 * @param string $version   Manually set if you wish, else will be the Plugin's version.
-		 * @param bool   $in_footer
+		 * @param string $handle Will fallback to $file_name before getting prefixed.
+		 * @param array $deps This function will auto-include the 'dist' directory's PHP file as a dependency.
+		 * @param string $version Manually set if you wish, else will be the Plugin's version.
+		 * @param bool $in_footer
 		 *
 		 * @return bool False if file does not exist, else the result from wp_register_script().
 		 */
@@ -145,9 +145,9 @@ if ( ! class_exists( Assets::class ) ) {
 		): bool {
 			// Protect against silent fails from imperfect usage.
 			$file_name = $this->strings->stringy( $file_name )
-				->removeRight( '.min.js' )
-				->removeRight( '.js' )
-				->toString();
+			                           ->removeRight( '.min.js' )
+			                           ->removeRight( '.js' )
+			                           ->toString();
 
 			$file_path = $this->get_file_path( $file_name, 'js' );
 
@@ -171,13 +171,13 @@ if ( ! class_exists( Assets::class ) ) {
 		/**
 		 * Enqueue an already-registered script.
 		 *
-		 * @see register_script() Must register script before enqueuing.
-		 *
 		 * @param string $handle Must match the $handle (optional param) or $file_name (required param) from register.
 		 *                       Examples: 'frontend' or 'admin-settings'.
 		 *
 		 * @return bool True if script handle is detected as registered and enqueuing was called.
 		 *              False if script handle wasn't registered so we didn't try to enqueue.
+		 * @see register_script() Must register script before enqueuing.
+		 *
 		 */
 		public function enqueue_script( string $handle ): bool {
 			$handle = self::get_asset_handle( $handle );

@@ -6,7 +6,6 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 use Exception;
 use LearningOpportunitiesCatalogue\Common\Meilisearch;
-use MeiliSearch\Client;
 
 // Abort if this file is called directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,18 +20,33 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 	 */
 	class CatalogueSearchIndex {
 
+		public static function delete_index( $post ) {
+			// if ( ! Meilisearch::health() ) {
+			// 	return false;
+			// }
 
-		public static function delete_index( $post_ID ) {
+			if ( is_numeric( $post ) ) {
+				$post = get_post( $post );
+			}
+
 			$searchIndex = Meilisearch::get_index( $post->post_type );
-			$searchIndex->deleteDocument( $post_ID );
+			$searchIndex->deleteDocument( $post->ID );
+		}
+
+		public static function delete_all_index( $post_type ) {
+			$client = Meilisearch::get_client();
+			$client->index( $post_type )->deleteAllDocuments();
 		}
 
 		public static function update_index( $post_ID ) {
 
 			$post = get_post( $post_ID );
 
-			$searchIndex = Meilisearch::get_index( $post->post_type );
+			if ( ! Meilisearch::health() ) {
+				return false;
+			}
 
+			$searchIndex = Meilisearch::get_index( $post->post_type );
 
 			$catalogItemIndex                 = [];
 			$catalogItemIndex['id']           = $post->ID;

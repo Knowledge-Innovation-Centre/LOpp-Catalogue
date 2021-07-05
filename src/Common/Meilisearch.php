@@ -4,6 +4,7 @@ namespace LearningOpportunitiesCatalogue\Common;
 
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
+use Exception;
 use MeiliSearch\Client;
 
 // Abort if this file is called directly.
@@ -23,6 +24,18 @@ if ( ! class_exists( Meilisearch::class ) ) {
 			$meilisearch_key = carbon_get_theme_option( 'meilisearch_key' );
 
 			return new Client( $meilisearch_url, $meilisearch_key );
+		}
+
+		public static function health() {
+
+			$client = self::get_client();
+
+			try {
+				return $client->stats();
+			} catch ( Exception $e ) {
+				return false;
+			}
+
 		}
 
 		public static function get_index( $post_type ) {

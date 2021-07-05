@@ -15,7 +15,7 @@
             <option :value="96">96</option>
           </select>
         </div>
-        <input v-model="searchString" placeholder="Search..." type="text"></input>
+        <input v-model="searchString" :placeholder="$t('Search...')" type="text"/>
       </div>
       <div class="col-span-1">
 
@@ -35,9 +35,9 @@
 
           <ul v-else class="list-none p-0">
 
-            <li class="flex items-center" v-for="value in filterField.values" :key="value">
+            <li class="flex items-center" v-for="(value, key) in filterField.values" :key="key">
               <input type="checkbox"
-                     v-model="filterValues[filterField.field]" @change="search()" :value="value">
+                     v-model="filterValues[filterField.field]" @change="search()" :value="key">
               <span class="ml-5">{{ value }}</span>
             </li>
           </ul>
@@ -45,13 +45,20 @@
         </div>
       </div>
       <div class="col-span-3">
-        <div v-if="loading" class="loader">Loading...</div>
+        <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
+        <span v-if="meilisearchFail">
+                {{
+            $t('There is a problem with search engine. Try using default wordpress search at top of the page...')
+          }}
+              </span>
         <hits v-else :hits="hits"></hits>
       </div>
       <div class="col-span-4">
         <pagination :limit="limit" :offset="offset" :nb-hits="nbHits"
                     @update-offset="updateOffset($event)"></pagination>
       </div>
+
+
     </div>
 
 
@@ -65,10 +72,10 @@ import VueSlider from 'vue-slider-component'; // NEW
 import 'vue-slider-component/theme/antd.css'; // NEW
 import DatePicker from "./components/DatePicker"
 import Pagination from "./components/Pagination"
-
-import {MeiliSearch} from 'meilisearch'
 import Hits from "./components/Hits";
+
 import debounce from "lodash/debounce"
+import {MeiliSearch} from 'meilisearch'
 
 
 export default {
@@ -85,7 +92,8 @@ export default {
       limit: 12,
       offset: 0,
       nbHits: 0,
-      hits: []
+      hits: [],
+      meilisearchFail: false,
     };
   },
   components: {
@@ -113,7 +121,7 @@ export default {
     loadData() {
       let formData = new FormData();
       formData.append("action", "get_meilisearch_key");
-      Api.post(ajaxurl, formData).then(response => {
+      let setSearchClient = Api.post(ajaxurl, formData).then(response => {
         this.meilisearchUrl = response.data.url;
         this.meilisearchKey = response.data.key;
 
@@ -124,7 +132,7 @@ export default {
       })
       formData = new FormData();
       formData.append("action", "get_xml_fields");
-      Api.post(ajaxurl, formData).then(response => {
+      let xmlFieldsPromise = Api.post(ajaxurl, formData).then(response => {
         for (let field of response.data) {
           if (!field.filter) {
             continue;
@@ -141,6 +149,10 @@ export default {
           if (field.filter === 'slider') {
             filter.max = field.max;
             filter.min = field.min;
+
+            if (filter.max === filter.min) {
+              continue;
+            }
             this.$set(this.filterValues, field.slug, [field.min, field.max])
 
           }
@@ -150,10 +162,17 @@ export default {
           }
           this.filterFields.push(filter)
         }
-        this.search();
       })
+
+
+      Promise.all([xmlFieldsPromise, setSearchClient]).then(() => {
+        this.search();
+      });
     },
     async search() {
+      if (!this.searchClient) {
+        return;
+      }
       this.loading = true;
       let filters = this.getFilters();
       let facets = this.getFacets();
@@ -166,10 +185,15 @@ export default {
       }
       searchParams.limit = this.limit
       searchParams.offset = this.offset
-      let search = await this.searchClient.index('loc_catalogue_item').search(this.searchString, searchParams)
-      this.hits = search.hits;
+      try {
 
-      this.nbHits = search.nbHits;
+        let search = await this.searchClient.index('loc_catalogue_item').search(this.searchString, searchParams)
+        this.hits = search.hits;
+
+        this.nbHits = search.nbHits;
+      } catch (e) {
+        this.meilisearchFail = true;
+      }
 
       this.loading = false;
     },

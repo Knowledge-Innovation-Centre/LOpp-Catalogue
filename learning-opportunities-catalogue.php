@@ -192,3 +192,6 @@ add_action( 'wp_ajax_loc_describers_import_xml', function () {
 	wp_die( count( $xml->CatalogueItem ) ); // this is required to terminate immediately and return a proper response
 } );
 
+
+
+

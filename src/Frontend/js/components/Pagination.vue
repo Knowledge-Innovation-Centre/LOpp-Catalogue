@@ -3,23 +3,23 @@
     <div class="flex-1 flex justify-between sm:hidden">
       <a href="#"
          class="relative inline-flex items-center px-4 py-2 border border-gray-800 text-sm font-medium text-gray-800 hover">
-        Previous
+        {{ $t('Previous') }}
       </a>
       <a href="#"
          class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-800 text-sm font-medium text-gray-800 hover">
-        Next
+        {{ $t('Next') }}
       </a>
     </div>
     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-800">
-          Showing
+          {{ $t('Showing') }}
           <span class="font-medium">{{ offset + 1 }}</span>
-          to
+          {{ $t('to') }}
           <span class="font-medium">{{ to }}</span>
-          of
+          {{ $t('of') }}
           <span class="font-medium">{{ nbHits }}</span>
-          results
+          {{ $t('results') }}
           {{ currentPage }}
         </p>
       </div>

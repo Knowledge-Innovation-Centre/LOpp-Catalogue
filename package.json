@@ -22,12 +22,12 @@
     "scripts": {
         "build": "run-s build:*",
         "build:1unmin": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --no-minify --no-source-maps --public-url ./",
-        "build:2min": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --out-dir dist/min --public-url ./",
+        "build:2min": "parcel build ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --detailed-report --out-dir dist/min --no-source-maps --public-url ./",
         "check-licenses": "run-p \"wp-scripts check-licenses --prod --gpl2\" \"wp-scripts check-licenses --dev\"",
         "cleanup": "rimraf .cache .parcel-cache dist",
         "nuke": "rimraf ./vendor ./node_modules; tric composer install; yarn install",
         "restart": "run-s cleanup start",
-        "start": "parcel ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --https --hmr-hostname localhost --public-url ./",
+        "start": "parcel ./_entry/admin.js ./_entry/admin-settings.js ./_entry/frontend.js --https --hmr-hostname localhost --no-source-maps --public-url ./",
         "tric": "echo \"***tric: (!!!assuming command initiated from this plugin folder!!!) make sure current target...***\"; cd ..; tric here; cd learning-opportunities-catalogue; tric use; tric site-cli cli info",
         "zip": "run-s zip:*",
         "zip:1": "yarn tric",
@@ -50,9 +50,10 @@
         "lodash": "^4.17.21",
         "meilisearch": "^0.18.1",
         "v-calendar": "^2.3.0",
-        "vue": "^2.6.12",
+        "vue": "^2.0.0",
         "vue-hot-reload-api": "^2.3.4",
         "vue-instantsearch": "^3.5.0",
+        "vue-notification": "^1.3.20",
         "vue-slider-component": "^3.2.11"
     },
     "devDependencies": {

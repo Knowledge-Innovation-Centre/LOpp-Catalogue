@@ -40,7 +40,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 			], [
 
 				# Override the base names used for labels:
-				'singular' => 'Catalogue_item',
+				'singular' => 'Catalogue item',
 				'plural'   => 'Catalogue items',
 				'slug'     => 'Catalogue_items',
 
@@ -71,23 +71,6 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 		public function custom_fields() {
 			$this->common_custom_fields();
-
-			// $catalog_fields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
-			//
-			// $fields = [];
-			// foreach ( $catalog_fields as $catalog_field ) {
-			// 	try {
-			// 		$fields[] = Field::make( $catalog_field['type'], $catalog_field['slug'], __( $catalog_field['title'] ) )->set_width( $catalog_field['width'] );
-			// 	} catch ( Exception $e ) {
-			// 		var_dump( $e );
-			// 	}
-			//
-			// }
-			//
-			// Container::make( 'post_meta', 'Catalogue item additional data' )
-			//          ->where( 'post_type', '=', $this->post_type )
-			//          ->set_priority( 'low' )
-			//          ->add_fields( $fields );
 		}
 
 
@@ -98,7 +81,8 @@ if ( ! class_exists( Catalogue::class ) ) {
 			         ->set_priority( 'low' )
 			         ->add_tab( __( 'General' ), CatalogueFields::get_carbon_fields( 'get_general_fields' ) )
 			         ->add_tab( __( 'Learning specification' ), CatalogueFields::get_carbon_fields( 'get_learning_specification_fields' ) )
-			         ->add_tab( __( 'Contact' ), CatalogueFields::get_carbon_fields( 'get_contact_fields' ) );
+			         ->add_tab( __( 'Contact' ), CatalogueFields::get_carbon_fields( 'get_contact_fields' ) )
+			         ->add_tab( __( 'Related learning specifications' ), CatalogueFields::get_carbon_fields( 'get_part' ) );
 		}
 
 		function add_content_after( $content ) {
@@ -112,14 +96,11 @@ if ( ! class_exists( Catalogue::class ) ) {
 					return $n[0];
 				}, $allMeta );
 
-				// $catalog_fields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
+				$content .= '<p>* This is only preview of the fields. Theme should handle view of the catalogue item fields! </p>';
+				$content .= '
 
-				$content .= '<p>
-				Type: ' . $allMeta['_learning_opportunity_type'] . '<br />
-				Home page: <a href = "' . $allMeta['_home_page'] . '" > ' . $allMeta['_home_page'] . ' </a ><br />
-
-				<table >
-					<tbody >';
+				<table>
+					<tbody>';
 
 				$content .= '<tr>' .
 				            '<th colspan="2">' . __( 'General data' ) . '</th>' .
@@ -194,6 +175,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 				return;
 			}
 
+
 			if ( $post->post_status == 'trash' ) {
 				CatalogueSearchIndex::delete_index( $post_id );
 			} else {
@@ -202,7 +184,14 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 		}
 
-		public function delete_post( $post_ID ) {
+		public function before_delete_post( $post_ID ) {
+
+			// We check if the global post type isn't ours and just return
+			global $post_type;
+
+			if ( Catalogue::POST_TYPE !== $post_type ) {
+				return;
+			}
 
 			CatalogueSearchIndex::delete_index( $post_ID );
 		}

@@ -5,42 +5,17 @@
  */
 
 /*global wp, settingsData */
-//
-// /**
-//  * Internal dependencies.
-//  */
-// import ReactNotification from 'react-notifications-component';
-// import Header from './Header';
-// import Main from './Main';
-// import Footer from './Footer';
-//
-// const {
-// 	Fragment
-// } = wp.element;
-//
-// /**
-//  * WordPress dependencies.
-//  */
-// const App = () => {
-// 	return (
-// 		<Fragment>
-// 			<ReactNotification />
-// 			<Header />
-// 			<Main />
-// 			<Footer />
-// 		</Fragment>
-// 	);
-// };
-//
-// wp.element.render(
-// 	<App />,
-// 	document.getElementById( settingsData.entryId ),
-// );
 
 import Vue from "vue";
 import App from "./App.vue";
+import Notifications from 'vue-notification'
 
 Vue.config.productionTip = false;
+
+const {_x} = wp.i18n;
+Vue.prototype.$t = _x;
+
+Vue.use(Notifications)
 
 if (document.getElementById("vue-admin")) {
     new Vue({

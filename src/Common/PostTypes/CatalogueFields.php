@@ -3,6 +3,7 @@
 namespace LearningOpportunitiesCatalogue\Common\PostTypes;
 
 use Carbon_Fields\Field;
+use LearningOpportunitiesCatalogue\Common\CarbonFields;
 
 // Abort if this file is called directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -74,10 +75,11 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'title'    => __( 'Provided By' ),
 				],
 				[
-					'type'     => 'text',
+					'type'     => 'select',
 					'slug'     => 'type_of_provider',
 					'xml_slug' => 'typeOfProvider',
 					'title'    => __( 'Type of provider' ),
+					'options'  => self::get_options( 'provider_types', 'name', 'name' ),
 				],
 				[
 					'type'     => 'text',
@@ -109,16 +111,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'learning_opportunity_type',
 					'xml_slug' => $prefix . 'learningOpportunityType',
 					'title'    => __( 'Learning opportunity type' ),
-					'options'  => function () {
-
-						$languages = carbon_get_theme_option( 'learning_opportunity_types' );
-						$array     = [ '' => '' ];
-						foreach ( $languages as $language ) {
-							$array[ $language['name'] ] = $language['name'];
-						}
-
-						return $array;
-					}
+					'options'  => self::get_options( 'learning_opportunity_types', 'name', 'name' ),
 				],
 				[
 					'type'     => 'text',
@@ -144,30 +137,21 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'language',
 					'xml_slug' => $prefix . 'language',
 					'title'    => __( 'Language' ),
-					'options'  => function () {
-
-						$languages = carbon_get_theme_option( 'languages' );
-						foreach ( $languages as $language ) {
-							$array[ $language['code'] ] = $language['name'];
-						}
-
-						return $array;
-					}
+					'options'  => self::get_options( 'languages', 'xml_code', 'name' ),
 				],
 				[
 					'type'     => 'select',
 					'slug'     => 'mode',
 					'xml_slug' => $prefix . 'mode',
 					'title'    => __( 'Mode' ),
-					'options'  => [ '' => '', 'online' => __( 'Online' ) ]
+					'options'  => self::get_options( 'modes', 'name', 'name' ),
 				],
-
 				[
 					'type'     => 'select',
 					'slug'     => 'learning_settings',
 					'xml_slug' => $prefix . 'learningSettings',
 					'title'    => __( 'Learning settings' ),
-					'options'  => [ '' => '', 'formal' => __( 'Formal' ), 'non-formal' => __( 'Non formal' ) ]
+					'options'  => self::get_options( 'learning_settings', 'name', 'name' ),
 				],
 				[
 					'type'     => 'text',
@@ -183,7 +167,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 				],
 				[
 					'type'  => 'separator',
-					'slug'  => 'learning_outcomes_seperator',
+					'slug'  => 'learning_outcomes_separator',
 					'title' => __( 'Learning outcomes' )
 				],
 				[
@@ -199,7 +183,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 
 				[
 					'type'  => 'separator',
-					'slug'  => 'assessment_specification_seperator',
+					'slug'  => 'assessment_specification_separator',
 					'title' => __( 'Assessment specification' )
 				],
 				[
@@ -240,7 +224,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 				],
 				[
 					'type'  => 'separator',
-					'slug'  => 'qualification_seperator',
+					'slug'  => 'qualification_separator',
 					'title' => __( 'Qualification' )
 				],
 				[
@@ -275,6 +259,127 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'title'    => __( 'Contact form' )
 				],
 			];
+		}
+
+
+		public static function get_part() {
+			$prefix = 'hasPart.';
+
+			return [
+				[
+					'type'      => 'association',
+					'slug'      => 'part_learning_specifications',
+					'xml_slug'  => $prefix . 'learningSpecification.learningSpecificationID',
+					'title'     => __( 'Related learning specification' ),
+					'post_type' => Catalogue::POST_TYPE,
+					'class'     => Catalogue::class,
+					'fields'    => CatalogueFields::class,
+					'multiple'  => true,
+					'prefix'    => $prefix . 'learningSpecification',
+				],
+			];
+		}
+
+
+		public static function get_filter_fields() {
+			global $wpdb;
+
+			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
+			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
+
+			$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_filter'";
+			$options = $wpdb->get_results( $query, OBJECT_K );
+
+
+			$filter_fields = [];
+
+			foreach ( $fields as $field ) {
+				$slug = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_filter';
+				if ( ! isset( $options[ $slug ] ) ) {
+					continue;
+				}
+				if ( $options[ $slug ]->option_value == 'disable' ) {
+					continue;
+				}
+				$field['filter_type'] = $options[ $slug ]->option_value;
+
+				$filter_fields[] = $field;
+			}
+
+
+			$loc_option_catalogue_fields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
+
+			foreach ( $loc_option_catalogue_fields as $loc_option_catalogue_field ) {
+
+				if ( ! $loc_option_catalogue_field['filter'] ) {
+					continue;
+				}
+				if ( $loc_option_catalogue_field['filter'] == 'disabled' ) {
+					continue;
+				}
+				$filter_fields[] = $loc_option_catalogue_field;
+			}
+
+			return $filter_fields;
+
+		}
+
+		public static function get_searchable_fields() {
+			global $wpdb;
+
+			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
+			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
+
+			$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_searchable'";
+			$options = $wpdb->get_results( $query, OBJECT_K );
+
+			$searchable_fields = [];
+
+			foreach ( $fields as $field ) {
+				$slug = '_' . $field['slug'] . '_searchable';
+				if ( ! isset( $options[ $slug ] ) ) {
+					continue;
+				}
+				if ( $options[ $slug ]->option_value == 0 || $options[ $slug ]->option_value == '0' ) {
+					continue;
+				}
+				$field['searchable'] = $options[ $slug ]->option_value;
+				$searchable_fields[] = $field;
+			}
+
+			$loc_option_catalogue_fields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
+
+			foreach ( $loc_option_catalogue_fields as $loc_option_catalogue_field ) {
+
+				if ( ! $loc_option_catalogue_field['searchable'] ) {
+					continue;
+				}
+				if ( $loc_option_catalogue_field['searchable'] == 0 || $loc_option_catalogue_field['searchable'] == '0' ) {
+					continue;
+				}
+				$searchable_fields[] = $loc_option_catalogue_field;
+			}
+
+			usort( $searchable_fields, function ( $item1, $item2 ) {
+				return (float) $item1['searchable'] <=> (float) $item2['searchable'];
+			} );
+
+			return $searchable_fields;
+
+		}
+
+		public static function get_options( $option_key, $key, $name ) {
+
+			$options = CarbonFields::crb_get_i18n_theme_option( $option_key );
+
+			$array = [];
+			foreach ( $options as $option ) {
+				$array[ $option[ $key ] ] = $option[ $name ];
+			}
+
+			return $array;
 		}
 	}
 }

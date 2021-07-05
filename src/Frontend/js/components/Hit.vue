@@ -1,6 +1,6 @@
 <template>
   <div class="border border-gray-800 p-5">
-    {{ hit.post_title }}
+    <a :href="hit.guid">{{ hit.post_title }}</a>
   </div>
 </template>
 

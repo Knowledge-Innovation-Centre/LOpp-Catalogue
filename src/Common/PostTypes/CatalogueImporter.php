@@ -3,6 +3,9 @@
 namespace LearningOpportunitiesCatalogue\Common\PostTypes;
 
 // Abort if this file is called directly.
+use Exception;
+use WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -15,131 +18,286 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 	 */
 	class CatalogueImporter {
 
-		private $catalog_item_index = [];
+		private function isWpmlInstalled(): bool {
 
-		public function __construct() {
+			return defined( 'ICL_LANGUAGE_CODE' );
 		}
 
 		public function import() {
-			$xmlId = intval( $_POST['loc_xml_id'] );
+			$xml_id = intval( $_POST['loc_xml_id'] );
 
-			$url = wp_get_attachment_url( $xmlId );
+			$url = wp_get_attachment_url( $xml_id );
+
+			try {
+				$xml = simplexml_load_file( $url );
+
+				$uid = trim( (string) $xml->learningOpportunity_Identifier );
+
+				$post_id = $this->update_or_create_object( $uid, Catalogue::POST_TYPE, $xml->title, $xml->additionalNote, $xml->description );
+
+				$this->import_general_data( $xml, $post_id );
+				$this->import_learning_specification_data( $xml, $post_id );
+				$this->import_contact_data( $xml, $post_id );
+
+				CatalogueSearchIndex::update_index( $post_id );
+			} catch ( Exception $exception ) {
+				var_dump( $exception );
+			}
+			wp_send_json( true );
+		}
+
+		public function import_maturity_model() {
+			$xml_id = intval( $_POST['loc_xml_id'] );
+
+			$url = wp_get_attachment_url( $xml_id );
 
 			$xml = simplexml_load_file( $url );
 
-			$limit = 1;
+			try {
+				foreach ( $xml->dimension as $dimension ) {
+					$post_type = Dimension::POST_TYPE;
 
-			$current_import_file_id = get_option( 'loc_current_import_file_id', null );
-			$offset                 = (int) get_option( 'loc_import_offset', 0 );
+					$unique_id = (string) $dimension['id'];
+					$name      = (string) $dimension['name'];
 
-			if ( ! $current_import_file_id ) {
-				update_option( 'loc_current_import_file_id', $xmlId );
-				update_option( 'loc_import_offset', 0 );
+					$dimension_id = $this->add_or_create_dimension_object( $post_type, $unique_id, $name );
+
+
+					foreach ( $dimension->subset as $subset ) {
+						$post_type = DimensionSubset::POST_TYPE;
+
+						$subset_unique_id = (string) $subset['id'];
+						$name             = (string) $subset['name'];
+						$description      = (string) $subset->definition['text'];
+
+						$subset_id = $this->add_or_create_dimension_object( $post_type, $subset_unique_id, $name, $description );
+
+						carbon_set_post_meta( $subset_id, 'dimension', $dimension_id );
+
+						$post_type = DimensionSubsetItem::POST_TYPE;
+
+						$unique_id   = $subset_unique_id . '_explorer_knowledge';
+						$name        = $subset_unique_id . ' Explorer knowledge';
+						$description = (string) $subset->explorer->knowledge['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'explorer' );
+						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
+
+						$unique_id   = $subset_unique_id . '_explorer_skills';
+						$name        = $subset_unique_id . ' Explorer skills';
+						$description = (string) $subset->explorer->skills['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'explorer' );
+						carbon_set_post_meta( $object_id, 'type', 'skills' );
+
+						$unique_id   = $subset_unique_id . '_explorer_attitudes';
+						$name        = $subset_unique_id . ' Explorer attitudes';
+						$description = (string) $subset->explorer->attitudes['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'explorer' );
+						carbon_set_post_meta( $object_id, 'type', 'attitudes' );
+
+
+						$unique_id   = $subset_unique_id . '_expert_knowledge';
+						$name        = $subset_unique_id . ' Expert knowledge';
+						$description = (string) $subset->expert->knowledge['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'expert' );
+						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
+
+						$unique_id   = $subset_unique_id . '_expert_skills';
+						$name        = $subset_unique_id . ' Expert skills';
+						$description = (string) $subset->expert->skills['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'expert' );
+						carbon_set_post_meta( $object_id, 'type', 'skills' );
+
+						$unique_id   = $subset_unique_id . '_expert_attitudes';
+						$name        = $subset_unique_id . ' Expert attitudes';
+						$description = (string) $subset->expert->attitudes['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'expert' );
+						carbon_set_post_meta( $object_id, 'type', 'attitudes' );
+
+						$unique_id   = $subset_unique_id . '_pioneer_knowledge';
+						$name        = $subset_unique_id . ' Pioneer knowledge';
+						$description = (string) $subset->pioneer->knowledge['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'pioneer' );
+						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
+
+						$unique_id   = $subset_unique_id . '_pioneer_skills';
+						$name        = $subset_unique_id . ' Pioneer skills';
+						$description = (string) $subset->pioneer->skills['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'pioneer' );
+						carbon_set_post_meta( $object_id, 'type', 'skills' );
+
+						$unique_id   = $subset_unique_id . '_pioneer_attitudes';
+						$name        = $subset_unique_id . ' Pioneer attitudes';
+						$description = (string) $subset->pioneer->attitudes['text'];
+						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
+						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
+						carbon_set_post_meta( $object_id, 'level', 'pioneer' );
+						carbon_set_post_meta( $object_id, 'type', 'attitudes' );
+
+					}
+
+				}
+			} catch ( Exception $exception ) {
+				var_dump( $exception );
 			}
 
-			// sleep( 2 );
-			$index = 0;
+			wp_send_json( true );
+		}
+
+		private function add_or_create_dimension_object( $post_type, $unique_id, $name, $description = "" ) {
+			$args  = [
+				'post_type'  => $post_type,
+				'meta_key'   => '_unique_id',
+				'meta_value' => $unique_id,
+			];
+			$query = get_posts( $args );
+
+			$data   = array(
+				'post_title'   => wp_strip_all_tags( $name ),
+				'post_content' => $description,
+				'post_type'    => $post_type,
+				'post_status'  => 'publish',
+			);
+			$object = $query[0] ?? null;
+			if ( $object ) {
+				$data['ID'] = $object->ID;
+			}
 
 
-			$catalogItemsIndex = [];
+			$object_id = wp_insert_post( $data );
 
-			$xml_item = $xml;
-			// foreach ( $xml->learningOpportunity as $xml_item ) {
+			carbon_set_post_meta( $object_id, 'unique_id', $unique_id );
 
-			$index ++;
+			return $object_id;
 
-			// if ( $index <= $offset ) {
-			// 	continue;
-			// }
-			//
-			// if ( $index == ( $offset + $limit ) ) {
-			// 	update_option( 'loc_import_offset', $offset + $limit );
-			// 	break;
-			// }
+		}
+
+		private function update_or_create_object( $uid, $post_type, $xmlTitle, $xmlDescription, $xmlExcerpt = null ) {
 
 			$args  = [
-				'post_type'  => 'loc_catalogue_item',
+				'post_type'  => $post_type,
 				'meta_key'   => '_unique_id',
-				'meta_value' => trim( (string) $xml_item->learningOpportunity_Identifier ),
+				'meta_value' => $uid,
 			];
 			$query = get_posts( $args );
 
 			$data = array(
-				'post_title'   => wp_strip_all_tags( (string) $xml_item->title->text ),
-				'post_content' => (string) $xml_item->additionalNote->text,
-				'post_excerpt' => (string) $xml_item->description->text,
-				'post_type'    => 'loc_catalogue_item',
+				'post_title'   => wp_strip_all_tags( (string) $xmlTitle->text ),
+				'post_content' => (string) $xmlDescription->text,
+				'post_excerpt' => (string) $xmlExcerpt->text ?? null,
+				'post_type'    => $post_type,
 				'post_status'  => 'publish',
 			);
 
-			if ( $query[0] ?? false ) {
-				$data['ID'] = $query[0]->ID;
+			$original_post    = $query[0] ?? null;
+			$original_post_id = null;
+
+			if ( $original_post ) {
+				$data['ID']       = $original_post->ID;
+				$original_post_id = $original_post->ID;
 			}
 
+			$default_lang  = apply_filters( 'wpml_default_language', null );
+			$file_language = (string) $xmlTitle->text->attributes()->lang ?? $default_lang;
+
+
+			if ( $this->isWpmlInstalled() && $default_lang != $file_language ) {
+
+				// create original post if not exists
+				if ( ! $original_post ) {
+					$original_post_id = wp_insert_post( [
+						'post_title'  => $uid,
+						'post_type'   => $post_type,
+						'post_status' => 'publish',
+					] );
+
+					carbon_set_post_meta( $original_post_id, 'unique_id', $uid );
+
+					$this->add_translation( $original_post_id, $post_type, $original_post_id, $file_language );
+				}
+
+				$translated_post = apply_filters( 'wpml_object_id', $original_post->ID, $post_type, false, $file_language );
+
+				// prepare for new translation
+				unset( $data['ID'] );
+
+				if ( $translated_post ) {
+					// translation already exists
+					$data['ID'] = $translated_post;
+				}
+			}
 
 			$post_id = wp_insert_post( $data );
 
-			$this->import_general_data( $xml_item, $post_id );
-			$this->import_learning_specification_data( $xml_item, $post_id );
-			$this->import_contact_data( $xml_item, $post_id );
-			// $this->import_additional_data( $xml_item, $post_id );
-
-
-			CatalogueSearchIndex::update_index( $post_id );
-			// }
-
-
-			$response = [];
-
-			$response['index'] = $index;
-			$response['count'] = $xml->count();
-			// $response['status']   = 'in_progress';
-			$response['status']   = 'finished';
-			$response['progress'] = $index / $xml->count() * 100;
-
-
-			if ( $index >= $xml->count() ) {
-				$response['status']   = 'finished';
-				$response['progress'] = 100;
-
-				update_option( 'loc_current_import_file_id', null );
-				update_option( 'loc_import_offset', 0 );
+			// connect translation
+			if ( $this->isWpmlInstalled() ) {
+				$this->add_translation( $post_id, $post_type, $original_post_id, $file_language );
 			}
 
-			wp_send_json( $response );
+			return $post_id;
+		}
+
+		private function add_translation( $post_id, $post_type, $original_post_id, $language ) {
+			$wpml_element_type = apply_filters( 'wpml_element_type', $post_type );
+			$default_lang      = apply_filters( 'wpml_default_language', null );
+
+			// get the language info of the original post
+			// https://wpml.org/wpml-hook/wpml_element_language_details/
+			$get_language_args           = array(
+				'element_id'   => $original_post_id,
+				'element_type' => $post_type
+			);
+			$original_post_language_info = apply_filters( 'wpml_element_language_details', null, $get_language_args );
+
+			$set_language_args = array(
+				'element_id'           => $post_id,
+				'element_type'         => $wpml_element_type,
+				'trid'                 => $original_post_language_info->trid,
+				'language_code'        => $language,
+				'source_language_code' => $default_lang
+			);
+
+
+			do_action( 'wpml_set_element_language_details', $set_language_args );
 		}
 
 		private function import_general_data( $xml_item, $post_id ) {
 			foreach ( CatalogueFields::get_general_fields() as $field ) {
-				$value = $this->update_post_field( $post_id, $xml_item, $field );
+				$this->update_post_field( $post_id, $xml_item, $field );
 			}
 		}
 
 		private function import_learning_specification_data( $xml_item, $post_id ) {
 			foreach ( CatalogueFields::get_learning_specification_fields() as $field ) {
-				$value = $this->update_post_field( $post_id, $xml_item, $field );
+				$this->update_post_field( $post_id, $xml_item, $field );
 			}
 		}
 
 		private function import_contact_data( $xml_item, $post_id ) {
 			foreach ( CatalogueFields::get_contact_fields() as $field ) {
-				$value = $this->update_post_field( $post_id, $xml_item, $field );
+				$this->update_post_field( $post_id, $xml_item, $field );
 			}
 		}
 
-		// private function import_additional_data( $xml_item, $post_id ) {
-		// 	$data = $xml_item->additional;
-		//
-		// 	$catalog_fields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
-		//
-		// 	foreach ( $catalog_fields as $field ) {
-		// 		$value = $this->update_post_field( $post_id, $data, $field );
-		// 	}
-		// }
-
 		private function get_value( $xmlData, $field ) {
 			if ( $field['type'] == 'association' ) {
-				return $this->get_related_ids( $xmlData, $field );
+
+				return $this->update_related_fields( $xmlData, $field );
 			}
 
 			$field_key = $field['xml_slug'] ?? $field['slug'];
@@ -150,10 +308,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 					return null;
 				}
 				$data = $xmlData->$field_key;
-				if ( $field['xml_key'] ?? false ) {
 
-					$data = $xmlData->$field_key[ $field['xml_key'] ];
-				}
 			}
 
 			if ( isset( $data->text ) ) {
@@ -190,11 +345,11 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 			return $xmlData;
 		}
 
-		private function get_related_ids( $xmlData, $field ) {
-			$post_ids = [];
+		private function update_related_fields( $xmlData, $field ) {
 
 			$nestedData = $xmlData;
 			$deep_keys  = explode( '.', $field['prefix'] );
+
 			foreach ( $deep_keys as $deep_key ) {
 				if ( ! isset( $nestedData->$deep_key ) ) {
 					return null;
@@ -204,35 +359,24 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 			}
 
 			foreach ( $nestedData as $nested_data_item ) {
+				$uid     = trim( (string) $nested_data_item->id );
+				$post_id = $this->update_or_create_object( $uid, $field['post_type'], $nested_data_item->title, $nested_data_item->description );
 
-				$args  = [
-					'post_type'  => $field['post_type'],
-					'meta_key'   => '_unique_id',
-					'meta_value' => trim( (string) $nested_data_item->id ),
-				];
-				$query = get_posts( $args );
-
-				$data = array(
-					'post_title'   => wp_strip_all_tags( (string) $nested_data_item->title->text ),
-					'post_content' => (string) $nested_data_item->description->text,
-					'post_type'    => $field['post_type'],
-					'post_status'  => 'publish',
-				);
-
-				if ( $query[0] ?? false ) {
-					$data['ID'] = $query[0]->ID;
-				}
-
-
-				$post_id    = wp_insert_post( $data );
-				$post_ids[] = $post_id;
 				foreach ( $field['fields']::get_general_fields() as $relatedField ) {
-					$value = $this->update_post_field( $post_id, $nested_data_item, $relatedField );
+
+					$this->update_post_field( $post_id, $nested_data_item, $relatedField );
 				}
 			}
 		}
 
 		private function update_post_field( $post_id, $xmlData, $field ) {
+
+			if ( $field['custom_update'] ) {
+				$field['custom_update']( $xmlData, $post_id );
+
+				return;
+			}
+
 			$value = $this->get_value( $xmlData, $field );
 
 			if ( $value === null ) {

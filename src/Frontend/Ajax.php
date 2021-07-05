@@ -3,9 +3,12 @@
 namespace LearningOpportunitiesCatalogue\Frontend;
 
 use LearningOpportunitiesCatalogue\Common\Assets as Common_Assets;
+use LearningOpportunitiesCatalogue\Common\CarbonFields;
 use LearningOpportunitiesCatalogue\Common\PostTypes\Catalogue;
 use LearningOpportunitiesCatalogue\Common\PostTypes\CatalogueFields;
+use LearningOpportunitiesCatalogue\Common\PostTypes\CatalogueSearchIndex;
 use LearningOpportunitiesCatalogue\PluginData as PluginData;
+use WP_Query;
 
 // Abort if this file is called directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,7 +38,6 @@ if ( ! class_exists( Ajax::class ) ) {
 
 		public function get_xml_fields() {
 			global $wpdb;
-			$catalog = new Catalogue();
 
 			$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_filter'";
 			$options = $wpdb->get_results( $query, OBJECT_K );
@@ -50,7 +52,7 @@ if ( ! class_exists( Ajax::class ) ) {
 			foreach ( $fields as $field ) {
 
 				$slug       = '_' . $field['slug'];
-				$slugFilter = '_' . $field['slug'] . '_filter';
+				$slugFilter = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_filter';
 				if ( ! isset( $options[ $slugFilter ] ) ) {
 					continue;
 				}
@@ -63,7 +65,12 @@ if ( ! class_exists( Ajax::class ) ) {
 					$field['min'] = (float) $this->end_meta_value( $slug, 'min' );
 				}
 				if ( $options[ $slugFilter ]->option_value == 'checkbox' ) {
-					$field['values'] = $this->unique_meta_value( $slug );
+					if ( isset( $field['options'] ) ) {
+						$field['values'] = $field['options'];
+
+					} else {
+						$field['values'] = $this->unique_meta_value( $slug );
+					}
 				}
 				$field['filter'] = $options[ $slugFilter ]->option_value;
 				$filter_fields[] = $field;
@@ -72,7 +79,6 @@ if ( ! class_exists( Ajax::class ) ) {
 			echo json_encode( $filter_fields );
 
 			die;
-
 		}
 
 		function end_meta_value( $meta, $end = "max" ) {
@@ -98,7 +104,7 @@ if ( ! class_exists( Ajax::class ) ) {
 			foreach ( $results as $result ) {
 				if ( $result[0] && $result[0] != '' ) {
 
-					$values[] = $result[0];
+					$values[ $result[0] ] = $result[0];
 				}
 			}
 
@@ -110,6 +116,37 @@ if ( ! class_exists( Ajax::class ) ) {
 				'url' => carbon_get_theme_option( 'meilisearch_url' ),
 				'key' => carbon_get_theme_option( 'meilisearch_key' )
 			] );
+			die;
+		}
+
+		public function reindex_items() {
+			$args          = array(
+				'post_type'        => Catalogue::POST_TYPE,
+				'orderby'          => 'ID',
+				'post_status'      => 'publish',
+				'order'            => 'DESC',
+				'suppress_filters' => true,
+				'posts_per_page'   => - 1 // this will retrive all the post that is published
+			);
+			$catalog_items = new WP_Query( $args );
+
+			CatalogueSearchIndex::delete_all_index( Catalogue::POST_TYPE );
+
+			if ( $catalog_items->have_posts() ) {
+
+				// Start looping over the query results.
+				while ( $catalog_items->have_posts() ) {
+
+					$catalog_items->the_post();
+
+					CatalogueSearchIndex::update_index( get_the_ID() );
+				}
+
+			}
+
+			wp_reset_postdata();
+
+			echo 'reindex complete';
 			die;
 		}
 

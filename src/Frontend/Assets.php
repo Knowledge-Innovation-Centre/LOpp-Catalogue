@@ -52,7 +52,11 @@ if ( ! class_exists( Assets::class ) ) {
 			$registered = $this->common_assets->register_script(
 				$file_name,
 				'',
-				[ 'jquery' ]
+				[
+					'jquery',
+					'wp-api',
+					'wp-i18n',
+				]
 			);
 
 			if ( $registered ) {

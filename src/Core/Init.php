@@ -77,28 +77,46 @@ if ( ! class_exists( Init::class ) ) {
 			$this->loader->add_action( 'after_setup_theme', $carbon_fields, 'init' );
 			$this->loader->add_action( 'carbon_fields_register_fields', $carbon_fields, 'register_fields' );
 			$this->loader->add_action( 'carbon_fields_theme_options_container_saved', $carbon_fields, 'theme_options_container_saved' );
+			// $this->loader->add_filter( 'carbon_fields_association_field_item_label', $carbon_fields, 'association_filter', 10, 5 );
 
 
 			$catalogue = new Common\PostTypes\Catalogue();
 			$this->loader->add_action( 'init', $catalogue, 'register' );
-			$this->loader->add_action( 'delete_post', $catalogue, 'save_post', 10, 3 );
+			$this->loader->add_action( 'before_delete_post', $catalogue, 'before_delete_post', 10, 3 );
 			$this->loader->add_action( 'updated_post_meta', $catalogue, 'save_post', 10, 4 );
 			$this->loader->add_action( 'carbon_fields_register_fields', $catalogue, 'custom_fields' );
 
 			$catalogueImporter = new Common\PostTypes\CatalogueImporter();
 			$this->loader->add_action( 'wp_ajax_loc_catalog_import_xml', $catalogueImporter, 'import' );
+			$this->loader->add_action( 'wp_ajax_loc_maturity_model_import_xml', $catalogueImporter, 'import_maturity_model' );
 
 			$learning_outcome = new Common\PostTypes\LearningOutcome();
 			$this->loader->add_action( 'init', $learning_outcome, 'register' );
 			$this->loader->add_action( 'carbon_fields_register_fields', $learning_outcome, 'custom_fields' );
+
+			$dimension = new Common\PostTypes\Dimension();
+			$this->loader->add_action( 'init', $dimension, 'register' );
+			$this->loader->add_action( 'carbon_fields_register_fields', $dimension, 'custom_fields' );
+			$dimensionSubset = new Common\PostTypes\DimensionSubset();
+			$this->loader->add_action( 'init', $dimensionSubset, 'register' );
+			$this->loader->add_action( 'carbon_fields_register_fields', $dimensionSubset, 'custom_fields' );
+			$dimensionSubsetItem = new Common\PostTypes\DimensionSubsetItem();
+			$this->loader->add_action( 'init', $dimensionSubsetItem, 'register' );
+			$this->loader->add_action( 'carbon_fields_register_fields', $dimensionSubsetItem, 'custom_fields' );
+
 
 			$ajaxFrontEnd = new Frontend\Ajax();
 			$this->loader->add_action( 'wp_ajax_get_xml_fields', $ajaxFrontEnd, 'get_xml_fields' );
 			$this->loader->add_action( 'wp_ajax_nopriv_get_xml_fields', $ajaxFrontEnd, 'get_xml_fields' );
 			$this->loader->add_action( 'wp_ajax_get_meilisearch_key', $ajaxFrontEnd, 'get_meilisearch_key' );
 			$this->loader->add_action( 'wp_ajax_nopriv_get_meilisearch_key', $ajaxFrontEnd, 'get_meilisearch_key' );
+			$this->loader->add_action( 'wp_ajax_reindex_items', $ajaxFrontEnd, 'reindex_items' );
 			$this->loader->add_action( 'wp_head', $ajaxFrontEnd, 'ajax_url' );
 
+			$this->loader->add_filter( 'the_content', $catalogue, 'add_content_after' );
+
+			$this->loader->add_action( 'admin_bar_menu', $this, 'my_ajax_button', 100 );
+			$this->loader->add_action( 'admin_head', $this, 'my_action_javascript' );
 
 			// Settings Fields must not be behind an `is_admin()` check, since it's too late.
 			$settings = new Common\Settings\Main();
@@ -210,5 +228,43 @@ if ( ! class_exists( Init::class ) ) {
 		public function get_loader(): Loader {
 			return $this->loader;
 		}
+
+
+		public function my_ajax_button( $admin_bar ) {
+			$admin_bar->add_menu( [
+				'id'    => 'reindex-items',
+				'title' => 'Reindex all items',
+				'href'  => '#',
+				'meta'  => [
+					'title' => __( 'My Item' ),
+					'class' => 'reindex-items',
+				],
+			] );
+		}
+
+		// add_action( 'admin_head', 'my_action_javascript' );
+
+		function my_action_javascript() {
+			?>
+            <script type="text/javascript">
+                jQuery(document).ready(function ($) {
+
+                    $('.reindex-items').click(function () {
+                        let data = {
+                            action: 'reindex_items',
+                        };
+
+                        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+                        $.post(ajaxurl, data, function (response) {
+                            alert('Reindex complete: ' + response);
+                        });
+                    });
+
+
+                });
+            </script>
+			<?php
+		}
+
 	}
 }
