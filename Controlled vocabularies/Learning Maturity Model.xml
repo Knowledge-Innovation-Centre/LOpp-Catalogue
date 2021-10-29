@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<learningMaturityModel> 
+<!-- Knowledge( is about Content related expertise)
+Skills(is about Application of knowledge)
+Attitudes(is related to Autonomy and Responsibility) -->
+
+<dimension id="1" name="Professional Engagement">
+    <subSet id="1.1" name="Organisational Communication">
+     <definition text="To use digital technologies to enhance organisational communication with learners, parents and third parties. To contribute to collaboratively developing and improving organisational communication strategies. (DigCompEdu)"/>
+      <explorer> 
+    <knowledge text="is aware of basic means and digital technologies to enhance organisational communication"/>
+     <skills text="makes basic use of digital technologies to enhance communication with learners, parents, colleagues, support staff or third parties relevant to the educational project (e.g. experts to be invited, places to be visited)"/>
+     <attitudes text="interest in improving organisational communication strategies"/>
+    </explorer>
+   <expert> 
+       <knowledge  text="knows how to use a range of digital technologies to enhance organisational communication and what technology to use it depending on the specific purpose and context"/>
+       <skills text="uses different digital communication channels and tools, depending on the communication purpose and context (e.g. via the organisation’s website or through corporate digital technologies, platforms or communication services contracted) and adapts his/her communication strategies to the specific audience"/>
+       <attitudes text="Attitudes responsible attitude, communicating ethically with digital technologies (e.g. respecting netiquette)"/>
+    </expert>
+     <pioneer>
+         <knowledge  text="relies on a broad repertoire of digital technologies and strategies to enhance organisational communication"/>
+         <skills text="frequently evaluates, discusses and adapts his/her communication strategies and uses digital technologies to make administrative procedures more transparent for learners and/or parents and to allow them to make informed choices on future learning priorities"/>
+         <attitudes text=" Attitudes reflective approach, collaboratively discussing and re-designing organisational communication strategies, contributing to developing a coherent vision"/>
+      </pioneer>
+    </subSet> 
+    <subSet id="1.2" name="Professional Collaboration">
+        <definition text="To use digital technologies to engage in collaboration with other educators, sharing and exchanging knowledge and experiences and collaboratively innovating pedagogic practices. (DigCompEdu)"/>
+    <explorer> 
+        <knowledge  text="is aware of digital technologies that enable collaboration with other educators"/>
+         <skills text=" makes basic use of digital technologies to collaborate with his/her colleagues (e.g. on a dedicated joint project, or to exchange content, knowledge and opinions)"/>
+         <attitudes text=" general interest in using digital technologies to collaborate with other educators"/>
+    </explorer>
+    <expert>
+        <knowledge  text="knows various digital technologies and digital communities to collaborate with other educators"/>
+        <skills text=" uses digital technologies to exchange ideas and resources with other educators and collaboratively develop digital resources with other educators within his/her organisation"/>
+        <attitudes text="explorative approach, curiosity about different ways to collaboratively work with other educators"/>
+    </expert>
+    <pioneer> 
+        <knowledge  text="knows how to effectively, responsibly and safely use a wide array of digital technologies to collaborate with other educators and knows the use cases for the different tools"/>
+        <skills text="uses digital technologies to collaborate with other educators within and outside one's own institution to share knowledge, experiences and resources, to explore, reflect and develop (innovative) pedagogical practices together; fosters and supports this network of educators and progress in one's own professional development"/>
+        <attitudes text=" commitment to digital collaboration with other educators and peer learning as well as strategic approach to communicating and to developing and maintaining partnerships."/>
+        </pioneer> 
+    </subSet>
+    <subSet id="1.3" name="Reflective Practice">
+       <definition text="To individually and collectively reflect on, critically assess and actively develop one's own digital pedagogical practice and that of one's educational community. (DigCompEdu)"/>
+    <explorer>
+        <knowledge  text="is aware of the limits of his/her own digital competence and his/her development needs"/>
+        <skills text="reflects on his/her own digital and pedagogical practice and training needs"/>
+        <attitudes text="critical approach to his/her own digital and pedagogical practice"/>
+    </explorer>
+     <expert> 
+         <knowledge  text="knows how to find best practices, courses or other advice to improve his/her own digital and pedagogical practice"/>
+        <skills text="critically reflects on his/her own digital and pedagogic practice and identifies competence gaps and uses a range of resources to develop his/her individual digital and pedagogic practices through experimenting and peer-learning scenarios"/>
+          <attitudes text="  reflective approach to digital policies and practices at the organisational level, providing critical feedback"/>
+    </expert>
+     <pioneer>
+         <knowledge  text="follows current research on innovative teaching and knows how to integrate research findings into his/her own practice"/>
+         <skills text=" continuously (collaboratively and) proactively expands and enhances his/her repertoire of digital pedagogical practices and helps others in developing their digital pedagogical competence"/>
+          <attitudes text="commitment to collaboratively reflect on, enhance and innovate educational policies and practices in general"/>
+    </pioneer>
+    </subSet>
+    <subSet id="1.4" name="Digital Continuous Professional Development (CPD)">
+     <definition text="To use digital sources and resources for continuous professional development. (DigCompEdu)"/>
+   
+    <explorer>
+        <knowledge  text="is aware of online resources that enhance subject-specific or pedagogical knowledge"/>
+        <skills text="makes basic use of the internet to update his/her subject specific and pedagogical knowledge"/>
+         <attitudes text="awareness of the potential of online resources for CPD"/>
+    </explorer>
+     <expert> 
+         <knowledge  text="knows where to find different online resources and learning opportunities for different needs"/>
+         <skills text="makes use of various formal and informal learning opportunities for professional development, e.g. conferences, webinars, online learning communities, video tutorials"/>
+          <attitudes text="explorative attitude towards online opportunities for CPD"/>
+    </expert>
+    <pioneer> 
+        <knowledge  text="knows how to find a variety of learning resources and opportunities and how to select opportunities that allow him/her to develop particular needs"/>
+        <skills text=" makes demand-oriented use of digital resources and learning opportunities to enhance knowledge and skills, actively participates in online learning communities and supports others in their professional development (e.g. creating training resources for others)"/>
+        <attitudes text="commitment to taking advantage of the available resources for his/her own CPD and helping others to enhance knowledge and skills as well"/>    
+  </pioneer>
+    </subSet>
+</dimension>
+
+<dimension id="2"  name="Digital Resources">
+    <subSet id="2.1" name="Selecting digital resources">
+        <definition text="To identify, assess and select digital resources for teaching and learning. To consider the specific learning objective, context, pedagogical approach, and learner group, when selecting digital resources and planning their use. (DigCompEdu)"/>
+<explorer>
+    <knowledge text=" is aware of the potential of digital technologies for finding resources (e.g. common educational platforms which provide educational resources) and knows simple internet search strategies"/>
+    <skills text="makes basic use of digital technologies for finding resources (e.g. using simple internet search strategies)"/>
+      <attitudes text="little self-confidence when assessing and selecting digital resources"/>
+</explorer>
+        <expert><knowledge  text="knows complex criteria to identify suitable resources"/>
+            <skills text="assesses and selects digital resources using complex criteria: evaluates the quality of digital resources and their suitability for his/her learner group and specific learning objective and adapts his/her search strategies accordingly"/>
+ <attitudes text="strategic approach to selecting digital resources; commitment to improve available resources by giving feedback and recommendations"/>
+</expert>
+ <pioneer>
+     <knowledge  text="knows how to comprehensively identify suitable resources"/>
+     <skills text="considers all relevant aspects and sources (e.g. collaborative platforms, official repositories) when assessing and selecting resources; promotes the use of digital resources with fellow educators by pointing out strategies and sources as well as sharing his/her own repository of resources. when using resources in class, he/she contextualises them for the students (e.g. by pointing out their source and potential bias)"/>
+ <attitudes text="commitment towards empowering others and promoting digital resources in education among his/her students and colleagues"/>
+</pioneer>
+        <subSet id="2.2" name="Creating and modifying digital resources">
+            <definition text="To modify and build on existing openly-licensed resources and other resources where this is permitted. To create or co-create new digital educational resources. To consider the specific learning objective, context, pedagogical approach, and learner group, when designing digital resources and planning their use. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of basic means and tools to create and modify digital resources"/>
+    <skills text="uses basic tools (e.g. office software) to create simple digital resources and modifies resources very slightly (e.g. worksheets, quizzes, digital presentations)"/>
+     <attitudes text=" interest in the creation and modification processes"/>
+</explorer>
+<expert>
+    <knowledge  text="knows how to create digital resources enriched with interactive, multimedia elements and how to modify (openly-licensed) digital educational resources as to fit a specific learning context and in line with license requirements."/>
+    <skills text="applies advanced strategies and tools to license-compliantly create and modify digital resources that integrate interactive elements (e.g. animations, links, multimedia, games) and match the particular learning objective and learner group"/>
+ <attitudes text=" explorative attitude toward creating and modifying digital resources"/>
+</expert>
+<pioneer>
+    <knowledge  text="has comprehensive knowledge of how to (co-)create and modify complex digital resources that match respective learning objectives"/>
+    <skills text="creates and modifies complex, innovative, and interactive digital resources and learning activities (e.g. interactive worksheets, online assessments, online collaborative learning activities such as wikis and blogs, games, apps, visualisations) that fit the respective learning objectives and learner groups both individually and in collaboration with colleagues"/>
+            <attitudes text="great creativity and confidence in the process of (co-)creating and modifying digital resources"/>
+</pioneer> 
+        </subSet>
+        <subSet id="2.3" name="Managing, protecting and sharing digital resources"/>
+        <definition text="To organise digital content and make it available to learners, parents and other educators. To effectively protect sensitive digital content. To respect and correctly apply privacy and copyright rules. To understand the use and creation of open licenses and open educational resources, including their proper attribution. (DigCompEdu)"/>
+        <explorer><knowledge  text="knows basic strategies to manage and share digital content. is aware that some digital resources are copyrighted"/>
+            <skills text="stores and organises digital content for his/her own future use and shares digital content using basic strategies (e.g. via e-mail attachments or through links)"/>
+                <attitudes text=" awareness of data protection, privacy and copyright rules"/>
+</explorer>
+        <expert>
+            <knowledge  text="knows advanced strategies to manage, share and protect digital content"/>
+            <skills text="effectively manages and shares digital content (e.g., embedding them into digital environments). correctly references resources affected by copyright and protects personal and sensitive data (e.g. exams, students’ reports)"/>
+ <attitudes text="responsible approach to data protection, privacy and copyright rules"/>
+</expert>
+        <pioneer><knowledge  text="knows professional strategies to create, manage, share and protect digital content"/>
+            <skills text="professionally manages and shares digital content (e.g. compiles comprehensive digital content repositories and makes them available to learners or other educators); digitally publishes self-created resources and attributes (open) licenses to the respective content; effectively protects personal and sensitive data"/>
+                <attitudes text="innovative approach toward managing and sharing digital content. valuing data protection, privacy and copyright rules"/>
+        </pioneer></subSet>
+</dimension>
+ 
+ 
+ 
+    <dimension id="3"  name="Teaching and Learning">
+     <subSet id="3.1" name=" Teaching"> 
+        <definition text="To plan for and implement digital devices and resources in the teaching process in order to enhance the effectiveness of teaching interventions. To appropriately manage and orchestrate digital teaching interventions. To experiment with and develop new formats and pedagogical methods for instruction. (DigCompEdu)"/>
+         <explorer>
+             <knowledge  text="is aware of available digital classroom technologies (e.g. digital whiteboards, projectors, PCs)"/>
+             <skills text="makes use of basic digital devices and resources in the teaching process"/>
+              <attitudes text="general interest toward digital devices and resources in the teaching and learning process"/>
+</explorer>
+  <expert>
+      <knowledge  text="knows a variety of digital devices and resources and has advanced knowledge of purposefully integrating them in the teaching and learning process"/>
+      <skills text="integrates a variety of digital devices and resources in meaningful and interactive ways into the teaching and learning process; sets up learning sessions or other interactions in a digital environment"/>
+ <attitudes text="curiosity toward the use of digital devices and resources in the teaching and learning process to increase methodological variation"/>
+</expert>
+ <pioneer>
+     <knowledge  text="has comprehensive knowledge of how digital devices and resources can be purposefully and innovatively integrated and adapted to match specific learning environments"/>
+     <skills text="uses a variation of digital devices and resources to create complex and innovative digital learning activities that enhance teaching strategies; continuously evaluates the effectiveness of digitally enhanced teaching strategies and revises his/her strategies accordingly"/>
+ <attitudes text="creative, innovative and flexible approach to using digital devices and resources and adapting teaching methods as seen fit"/>
+   </pioneer>
+     </subSet>
+     <subSet id="3.2" name=" Guidance">
+         <definition text="To use digital technologies and services to enhance the interaction with learners, individually and collectively, within and outside the learning session. To use digital technologies to offer timely and targeted guidance and assistance. To experiment with and develop new forms and formats for offering guidance and support. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="knows basic digital technologies and strategies to interact with learners"/>
+    <skills text="makes basic use of digital technologies and digital strategies to respond to learners’ course-related questions and concerns (e.g. via e-mail or chat)"/>
+    <attitudes text="interest in enhancing interaction with learners"/>
+</explorer>
+         <expert><knowledge  text="knows advanced digital technologies and strategies for monitoring learner behaviour and assisting learners individually and collectively in the learning process"/>
+             <skills text="uses digital technologies to enhance interaction with learners in collaborative digital environments, monitoring their behaviour and providing guidance and support as needed; experiments with new digitally supported forms and formats for offering guidance and support"/>
+ <attitudes text="self-understanding as learning guide; explorative attitude toward guidance provision"/>
+</expert>
+ <pioneer>
+     <knowledge  text="has comprehensive knowledge of how digital technologies can be strategically and purposefully used to assist learners individually and collectively in the learning process"/>
+     <skills text="employs digital technologies strategically and purposefully to provide guidance and support; foresees learners’ needs for guidance when setting up a learning environment and remotely monitors student behaviour in order to intervene when needed, while allowing for self-regulation; develops new digitally supported forms and formats for offering guidance and support"/>
+ <attitudes text="innovative and creative approach towards guidance provision"/> </pioneer>
+ </subSet>
+     <subSet id=" 3.3" name="Collaborative Learning">
+        <definition text="To use digital technologies to foster and enhance learner collaboration. To enable learners to use digital technologies as part of collaborative assignments, as a means of enhancing communication, collaboration and collaborative knowledge creation. (DigCompEdu)"/>
+ <explorer>
+     <knowledge  text="knows how digital technologies can be used in collaborative learning activities when implementing collaborative activities, he/she occasionally encourages learners to use digital technologies to support their work, e.g. for internet  search or to present their results."/>
+     <skills text="limited flexibility in adapting planned activities"/>
+     <attitudes text="interest in learning how to strategically implement digital technologies into the design of collaborative activities"/>
+</explorer>
+   
+ <expert> 
+     <knowledge  text="knows the most popular collaborative activities and digital technologies in terms of limits and opportunities"/>
+     <skills text="implements activities, in which digital technologies are used by learners to collaboratively generate knowledge (e.g. to source and exchange information) and to document their collaborative efforts (e.g. digital presentations, videos, blog posts); sets up collaborative activities in a digital environment (e.g. blogs, wikis, moodle, virtual learning environments)."/>
+ <attitudes text="commitment towards empowering learners to collaborate and communicate. explorative approach towards using digital technologies that facilitate collaborative processes."/>
+</expert>
+         
+ <pioneer>
+     <knowledge text="knows diverse collaborative learning activities and a variety of digital technologies for learners’ collaborative knowledge generation and peer assessment"/>
+         <skills text="designs and manages diverse collaborative learning activities, where learners use a variety of digital technologies to collaboratively conduct research,document findings and reflect on their learning; uses collaborative learning also as a tool to improve the students' collaborative skills, together with other related skills like negotiation, problem solving, communication"/>
+ <attitudes text="innovative approach, using digital technologies to invent new formats for collaborative learning"/>
+ </pioneer>
+  </subSet>
+     <subSet id="3.4" name=" Self-regulated learning">
+         <definition text="To use digital technologies to support self-regulated learning processes, i.e. to enable learners to plan, monitor and reflect on their own learning, provide evidence of progress, share insights and come up with creative solutions. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="has basic knowledge of how students could use digital technologies in self-regulated learning activities"/>
+    <skills text="encourages learners to use digital technologies (e.g. blogs, diaries, planning tools) in self-regulated learning activities, e.g., for information retrieval or presenting results"/>
+            <attitudes text="general interest in the potential of digital technologies to support self-regulated learning processes"/>
+</explorer>
+ <expert>
+     <knowledge  text="has advanced knowledge of using digital technologies and environments to support self-regulated learning processes"/>
+     <skills text="uses digital technologies or environments (e.g. ePortfolios, learner's blogs, diaries, planning tools, audio or video recordings, photos) to allow learners to manage and document all stages of their learning as well as to record and showcase their work"/>
+     <attitudes text="uses digital technologies for learner self-assessment and helps learners develop, apply and revise criteria for digitally supported self-assessment commitment to empower learners to take ownership of their own learning process. explorative approach to using digital technologies to support self-regulated learning processes"/> 
+</expert>
+         <pioneer>
+             <knowledge  text="has comprehensive knowledge of how to use digital technologies and environments to support self-regulated learning processes"/>
+             <skills text="critically reflects on the appropriateness of his/her digital strategies to foster self-regulated learning and continuously enhances his/her strategies; develops new digital formats and/or pedagogical approaches for self-regulated learning"/>
+ <attitudes text="creative, innovative and iterative approach to digital strategies that support self-regulated learning processes. self-understanding as role model for students, himself/herself being a continuous learner"/>
+ </pioneer> 
+  </subSet>
+     <subSet id="3.5" name=" Gamification"> 
+         <definition text="To use gamification elements such as challenges, competitions, points, badges, and leaderboards to make the learning experience more enjoyable and the learning outcome more sustainable. (our own suggestion)"/> 
+<explorer>
+    <knowledge  text="knows what digitally supported gamification is and how it applies through specific samples"/>
+    <skills text="is able to apply a digitally supported gamified process in teaching and learning situations to improve student's involvement if he/she is provided with the technology"/>
+            <attitudes text="general interest in digitally supported gamification processes"/>
+</explorer>
+         <expert>
+             <knowledge  text="knows the concept behind digitally supported gamification processes and the varieties and opportunities of different gamification offers."/>
+             <skills text="is able to apply a digitally supported gamification process in teaching and learning situations and choose the best technology to obtain the desired learning outcomes"/>
+ <attitudes text="explorative attitude toward selecting technologies that can better drive the digitally supported gamification activities and redesigning learning activities for gamification purposes"/>
+</expert>
+         <pioneer><knowledge  text="has a wide knowledge of digitally digitally supported gamification processes in teaching and learning"/>
+             <skills text="is able to design, implement and evaluate a digitally supported gamification process regardless of available digital technology and integrates the activities in the whole learning process; uses the potential of digitally supported gamification for motivation, creativity and autonomy of learners, as well as for tolerance towards complexity and failure"/>
+ <attitudes text="creative approach toward creating learner-centric digitally supported gamification processes and exploring new areas for applying digitally supported gamification in learning"/>
+</pioneer>
+</subSet>
+    </dimension>
+ 
+ 
+ 
+<dimension id="4" name=" Assessment">
+    <subSet id="4.1" name=" Assessment strategies">
+        <definition text="To use digital technologies for formative and summative assessment. To enhance the diversity and suitability of assessment formats and approaches. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of digital technologies that can be used for or integrated in formative and summative assessment formats"/>
+    <skills text="uses digital technologies for traditional assessment strategies (e.g. to create assessment tasks which are then administered in paper-format)"/>
+            <attitudes text="?interest in using digital technologies for new forms of assessments?"/>
+</explorer>
+ <expert>
+     <knowledge  text="knows a range of digital assessment formats and can identify digital technologies that are suited for formative or summative assessment"/>
+     <skills text="uses various digital assessment formats (e.g. quizzes, e-portfolio, games)"/>
+ <attitudes text=" eagerness to explore digital technologies for assessment formats"/>
+</expert>
+        <pioneer><knowledge  text="can identify and match a variety of digital technologies to formative and summative assessment formats according to the respective use cases. is aware of their benefits and
+            drawbacks"/>
+            <skills text="is able to purposefully integrate digital and non-digital assessment formats and develop new innovative digital assessment formats in line with respective learning outcomes. critically reflects on his/her use of digital technologies for assessment and adapts his/her strategies accordingly"/>
+ <attitudes text=" creative approach to develop suitable, new forms of assessment strategies and formats"/>
+ </pioneer>
+    </subSet>
+    <subSet id="4.2" name=" Analysing evidence">
+        <definition text="To generate, select, critically analyse and interpret digital evidence on learner activity, performance and progress, in order to inform teaching and learning. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware that learner activity and performance in digital environments generates data that can be used to monitor learners' progress"/>
+    <skills text="evaluates basic data on learner activity (e.g. attendance) and student performance (e.g. grades) for individual feedback and targeted interventions"/>
+            <attitudes text="general interest in the potential of digital data to inform teaching and learning"/>
+</explorer>
+    <expert>
+        <knowledge  text="knows how digital technologies can be strategically employed to generate and evaluate data on learners' progress"/>
+        <skills text="uses, combines and evaluates different sources of evidence on learners' performance and progress: uses digital technologies (e.g. quizzes, voting systems, games) within the teaching process as well as the data analysis tools provided by the digital environments in order to monitor and visualize learner activity as well as better understand individual learners’ needs for support"/>
+ <attitudes text=" explorative attitude towards data generation tools that can help him/her monitor learners' progress and provide support"/>
+</expert>
+    <pioneer>
+        <knowledge  text="knows advanced data generation and visualisation methods (e.g. based on learning analytics) as well as their distinct value and appropriateness for data analysis use cases"/>
+        <skills text="continuously monitors digital activity, and reflects on, and synthesises digital learner data to identify learning patterns and adapt his/her teaching strategies. critically assesses and discusses the value and validity of different data sources as well as the appropriateness of common methods used for data analysis"/>
+        <attitudes text="
+            great commitment to a holistic approach to data generation and evaluation"/> </pioneer>
+    </subSet>
+    <subSet id="4.3" name=" Feedback and planning">
+        <definition text="To use digital technologies to provide targeted and timely feedback to learners. To adapt teaching strategies accordingly and to provide targeted support, based on the evidence generated by the digital technologies used. To enable learners and parents to understand the evidence provided by digital technologies and use it for decision-making. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of digital tools that can be used to provide feedback to learners"/>
+    <skills text="uses digital technologies to put together a record of learners' progress and consult when providing feedback"/>
+            <attitudes text="interest in providing personal feedback"/>
+</explorer>
+        <expert><knowledge  text="knows how to grade and provide feedback to learners by means of digital technologies"/>
+            <skills text="uses digital technologies to provide personal feedback and transparency on progress made, providing differentiated support to learners and adapt his/her teaching strategies according to the data generated by digital technologies used"/>
+ <attitudes text="commitment to providing personal feedback and adapting teaching strategies according to learner data"/>
+</expert>
+ <pioneer>
+     <knowledge  text="knows what / how digital technologies can provide personalized feedback and knows how to analyse digital data on learners"/>
+     <skills text="provides personalized feedback and adapts teaching according to learner data; enables students to understand and use the feedback provided to jointly create individual learning plans"/>
+ <attitudes text="flexibility to re-design and innovate teaching strategies in multiple ways according to data on learner preferences and needs as well as the effectiveness of different teaching and learning formats"/>
+</pioneer>
+    </subSet>
+        <subSet id="4.4" name=" (Micro-) Credentialisation">
+            <definition text="To design badges/credentials that contain all the available information to facilitate recognition (of intermediate achievements). (our own suggestion)"/>
+<explorer>
+    <knowledge  text="is aware of the process of designing micro-credentials on the levels of micro and macro curriculum level and the links and meta-data between the credential and digital curriculum in a virtual learning environment"/>
+    <skills text="uses existing systems to issue digital credentials; designs micro-credentials on the levels of micro and macro curriculum level and the links and meta-data between the credential and digital curriculum in a virtual learning environment"/>
+            <attitudes text="interest in the potential of micro-credentials to support the principles of learning outcome recognition and ECTS transfer among EHEA"/>
+</explorer>
+  <expert>
+      <knowledge  text="has advanced knowledge on the process of designing micro-credentials on the levels of micro and macro curriculum level and is able to explain the links and meta-data between the credential and digital curriculum in a virtual learning environment"/>
+      <skills text="uses and explains a credentialing systems to issue digital credentials; consults on the process of designing digital credentials and peer-reviews micro-credentials developed on the micro and macro curriculum level and reviews as well as updates the meta-data for credentials on learning outcomes, assessment method, EQF level etc. from IT systems such as the digital curriculum in a virtual learning environment"/>
+ <attitudes text="curiosity towards digital and micro-credentials as a means to support the principles of learning outcome recognition and ECTS transfer among the EHEA"/>
+</expert>
+  <pioneer>
+      <knowledge  text="has comprehensive knowledge of the process of designing micro-credentials on the levels of micro and macro curriculum level and the links and meta-data between the credential and digital curriculum in virtual learning environment"/>
+      <skills text="continuously monitors digital activity and reflects on and synthesises digital learner data to identify learning patterns and adapts his/her teaching strategies; critically assesses and discusses the value and validity of different data sources as well as the appropriateness of common methods used for data analysis"/>
+ <attitudes text="commitment towards empowering colleagues in designing digital and micro-credentials as a means to support the principles of learning outcome recognition and ECTS transfer among the EHEA"/>
+      </pioneer>
+        </subSet>
+        <subSet id="4.5" name=" Recognition"> 
+            <definition text="To judge information provided in learning credential and additional information to recognize skills and competences towards a larger credential. (our own suggestion)"/>
+<explorer>
+    <knowledge  text="knows the institutional guidelines and tools for recognition of formal and non-formal learning"/>
+        <skills text="compares documented achievements and assessment methods with the learning outcomes or competences to be recognised; checks the validity of a credential; converts the grade, documents and communicates the recognition decision; applies the institutional guidelines and tools for recognition of formal and non-formal learning"/>
+            <attitudes text="positive attitude towards recognition of formal and non-formal learning"/>
+</explorer>
+
+            <expert><knowledge  text="knows both the institutional guidelines and tools and the relevant principles and regulations for recognition of formal and non-formal learning"/>
+                <skills text="trains and consults on the processes for recognition of formal and non-formal learning; designs curricula to support recognition. prepares and signs credit recognition agreements; provides information to learners on open learning and how it can be recognised; applies the institutional guidelines and tools for recognition of formal and non-formal learning"/>
+ <attitudes text="commitment to convince colleagues of the advantages of recognition. advocacy for transparent and easy-to-follow processes for recognition in his/her institution"/>
+</expert>
+    <pioneer>
+        <knowledge  text="knows and improves the institutional guidelines and tools and the in the light of recent discussions and updates of the relevant principles and regulations for recognition of formal and non-formal learning"/>
+        <skills text="explains, creates, implements and continuously improves institutional procedures and tools for recognition, such as clearly defined and harmonized processes for recognition, recognition database, data standards and digital information exchange, information to learners about open learning and how it can be recognized, stakeholder involvement. shares and discusses experiences and developments with the relevant community"/>
+ <attitudes text="commitment to ensure that the same level of criteria for recognition is applied across the institution and to (further) develop a recognition database within his/her institution"/>
+    </pioneer>
+</subSet>
+</dimension>
+ 
+ 
+ 
+<dimension id="5" name=" Empowering Learners">
+    <subSet id="5.1" name=" Accessibility and inclusion">
+        <definition text="To ensure accessibility to learning resources and activities, for all learners, including those with special needs. To consider and respond to learners' (digital) expectations, abilities, uses and misconceptions, as well as contextual, physical or cognitive constraints to their use of digital technologies. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of accessibility and inclusion issues in digital learning environments and the importance of ensuring equal access to the digital technologies used for all students."/>
+    <skills text="is aware that digital technologies can hinder or improve accessibilityv does not yet implement digital technologies and pedagogical strategies to foster accessibility and inclusion"/>
+            <attitudes text="concern about accessibility and inclusion in digital education"/>
+</explorer>
+    <expert>
+        <knowledge  text="knows digital pedagogical strategies that adapt to learners’ digital contexts (e.g. limited usage time, type of device available)."/>
+        <skills text="is aware that compensatory digital technologies can be used for learners in need of special support (e.g. learners with physical or mental constraints; learners with learning disorders) ensures that all students have access to the digital technologies he/she uses. employs digital technologies and strategies (e.g. assistive technologies) designed for learners’ in need of special support (e.g. learners with physical or mental constraints; learners with learning disorders, visually or hearing impaired learners)"/>
+ <attitudes text="explorative attitude toward digital technologies and pedagogical strategies designed for learners’ in need of special support"/>
+</expert>
+    <pioneer>
+        <knowledge  text="knows digital pedagogical strategies that are fitted to learners’ digital technology uses, competences, expectations, attitudes, misconceptions and misuses and ensure accessibility and inclusion"/>
+        <skills text="enhances accessibility and inclusion by employing digital pedagogical strategies that correspond with learners' technology uses, competences, expectations, attitudes, misconceptions and misuses and by employing design principles for increasing accessibility (e.g. as concerns font, size, colours, language, layout, structure); continuously reflects on the suitability of the measures implemented to improve accessibility; re-designs and innovates strategies accordingly"/>
+ <attitudes text="reflective, innovative and learner-centric approach towards digital technologies and pedagogical strategies that foster accessibility and inclusion in digital education"/>
+</pioneer> 
+    </subSet>
+    <subSet id="5.2" name=" Differentiation and personalisation">
+       <definition text="To use digital technologies to address learners’ diverse learning needs, by allowing learners to advance at different levels and speeds, and to follow individual learning pathways and objectives. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware that digital technologies can support differentiation and personalisation (e.g. by providing activities at different levels and speeds)"/>
+    <skills text="does not use digital technologies yet to address the special needs of individual learners (e.g. dyslexia, ADHD, overachievers)"/>
+            <attitudes text="interest in learning about how digital technologies can help him/her offer personalised learning opportunities"/>
+</explorer>
+    <expert>
+        <knowledge  text="knows different strategies for differentiation and personalisation, using digital technologies"/>
+        <skills text="flexibly uses different digital technologies in order to select, design and implement learning activities that allow learners to proceed at different speeds, select different levels of difficulty and/or repeat activities previously not solved adequately (e.g. quizzes or serious games)"/>
+ <attitudes text="flexibility to adapt his/her strategies to changing circumstances or needs"/>
+</expert>
+  <pioneer>
+      <knowledge  text="knows a range of strategies for differentiation and personalisation, using digital technologies"/>
+          <skills text="designs, in collaboration with learners and/or
+              parents, personalised learning plans which allow
+              all learners to follow their individual learning needs
+              and preferences, with the aid of appropriate digital
+              resources"/>
+ <attitudes text="innovative approach, reflecting on, discussing and re-designing pedagogic strategies for personalising education through the use of digital technologies"/>
+    </pioneer>
+</subSet>
+    
+        <subSet id="5.3" name=" Actively engaging learners">
+            <definition text="To use digital technologies to foster learners’ active and creative engagement with a subject matter. To use digital technologies within pedagogic strategies that foster learners’ transversal skills, deep thinking and creative expression. To open up learning to new, real-world contexts, which involve learners themselves in hands-on activities, scientific investigation or complex problem solving, or in other ways increase learners’ active involvement in complex subject matters. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="has basic knowledge of how to use digital technologies and digital learning activities to motivate and engage learners"/>
+    <skills text="uses digital technologies to visualise and explain new concepts in a motivating and engaging way (e.g. by employing animations or videos); employs digital learning environments or activities which are motivating and engaging (e.g. games, quizzes)"/>
+            <attitudes text="openness towards new tools for enhancing engagement of learners, yet hesitancy to apply those"/>
+</explorer>
+   <expert>
+       <knowledge  text="knows about available digital technologies and suitable teaching strategies that foster learners’ active and creative engagement with the subject matter"/>
+       <skills text="facilitates active learning by selecting appropriate digital technologies and teaching strategies; uses a range of digital technologies to create a relevant and effective digital learning environment (e.g. by addressing different sensory channels, learning styles and strategies or by methodologically varying activity types and group compositions)"/>
+ <attitudes text="explorative and reflective approach toward combining digital technologies and new teaching/learning methods"/>
+</expert>
+    <pioneer>
+        <knowledge  text="has comprehensive knowledge of (innovative) digital strategies for actively engaging learners"/>
+        <skills text="critically reflects on how suitable the different digital technologies used are in increasing learners’ active learning and adapts strategies and choices accordingly, discusses, re-designs, innovates and experiments with pedagogic strategies for actively engaging learners"/>
+ <attitudes text="self confidence and innovative approach towards creating and assessing new ideas of engaging learners, supported by digital technologies"/>
+</pioneer>
+    </subSet>
+    <subSet id="5.4" name=" Agile working">
+       <definition text="To empower learners in an interdisciplinary team to collaboratively develop a rapid prototype of problem solving, that creates value for the user, by employing agile and iterative methods. (our own suggestion)"/>
+<explorer>
+    <knowledge  text="is aware of agile methods and their potential to empower students to work collaboratively and iteratively on user-centric prototypes"/>
+    <skills text="makes basic use of digital technologies and agile methods to motivate students and prepare them to adapt to changes (e.g. using flexible learning environments and digital technologies to support active and collaborative learning)"/>
+            <attitudes text="interest in the potential of agile methods for student learning processes"/>
+</explorer>
+        <expert>
+            <knowledge  text="knows various agile methods and digital technologies to facilitate an agile classroom as well as the agile philosophy to encourage learners and foster growth"/>
+            <skills text="actively employs agile methods by effectively embedding them into the learning and teaching processes; uses collaboration, communication and innovation tools and employs innovative practices (e.g. using real-life challenges) to boost creative thinking and preparedness of learners"/>
+ <attitudes text="flexibility in creating agile and collaborative learning settings for students"/>
+</expert>
+    <pioneer>
+        <knowledge  text="knows a variety of agile methods, use cases, digital technologies and pedagogical strategies that enable collaborative team work and user-centric prototyping in multidisciplinary learning environments"/>
+        <skills text="develops innovative pedagogical techniques that create an environment focused on supporting students in developing adaptive skills and working collaboratively and iteratively in various multidisciplinary team constellations (e.g. creates together with learners collaborative idea labs using emerging technologies such as virtual reality spaces)"/>
+ <attitudes text="entrepreneurial attitude and creative approach towards fostering agile and collaborative learning environment"/>
+    </pioneer>
+</subSet>
+</dimension>
+ 
+ 
+<dimension id="6:" name=" Facilitating Learners’ Digital Competence">
+    <subSet id="6.1" name=" Information and media literacy">
+        <definition text="To incorporate learning activities, assignments and assessments which require learners to articulate information needs; to find information and resources in digital environments; to organise, process, analyse and interpret information; and to compare and critically evaluate the credibility and reliability of information and its sources. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="knows basic strategies fostering learners’ information literacy"/>
+    <skills text="encourages learners to use digital technologies for information retrieval (e.g. on assignments)"/>
+            <attitudes text="interest and supportive approach, encouraging learners how to use digital technologies for information retrieval"/>
+</explorer>
+        <expert><knowledge  text="knows a range of pedagogic strategies to foster learners’ information and media literacy"/>
+            <skills text="implements learning activities that enable learners to analyse, compare and critically evaluate the"/>
+            <attitudes text=" credibility and reliability of sources of data, information and digital content. Guides learners in adapting search strategies based on the quality of information found; encourages learners to meaningfully combine information from different sources and teaches them how to quote sources appropriately; incorporates learning activities that require learners to organise, store and retrieve data, information and content in digital environments
+                explorative and empowering approach towards fostering learners' information and media literacy"/>
+</expert>
+        <pioneer>
+            <knowledge  text="knows innovative pedagogic strategies to foster learners’ information and media literacy"/>
+            <skills text="critically reflects on how suitable pedagogic strategies are in fostering learners’ information and media literacy and adapts strategies accordingly"/>
+ <attitudes text="innovative approach, reflecting on, discussing and re-designing pedagogic strategies to foster learners’ information and media literacy"/>
+        </pioneer> </subSet>
+    <subSet id="6.2" name="Digital communication and collaboration">
+               <definition text="To incorporate learning activities, assignments and assessments which require learners to effectively and responsibly use digital technologies for communication, collaboration and civic participation. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of the potential of digital technologies for communication and collaboration within and among various status groups"/>
+    <skills text="encourages learners to use digital technologies to interact with other learners, with their educators, management staff and third parties"/>
+            <attitudes text="openness towards digital technologies and pedagogic strategies to foster learners’ digital communication and collaboration"/>
+</explorer>
+ <expert>
+     <knowledge  text="knows a range of pedagogic strategies to encourage learners to use digital technologies for communication, collaboration and civic participation"/>
+     <skills text="implements learning activities and employs pedagogic strategies in which learners use digital technologies for communication and collaboration; guides learners in respecting behavioural norms, adapting communication strategies to the specific audience and being aware of cultural and social diversity in digital environments. supports and encourages learners to use digital technologies to participate in public discourses and for civic participation"/>
+ <attitudes text="strategic approach towards fostering learners' digital communication and collaboration and encouraging learners to participate in society through the use of digital technologies"/>
+</expert>
+<pioneer>
+    <knowledge  text="knows innovative pedagogic strategies to foster learners’ digital communication and collaboration"/>
+    <skills text="transforms acquired knowledge about digital technologies, methods and strategies to support learner's interactivity and participation into practice. incorporates learning activities which encourage and require learners to use digital technologies for communication and collaboration, knowledge and resources co-creation, and civic participation; reflects on, discusses, re-designs and innovates pedagogic strategies for fostering learners' digital communication and collaboration and adapts strategies as a result of his/her learner-centric reflections."/>
+    <attitudes text=" guides learners in creating and managing one or multiple digital identities and in protecting one’s own reputation
+        reflexive stance and innovative attitude toward pedagogic strategies that foster learners’ digital communication and collaboration"/>
+</pioneer></subSet>
+
+
+    <subSet id="6.3" name=" Digital content creation">
+        <definition text="To incorporate assignments and learning activities which require learners to express themselves through digital means, and to modify and create digital content in different formats. To teach learners how copyright and licenses apply to digital content, how to reference sources and attribute licenses. (DigCompEdu)"/>
+<explorer>
+    
+    <knowledge  text="is aware of the potential of digital technologies to create content"/>
+    <skills text="encourages learners to create digital content such as texts, images, videos as a form of self-expression"/>
+            <attitudes text=" positive attitude to the use of digital technologies to produce content"/>
+</explorer>
+<expert>
+    <knowledge  text="knows a range of pedagogical strategies to help students create elementary digital content. has a good knowledge of privacy and copyright rules"/>
+    <skills text="implements learning activities and employs pedagogic strategies as needed to enable learners to produce and share digital content by using digital technologies; enables learners to understand the concept of copyright and licenses and consider it when creating or re-using digital content"/>
+ <attitudes text="proactive and encouraging attitude towards the creation and appropriate sharing/re-sharing of digital content and alertness to copyright and licence issues"/>
+</expert>
+ <pioneer>
+     <knowledge  text="has comprehensive knowledge of pedagogic strategies, digital technologies and platforms as well as publishing and licensing rights that enable learners to produce complex digital content"/>
+     <skills text="guides learners in designing, re-using, publishing and licensing complex digital content (e.g. websites, blogs, games, apps) by using innovative formats. reflects on, discusses, re-designs, innovates and adapts his/her teaching strategies to the specific needs of learners. applies his/her copyright and license knowledge with the help of digital technologies e.g. for detecting and counteracting plagiarism"/>
+ <attitudes text="self-understanding as a guide for learners' responsible creation of digital content as a means for self-expression"/>
+</pioneer>
+    </subSet>
+    
+    <subSet id="6.4" name=" Responsible use to take measures to ensure learners' physical, psychological and social wellbeing while using digital technologies. To empower learners to manage risks and use digital technologies safely and responsibly. (DigCompEdu)">
+<explorer>
+    <knowledge  text="is aware that digital technologies can positively and negatively affect learners’ physical, psychological and social wellbeing"/>
+    <skills text="fosters learners’ awareness of the benefits and drawbacks of digital technologies and the openness of the internet"/>
+            <attitudes text=" concern for learners' wellbeing, encouraging learners to use digital technologies safely and responsibly"/>
+</explorer>
+ <expert>
+     <knowledge  text="knows how to implement relevant measures and pedagogically support learners’ use of digital technologies to ensure their wellbeing"/>
+     <skills text="gives practical and experience-based advice on how to protect privacy and data (e.g. using passwords, adjusting the settings of social media)."/>
+ <attitudes text="assists learners in protecting their digital identity and managing their digital footprint and develops strategies to prevent, identify and respond to digital behaviour that negatively affects learners health and wellbeing (e.g. cyberbullying). encourages learners to assume a positive attitude and alertness towards digital technologies
+supportive approach, encouraging learners to assume a positive attitude towards digital technologies, being aware of possible risks and limits, but confident in their self-effective navigation skills"/>
+</expert>
+ <pioneer>
+     <knowledge  text="knows a variety of pedagogic strategies to foster learners’ ability to use digital technologies responsibly, safely, and for their own wellbeing"/>
+     <skills text="enables learners to understand risks and threats in digital environments (e.g. identity theft, fraud, stalking, phishing) and how to react appropriately. critically reflects on, discusses, re-designs, innovates and flexibly adapts his/her pedagogic strategies to both foster learners' digital wellbeing and their ability to use digital technologies for their own wellbeing"/>
+ <attitudes text="innovative and empowering approach towards pedagogic strategies that foster learners' wellbeing and learners' ownership for it"/>
+</pioneer>
+</subSet>
+    <subSet id="6.5" name=" Digital problem solving"> 
+        <definition text="To incorporate learning and assessment activities which require learners to identify and solve technical problems or to transfer technological knowledge creatively to new situations. (DigCompEdu)"/>
+<explorer>
+    <knowledge  text="is aware of digital technologies and strategies to foster learners’ digital problem solving"/>
+    <skills text="encourages learners to solve technical problems using trial and error and to transfer their digital competence to new situations"/>
+            <attitudes text="interest in implementing learning activities that encourage learners to use digital technologies to solve problems"/>
+</explorer>
+        <expert>
+            <knowledge  text="knows a range of pedagogic strategies to foster learners’ digital problem solving"/>
+            <skills text="implements learning activities in which learners use digital technologies creatively, expanding their technical repertoire and provide peer-support to fellow learners. uses different pedagogic strategies to enable learners to apply their digital competence to new situations or in new contexts
+                empowers learners to identify competence gaps and develop strategies for competence development"/>
+ <attitudes text=" implements learning activities in which learners use digital technologies creatively, expanding their technical repertoire and provide peer-support to fellow learners. uses different pedagogic strategies to enable learners to apply their digital competence to new situations or in new contexts
+empowers learners to identify competence gaps and develop strategies for competence development
+supportive attitude and belief in learners' ability to be drivers of their own and their peers' competence development"/>
+</expert>
+<pioneer>
+    <knowledge  text="has comprehensive knowledge of innovative pedagogic strategies and formats to foster learners’ digital problem solving"/>
+    <skills text="creates and implements learning activities which enable learners to seek out different, creative technological solutions to a problem, investigate their benefits and drawbacks and critically and creatively come up with a new solution or product. reflects on, discusses, re-designs, innovates and adapts pedagogic strategies that foster learners' digital problem solving skills"/>
+            <attitudes text="innovative and iterative approach to foster learners’ digital problem solving skills"/>
+</pioneer> 
+    </subSet>
+</dimension>
+ 
+ 
+    <dimension id="7" name=" Health and Wellbeing">
+        <subSet id="7.1" name="  Dealing with Health Information and Health Conditions related to the use of Digital Technologies">
+           <definition text="To be aware of the health impact of digital technologies and able to explore up to date health-related information. To monitor own and learners' situation and apply evaluated information for framing meaningful use of digital technologies in learning processes. (own suggestion)"/>
+<explorer>
+    <knowledge  text="is aware that digital technologies can have an impact on both one's own and learners' health and knows how to access available health-related information"/>
+    <skills text="matches and evaluates one's own and learners’ situation with available health-related information"/>
+            <attitudes text="commitment to foster one's own and learners’ health, based on an open and unbiased approach; general interest in health impact implied by use of digital technologies"/>
+</explorer>
+ <expert>
+     <knowledge  text="understands special issues of health impact by digital technologies and knows about support schemes or points of contact"/>
+     <skills text="raises awareness of health impact by digital technologies; uses organisational, pedagogical and technological knowledge for implementation of measures preventing hazards and improving conditions of health impact by digital technologies"/>
+ <attitudes text="enhances the awareness of the health impact of digital technologies; . Using organisational, pedagogical and technological knowledge for the implementation of measures for preventing hazards and improving conditions or minimising the health impact by of digital technologies.
+eagerness to regard own and learners’ health crucial for teaching and learning processes, based on responsible and explorative approach; critical monitoring of health information"/>
+</expert>
+ <pioneer>
+     <knowledge  text="has comprehensive knowledge of health issues related to use of digital technologies as well as of methods to asses own or learners' situation with foresight."/>
+     <skills text="anticipates future impact of digital technologies on own and learner's health condition and creates up to date health-related information"/>
+ <attitudes text="creative approach to perception, evaluation and further exploration of health-related impact of digital technologies; commitment to improve information base as well as health conditions of learners and self"/>
+</pioneer></subSet>
+        <subSet id="7.2" name=" Interaction and Intervention">
+            <definition text="To support the healthy use of digital technology, and maintain a positive interaction with learners or peers regarding health issues. To offer or seek support if evidence requires. (our own suggestion)"/>
+<explorer>
+    <knowledge  text="knows basic criteria for intervention as well as first steps of assistance for learners/educators at risk of health issues related to use of digital technologies"/>
+    <skills text="maintains positive communication/interaction with learners, colleagues/peers regarding own or learners’ health situation; transfers and applies criteria for meaningful intervention to actual situation/condition of learner(s) or self"/>
+            <attitudes text="open mindedness towards communication interaction regarding personal issues of self or learners; awareness of urgency for supporting learners or colleagues in dealing with health impact of digital technologies"/>
+</explorer>
+ <expert>
+     <knowledge  text="knows how to assess situation of learner(s) or self, based on scaled criteria for intervention and knows where to get support if evidence requires (colleagues/peers, third parties)"/>
+     <skills text="supports learners’ healthy use of digital technology and offers personal support if evidence requires; seeks personal support from colleagues/peers for own issues, and gets third party consultancy, if evidence requires; actively assists learners or organises (instant) medical/psychological support; relates (digital) formats for communication/interaction regarding health impact of digital technologies; assesses situation of learner(s) or self, based on scaled criteria for intervention"/>
+ <attitudes text="sympathy and empathy for learners’ personalities including physical and mental health issues; self-confidence for communicating own physical or mental health issues; readiness to actively assist and support learners or colleagues in issues related to health impacts of digital technologies"/>
+</expert>
+ <pioneer>
+     <knowledge  text="continuously expands knowledge about strategies and methods of communication/interaction related to health impact of digital technologies; knows how to intervene personally in different situations of learners or educators with regard to health issues related to use of digital technologies"/>
+     <skills text="systematically integrates interaction for in situ rectification of own and learners’ health condition/ situation; intervenes actively, appropriately and immediately with effective measures if evidence requires, or sensibly supports and complements third parties in their intervention for assisting learners with health issues deriving from use of digital technologies"/>
+     <attitudes text="supportive towards creating a positive and open minded culture of communication / interaction in the respective learning environment (including learners and educators); feeling responsibility for appropriate intervention in all areas of health related to use of digital technologies"/>
+ </pioneer>
+        </subSet>
+        <subSet id="7.3" name=" Improvement of Conditions and Prevention"> 
+           <definition text="To explore, discuss and implement measures and improvements regarding learners' and own health. To foster own and learner's ability to employ digital technologies for the sake of health. (our own suggestion)"/>
+<explorer>
+    <knowledge  text="knows about basic options of monitoring, controlling and handling the use of digital technologies with regard to health of learners or self"/>
+    <skills text="appraises how basic options of monitoring, controlling and handling the use of digital technologies can create better conditions when using these technologies."/>
+            <attitudes text="prepared for discussing health situation/conditions and options for prevention/improvement"/>
+</explorer>
+ <expert>
+     <knowledge  text="knows how to evaluate and determine which organisational, pedagogical and technological options could minimize negative health impact by digital technologies"/>
+     <skills text="enhances awareness of the health impact of digital technologies; uses organisational, pedagogical and technological knowledge for the implementation of measures for preventing hazards and improving conditions or minimising the health impact by of digital technologies."/>
+ <attitudes text="explorative attitude towards new concepts and methods with regard to reduce negative health impact of digital technologies; foster own and learners’ ability to control and employ digital technologies for sake of health"/>
+</expert>
+ <pioneer>
+     <knowledge text="has knowledge of possible future conditions/situations as well as available state of art options; continuously explores suitable methods for future controlling and handling of situations; knows about potential of digital technologies for monitoring and control of health"/>
+     <skills text="anticipates and conceptualises future health support and create feasible solutions for improving the physical and mental health situation/conditions of learners and educators"/>
+ <attitudes text="strategic aim for sustainable prevention of hazards to users of digital technologies in education; ethical responsibility for generating a beneficial and healthy future prospecting that use of digital technology will increase"/>
+   </pioneer>
+  </subSet> 
+    </dimension>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+<!--  Health
+To be aware of the health impact when using digital technologies, and to be able to communicate, interact or intervene with regard to physical or mental health of learners as well as oneself, being educator. To discover and prevent potential hazards and contribute to improvements. (our own suggestion)-->
+</learningMaturityModel>
+

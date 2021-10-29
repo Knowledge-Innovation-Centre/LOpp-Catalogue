@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<learningOpportunity xmlns="http://data.europa.eu/snb"
+    xmlns:lopp="http://data.europa.eu/europass/model/credentials/w3c#"
+    id="urn:lopp:7bcf3138-b483-43cc-83c4-4d680dfadef4">
+
+    <learningOpportunity_Identifier>lopp1</learningOpportunity_Identifier>
+    <title>
+        <text content-type="text/plain" lang="en">Higher Education 4.0: Certifying your
+            future</text> 
+    </title>
+    <description>
+        <text content-type="text/plain" lang="en"> Explore what the future holds for higher education and discover the new educational
+            models and pathways for 21st Century learners.</text>
+    </description> 
+    <additionalNote>
+        <text content-type="text/plain" lang="en"> This course explores the changing nature of higher education through the
+            lens of the ECIU University initiative. On this three-week course, you’ll reflect on
+            major educational trends impacting higher education today and consider how universities
+            can be ‘future-fit’ in our increasingly digital world. You’ll also evaluate how higher
+            educators, policy-makers, and governments should respond beyond the COVID-19
+            crisis.</text>
+    </additionalNote> 
+    <homepage> https://www.futurelearn.com/courses/higher-education-certifying-your-future</homepage>
+    <startAtDate> 2021-03-08</startAtDate> 
+    <endedAtDate> 2021-04-05 </endedAtDate>
+    <duration> 5 </duration> 
+    <learningSchedule>
+        <text content-type="text/plain" lang="en">N/A</text>
+    </learningSchedule>
+    <scheduleInformation>
+        <text content-type="text/plain" lang="en">Text description of the learning schedule not available</text>
+    </scheduleInformation>
+    <admissionProcedure>
+        <text content-type="text/plain" lang="en"> Text description about the admission procedure </text> 
+    </admissionProcedure>
+    <priceDetails>0</priceDetails>
+    <providedBy>
+        <text content-type="text/plain" lang="en">Dublin City University DCU/ National Institute for Digital
+            Learning</text>
+    </providedBy>
+    <typeOfProvider> HEI National Initiative</typeOfProvider>
+    <providedAt> https://www.futurelearn.com/courses/higher-education-certifying-your-future</providedAt>
+    <specifiedBy>
+        <learningSpecification>
+            <learningSpecificationID>lopp1</learningSpecificationID> 
+            <identifier>lopp1</identifier> 
+          <learningOpportunityType> MOOC </learningOpportunityType>
+            additions)
+            <ISCEDFCode> Thematic Area according to ISCED-F2013 Classification (see controlled vocabulary)</ISCEDFCode>
+            <educationSubject> Discipline/Area (ECCOE)</educationSubject>
+            <ECTSCreditPoints> N/A</ECTSCreditPoints>
+            <language> EN </language> 
+            List)
+            <mode> Online </mode> 
+            <learningSettings> non-formal</learningSettings>   
+            <targetGroup> adult learners </targetGroup> 
+            <entryRequirementsNote>
+                <text content-type="text/plain" lang="en">NONE</text>
+            </entryRequirementsNote>
+            <learningOutcome> 
+                <id> learningOutcome1</id>
+                <title>
+                    <text content-type="text/plain" lang="en">N/A</text>
+                </title>
+                <description>
+                    <text content-type="text/plain" lang="en"> In this course learners will: Explore new university
+                        accreditation models and pedagogical approaches Prepare for new employment trends
+                        Discover emerging higher education pedagogies Explore new approaches to higher
+                        education </text>
+                </description>
+                <learningOutcomeType> Demonstrate Knowledge about Educational
+                    Programmes and Certifications- ESCO Skill</learningOutcomeType>
+                <reusabiltyLevel>N/A</reusabiltyLevel> 
+                <relatedSkill> Dimension 1 Professional Engagement -Subset 4 (Micro-)Credentialisation </relatedSkill> 
+                <relatedSkill>Explorer Level A- Knowledge Level</relatedSkill>
+                <relatedSkill> N/A</relatedSkill> 
+                <relatedSkill> Explorer Level A- Attitudes Level</relatedSkill>
+            </learningOutcome>
+            <learningActivitiesSpefication>
+                <learningActivityType>
+                    Select from EUropass Standard list of activity types (Controlled vocabulary)
+                </learningActivityType>
+                <workload>Duration</workload>
+                <language>Controlled list</language>
+                
+            </learningActivitiesSpefication>
+            <assessmentSpecification> 
+                <assessmentType> N/A</assessmentType>
+                
+                <assessorType ECCOE="yes"/> 
+                <assessmentFormat ECCOE="yes"/>
+                <language> EN</language>
+                <gradingSchema> </gradingSchema> 
+
+            </assessmentSpecification>
+            <awardingOpportunity> No defined</awardingOpportunity>
+            <qualification> 
+                <EQFLevel>N/A</EQFLevel> 
+                <NQFLevel>N/A</NQFLevel> 
+            </qualification>
+        </learningSpecification>
+    </specifiedBy>
+    <agent> 
+        <contactInfo>
+            <note><text content-type="text/plain" lang="en">For all inquiries about this Learning Opporunity, please use the
+                following Contact form</text></note>
+            <contactForm>https://futurelearn.zendesk.com/hc/en-us/requests/new</contactForm>
+        </contactInfo>
+    </agent>
+    <hasPart info="other Learning Subopportunities">
+        <LearningSpecification> </LearningSpecification>
+    </hasPart>
+    <bannerImage> source of the image to be displayed alongside the Lopp</bannerImage>
+</learningOpportunity>
