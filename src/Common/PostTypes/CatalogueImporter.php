@@ -18,12 +18,18 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 	 */
 	class CatalogueImporter {
 
+
+		private $importFailed = false;
+		private $requiredFields = [];
+
+
 		private function isWpmlInstalled(): bool {
 
 			return defined( 'ICL_LANGUAGE_CODE' );
 		}
 
 		public function import() {
+			global $wpdb;
 			$xml_id = intval( $_POST['loc_xml_id'] );
 
 			$url = wp_get_attachment_url( $xml_id );
@@ -32,13 +38,26 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 				$xml = simplexml_load_file( $url );
 
 				$uid = trim( (string) $xml->learningOpportunity_Identifier );
+				$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_required'";
+				$this->requiredFields = $wpdb->get_results( $query, OBJECT_K );
+
+				$wpdb->query('START TRANSACTION');
 
 				$post_id = $this->update_or_create_object( $uid, Catalogue::POST_TYPE, $xml->title, $xml->additionalNote, $xml->description );
 
 				$this->import_general_data( $xml, $post_id );
+				$this->import_information_about_the_lopp_data( $xml, $post_id );
 				$this->import_learning_specification_data( $xml, $post_id );
 				$this->import_contact_data( $xml, $post_id );
 
+				if ($this->importFailed) {
+					$wpdb->query('ROLLBACK');
+
+					wp_send_json( false );
+					return;
+				}
+
+				$wpdb->query('COMMIT');
 				CatalogueSearchIndex::update_index( $post_id );
 			} catch ( Exception $exception ) {
 				var_dump( $exception );
@@ -282,6 +301,12 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 			}
 		}
 
+		private function import_information_about_the_lopp_data( $xml_item, $post_id ) {
+			foreach ( CatalogueFields::get_information_about_the_lopp_fields() as $field ) {
+				$this->update_post_field( $post_id, $xml_item, $field );
+			}
+		}
+
 		private function import_learning_specification_data( $xml_item, $post_id ) {
 			foreach ( CatalogueFields::get_learning_specification_fields() as $field ) {
 				$this->update_post_field( $post_id, $xml_item, $field );
@@ -381,6 +406,12 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 
 			if ( $value === null ) {
 				$value = "";
+			}
+
+			$slug = '_' . $field['slug'] . '_'. get_post_type($post_id) . '_required';
+
+			if ( (!$value || $value == "") && isset( $this->requiredFields[ $slug ] ) && $this->requiredFields[ $slug ]->option_value == 'yes' ) {
+				$this->importFailed = true;
 			}
 
 			carbon_set_post_meta( $post_id, $field['slug'], $value );

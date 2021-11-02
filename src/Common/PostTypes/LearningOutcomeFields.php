@@ -232,29 +232,29 @@ if ( ! class_exists( LearningOutcomeFields::class ) ) {
 
 			return $general_fields;
 		}
-
-		public static function get_carbon_fields( $type ) {
-			$fields = [];
-			foreach ( self::$type() as $field ) {
-				if ( $field['post_type'] ?? false ) {
-					$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] )->set_types( [
-						[
-							'type'      => 'post',
-							'post_type' => $field['post_type'],
-						]
-					] );
-				} elseif ( $field['type'] == 'complex' ) {
-					$fields[] = Field::make( $field["type"], $field["slug"], __( $field["title"] ) )
-					                 ->add_fields( $field["fields"] );
-				} elseif ( $field['type'] == 'date' ) {
-					$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] )->set_input_format( 'd.m.Y', 'd.m.Y' );;
-				} else {
-					$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] );
-				}
-			}
-
-			return $fields;
-		}
+		//
+		// public static function get_carbon_fields( $type ) {
+		// 	$fields = [];
+		// 	foreach ( self::$type() as $field ) {
+		// 		if ( $field['post_type'] ?? false ) {
+		// 			$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] )->set_types( [
+		// 				[
+		// 					'type'      => 'post',
+		// 					'post_type' => $field['post_type'],
+		// 				]
+		// 			] );
+		// 		} elseif ( $field['type'] == 'complex' ) {
+		// 			$fields[] = Field::make( $field["type"], $field["slug"], __( $field["title"] ) )
+		// 			                 ->add_fields( $field["fields"] );
+		// 		} elseif ( $field['type'] == 'date' ) {
+		// 			$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] )->set_input_format( 'd.m.Y', 'd.m.Y' );;
+		// 		} else {
+		// 			$fields[] = Field::make( $field["type"], $field["slug"], $field["title"] );
+		// 		}
+		// 	}
+		//
+		// 	return $fields;
+		// }
 
 	}
 }

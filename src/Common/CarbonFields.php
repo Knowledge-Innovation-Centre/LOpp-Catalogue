@@ -123,6 +123,11 @@ if ( ! class_exists( CarbonFields::class ) ) {
 					'class'  => Catalogue::class,
 				],
 				[
+					'title'  => __( 'Catalog item - Information about the LOpp fields' ),
+					'fields' => CatalogueFields::get_information_about_the_lopp_fields(),
+					'class'  => Catalogue::class,
+				],
+				[
 					'title'  => __( 'Catalog item - Learning specification fields' ),
 					'fields' => CatalogueFields::get_learning_specification_fields(),
 					'class'  => Catalogue::class,
@@ -167,7 +172,12 @@ if ( ! class_exists( CarbonFields::class ) ) {
 					$slug                       = $prefix . 'visible';
 					$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
 					                                   ->set_option_value( 'yes' )
-					                                   ->set_width( 33 );
+					                                   ->set_width( 20 );
+					$title                      = __( 'Required field' );
+					$slug                       = $prefix . 'required';
+					$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
+					                                   ->set_option_value( 'yes' )
+					                                   ->set_width( 13 );
 				}
 				$container = $container->add_tab( $fieldsForThemeOptions['title'], $fields_for_theme_options );
 			}

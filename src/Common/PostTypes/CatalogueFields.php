@@ -20,18 +20,79 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 		use CarbonFieldsHelper;
 
 		public static function get_general_fields() {
+			$prefix = 'specifiedBy.learningSpecification.';
 			return [
+
+				[
+					'type'     => 'rich_text',
+					'slug'     => 'provided_by',
+					'xml_slug' => 'providedBy',
+					'title'    => __( 'Provided By' ),
+				],
+				[
+					'type'     => 'select',
+					'slug'     => 'type_of_provider',
+					'xml_slug' => 'typeOfProvider',
+					'title'    => __( 'Type of provider' ),
+					'options'  => self::get_options( 'provider_types', 'name', 'name' ),
+				],
 				[
 					'type'     => 'text',
-					'slug'     => 'unique_id',
-					'xml_slug' => 'learningOpportunity_Identifier',
-					'title'    => __( "Unique ID" ),
+					'slug'     => 'provided_at',
+					'xml_slug' => 'providedAt',
+					'title'    => __( 'Provided at' ),
 				],
-
+				[
+					'type'     => 'select',
+					'slug'     => 'learning_opportunity_type',
+					'xml_slug' => $prefix . 'learningOpportunityType',
+					'title'    => __( 'Learning opportunity type' ),
+					'options'  => self::get_options( 'learning_opportunity_types', 'name', 'name' ),
+				],
+				[
+					'type'     => 'select',
+					'slug'     => 'language',
+					'xml_slug' => $prefix . 'language',
+					'title'    => __( 'Language' ),
+					'options'  => self::get_options( 'languages', 'xml_code', 'name' ),
+				],
+				[
+					'type'     => 'text',
+					'slug'     => 'eqf_level',
+					'xml_slug' => $prefix . 'qualification.EQFLevel',
+					'title'    => __( 'EQF level' )
+				],
+				[
+					'type'     => 'text',
+					'slug'     => 'nqf_evel',
+					'xml_slug' => $prefix . 'qualification.NQFLevel',
+					'title'    => __( 'NQF level' )
+				],
 				[
 					'type'  => 'text',
 					'slug'  => 'homepage',
 					'title' => __( 'Home page' )
+				],
+			];
+		}
+
+		public static function get_information_about_the_lopp_fields() {
+
+			$prefix = 'specifiedBy.learningSpecification.';
+			return [
+				[
+					'type'     => 'select',
+					'slug'     => 'mode',
+					'xml_slug' => $prefix . 'mode',
+					'title'    => __( 'Mode' ),
+					'options'  => self::get_options( 'modes', 'name', 'name' ),
+				],
+				[
+					'type'     => 'text',
+					'slug'     => 'ects_credit_points',
+					'xml_slug' => $prefix . 'ECTSCreditPoints',
+					'title'    => __( 'ECTS credit points' ),
+					'subType'  => 'number'
 				],
 				[
 					'type'     => 'date',
@@ -63,6 +124,24 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'title'    => __( 'Schedule information' )
 				],
 				[
+					'type'  => 'text',
+					'slug'  => 'workload_in_hours',
+					'title' => __( 'Workload in hours' )
+				],
+				[
+					'type'  => 'select',
+					'slug'  => 'admission_procedure',
+					'xml_slug' => 'admissionProcedure',
+					'title' => __( 'Admission procedure' ),
+					'options'  => self::get_options( 'admission_procedure', 'name', 'name' ),
+				],
+				[
+					'type'     => 'rich_text',
+					'slug'     => 'entry_requirements_note',
+					'xml_slug' => $prefix . 'entryRequirementsNote',
+					'title'    => __( 'Entry requirements note' )
+				],
+				[
 					'type'     => 'text',
 					'slug'     => 'price_details',
 					'xml_slug' => 'priceDetails',
@@ -70,22 +149,24 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 				],
 				[
 					'type'     => 'rich_text',
-					'slug'     => 'provided_by',
-					'xml_slug' => 'providedBy',
-					'title'    => __( 'Provided By' ),
+					'slug'     => 'activities',
+					'title'    => __( 'Activities' )
 				],
 				[
-					'type'     => 'select',
-					'slug'     => 'type_of_provider',
-					'xml_slug' => 'typeOfProvider',
-					'title'    => __( 'Type of provider' ),
-					'options'  => self::get_options( 'provider_types', 'name', 'name' ),
+					'type'  => 'text',
+					'slug'  => 'assessments',
+					'title' => __( 'Assessments' )
+				],
+				[
+					'type'  => 'text',
+					'slug'  => 'type_of_credential',
+					'title' => __( 'Type of credential' )
 				],
 				[
 					'type'     => 'text',
-					'slug'     => 'provided_at',
-					'xml_slug' => 'providedAt',
-					'title'    => __( 'Provided at' ),
+					'slug'     => 'unique_id',
+					'xml_slug' => 'learningOpportunity_Identifier',
+					'title'    => __( "Unique ID" ),
 				],
 			];
 		}
@@ -107,13 +188,6 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'title'    => __( 'Identifier' )
 				],
 				[
-					'type'     => 'select',
-					'slug'     => 'learning_opportunity_type',
-					'xml_slug' => $prefix . 'learningOpportunityType',
-					'title'    => __( 'Learning opportunity type' ),
-					'options'  => self::get_options( 'learning_opportunity_types', 'name', 'name' ),
-				],
-				[
 					'type'     => 'text',
 					'slug'     => 'iscedf_code',
 					'xml_slug' => $prefix . 'ISCEDFCode',
@@ -124,27 +198,6 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'education_subject',
 					'xml_slug' => $prefix . 'educationSubject',
 					'title'    => __( 'Education subject' )
-				],
-				[
-					'type'     => 'text',
-					'slug'     => 'ects_credit_points',
-					'xml_slug' => $prefix . 'ECTSCreditPoints',
-					'title'    => __( 'ECTS credit points' ),
-					'subType'  => 'number'
-				],
-				[
-					'type'     => 'select',
-					'slug'     => 'language',
-					'xml_slug' => $prefix . 'language',
-					'title'    => __( 'Language' ),
-					'options'  => self::get_options( 'languages', 'xml_code', 'name' ),
-				],
-				[
-					'type'     => 'select',
-					'slug'     => 'mode',
-					'xml_slug' => $prefix . 'mode',
-					'title'    => __( 'Mode' ),
-					'options'  => self::get_options( 'modes', 'name', 'name' ),
 				],
 				[
 					'type'     => 'select',
@@ -158,12 +211,6 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'target_group',
 					'xml_slug' => $prefix . 'targetGroup',
 					'title'    => __( 'Target group' )
-				],
-				[
-					'type'     => 'rich_text',
-					'slug'     => 'entry_requirements_note',
-					'xml_slug' => $prefix . 'entryRequirementsNote',
-					'title'    => __( 'Entry requirements note' )
 				],
 				[
 					'type'  => 'separator',
@@ -227,18 +274,6 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'  => 'qualification_separator',
 					'title' => __( 'Qualification' )
 				],
-				[
-					'type'     => 'text',
-					'slug'     => 'eqf_level',
-					'xml_slug' => $prefix . 'qualification.EQFLevel',
-					'title'    => __( 'EQF level' )
-				],
-				[
-					'type'     => 'text',
-					'slug'     => 'nqf_evel',
-					'xml_slug' => $prefix . 'qualification.NQFLevel',
-					'title'    => __( 'NQF level' )
-				],
 			];
 		}
 
@@ -285,6 +320,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 			global $wpdb;
 
 			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 
@@ -329,6 +365,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 			global $wpdb;
 
 			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 

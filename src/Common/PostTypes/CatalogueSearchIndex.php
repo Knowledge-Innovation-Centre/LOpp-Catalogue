@@ -62,6 +62,7 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 
 
 			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 			// $fields = array_merge( $fields, carbon_get_theme_option( 'loc_option_catalogue_fields' ) );

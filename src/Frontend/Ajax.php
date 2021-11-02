@@ -46,6 +46,7 @@ if ( ! class_exists( Ajax::class ) ) {
 			$filter_fields = [];
 
 			$fields = CatalogueFields::get_general_fields();
+			$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 

@@ -9,8 +9,10 @@
           {{ $t('Select Catalog XML') }}
         </button>
 
-        <div class="mt-5" v-for="attachment in attachments">
-          {{ $t('Selected files:') }} {{ attachment.name }}
+        {{ $t('Selected files:') }}
+        <div v-if="!attachments.length">{{ $t('No files selected') }}</div>
+        <div class="mt-5" :class="failedImportAttachmentIds.includes(attachment.id) ? 'text-red-500' : ''" v-for="attachment in attachments">
+           {{ attachment.name }}
         </div>
 
         <div>
@@ -38,6 +40,8 @@
       </div>
     </div>
 
+    <div class="mt-5">{{ $t('Imported:') }} {{ imported }}</div>
+    <div class="mt-5">{{ $t('Failed to imported:') }} {{ notImported }}</div>
     <div class="mt-5">{{ $t('Progress:') }} {{ progress }}%</div>
 
 
@@ -56,15 +60,17 @@ export default {
       attachmentsLearningMaturity: [],
       importing: false,
       imported: 0,
+      notImported: 0,
+      failedImportAttachmentIds: [],
     };
   },
   computed: {
     progress() {
       if (this.attachments.length) {
-        return Math.round(this.imported / this.attachments.length * 100)
+        return Math.round((this.imported+this.notImported) / this.attachments.length * 100)
       }
       if (this.attachmentsLearningMaturity.length) {
-        return Math.round(this.imported / this.attachmentsLearningMaturity.length * 100)
+        return Math.round((this.imported+this.notImported) / this.attachmentsLearningMaturity.length * 100)
       }
       return 0;
     }
@@ -85,7 +91,7 @@ export default {
         $this.attachments = frame.state().get('selection').models.map(model => model.attributes)
 
         Vue.notify({
-          title: this.$t('Files selected'),
+          title: $this.$t('Files selected'),
           type: 'success'
         })
       });
@@ -101,7 +107,7 @@ export default {
         $this.attachmentsLearningMaturity = frame.state().get('selection').models.map(model => model.attributes)
 
         Vue.notify({
-          title: this.$t('Files selected'),
+          title: $this.$t('Files selected'),
           type: 'success'
         })
       });
@@ -114,11 +120,12 @@ export default {
         return
       }
 
+      let $this = this;
       // Create a new media frame
       frame = wp.media({
-        title: this.$t('Select or Upload XML'),
+        title: $this.$t('Select or Upload XML'),
         button: {
-          text: this.$t('Use this XMLs'),
+          text: $this.$t('Use this XMLs'),
         },
         multiple: true,
       })
@@ -141,6 +148,8 @@ export default {
     async runImport(attachments, type) {
       this.importing = true;
       this.imported = 0;
+      this.notImported = 0;
+      this.failedImportAttachments = [];
       for (const attachment of attachments) {
         const formData = new FormData();
         formData.append("action", type);
@@ -148,9 +157,17 @@ export default {
         let response = await Api.post(ajaxurl, formData, {
           processData: false,
           contentType: false
+        }).then(response => {
+          if (response.data) {
+
+            this.imported++;
+          } else {
+            this.notImported++;
+            this.failedImportAttachmentIds.push(attachment.id)
+          }
+          console.log(response);
         })
 
-        this.imported++;
       }
 
       Vue.notify({

@@ -79,24 +79,24 @@ if ( ! class_exists( Catalogue::class ) ) {
 			Container::make( 'post_meta', 'Catalogue item data' )
 			         ->where( 'post_type', '=', $this->post_type )
 			         ->set_priority( 'low' )
-			         ->add_tab( __( 'General' ), CatalogueFields::get_carbon_fields( 'get_general_fields' ) )
-			         ->add_tab( __( 'Learning specification' ), CatalogueFields::get_carbon_fields( 'get_learning_specification_fields' ) )
-			         ->add_tab( __( 'Contact' ), CatalogueFields::get_carbon_fields( 'get_contact_fields' ) )
-			         ->add_tab( __( 'Related learning specifications' ), CatalogueFields::get_carbon_fields( 'get_part' ) );
+			         ->add_tab( __( 'General' ), CatalogueFields::get_carbon_fields( 'get_general_fields', $this->post_type ) )
+			         ->add_tab( __( 'Information about the LOpp' ), CatalogueFields::get_carbon_fields( 'get_information_about_the_lopp_fields',$this->post_type ) )
+			         ->add_tab( __( 'Learning specification' ), CatalogueFields::get_carbon_fields( 'get_learning_specification_fields', $this->post_type ) )
+			         ->add_tab( __( 'Contact' ), CatalogueFields::get_carbon_fields( 'get_contact_fields', $this->post_type ) )
+			         ->add_tab( __( 'Related learning specifications' ), CatalogueFields::get_carbon_fields( 'get_part', $this->post_type ) );
 		}
 
 		function add_content_after( $content ) {
 			global $post;
-
 			if ( is_single() && $post->post_type == $this->post_type ) {
-
 				$allMeta = get_post_meta( $post->ID, '', true );
 
 				$allMeta = array_map( function ( $n ) {
 					return $n[0];
 				}, $allMeta );
 
-				$content .= '<p>* This is only preview of the fields. Theme should handle view of the catalogue item fields! </p>';
+				// $content .= '<p>* This is only preview of the fields. Theme should handle view of the catalogue item fields! </p>';
+				$content .= '<p>'  . get_the_excerpt() . '</p>';
 				$content .= '
 
 				<table>
@@ -108,6 +108,24 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 
 				foreach ( CatalogueFields::get_general_fields() as $field ) :
+					$content .= '<tr>' .
+					            '<td>' . $field['title'] . '</td>' .
+					            '<td>' . ( $allMeta[ '_' . $field['slug'] ] ?? '' ) . '</td>'
+					            . '</tr>';
+				endforeach;
+				$content .= '
+
+					</tbody >
+				</table >
+				<table class="loc-other-information hidden">
+					<tbody>';
+
+				$content .= '<tr>' .
+				            '<th colspan="2">' . __( 'Information about the LOpp specification' ) . '</th>' .
+				            '</tr>';
+
+
+				foreach ( CatalogueFields::get_information_about_the_lopp_fields() as $field ) :
 					$content .= '<tr>' .
 					            '<td>' . $field['title'] . '</td>' .
 					            '<td>' . ( $allMeta[ '_' . $field['slug'] ] ?? '' ) . '</td>'
@@ -151,7 +169,9 @@ if ( ! class_exists( Catalogue::class ) ) {
 				$content .=
 					'
 					</tbody >
-				</table >';
+				</table >
+				<div class="w-full text-center"><button class="loc-show-other-information">' . __( 'Show more information' ) . '</button><button class="loc-hide-other-information hidden" >' . __( 'Hide more information' ) . '</button></div>
+				';
 
 			}
 

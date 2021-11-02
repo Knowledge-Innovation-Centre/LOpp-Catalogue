@@ -50,7 +50,7 @@ if ( ! class_exists( LearningOutcome::class ) ) {
 			Container::make( 'post_meta', 'Catalogue item data' )
 			         ->where( 'post_type', '=', $this->post_type )
 			         ->set_priority( 'low' )
-			         ->add_fields( LearningOutcomeFields::get_carbon_fields( 'get_general_fields' ) );
+			         ->add_fields( LearningOutcomeFields::get_carbon_fields( 'get_general_fields',$this->post_type ) );
 
 		}
 
