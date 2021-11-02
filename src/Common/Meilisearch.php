@@ -2,8 +2,6 @@
 
 namespace LearningOpportunitiesCatalogue\Common;
 
-use Carbon_Fields\Container;
-use Carbon_Fields\Field;
 use Exception;
 use MeiliSearch\Client;
 

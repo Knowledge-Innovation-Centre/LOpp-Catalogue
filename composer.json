@@ -32,7 +32,6 @@
         "codeception/module-webdriver": "^1.0",
         "codeception/util-universalframework": "^1.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-        "lucatume/wp-browser": "^2.6",
         "moderntribe/tribalscents": "dev-master",
         "phpunit/phpunit": "<9.5",
         "wp-coding-standards/wpcs": "^2.1"
