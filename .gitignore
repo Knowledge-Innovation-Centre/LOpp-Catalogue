@@ -7,7 +7,7 @@ dist/*
 node_modules/
 
 # Composer
-/vendor/
+#/vendor/
 /composer.phar
 *.zip
 
