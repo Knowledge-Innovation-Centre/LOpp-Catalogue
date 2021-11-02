@@ -28,7 +28,7 @@
  * Plugin URI:        https://knowledgeinnovation.eu/learning-opportunities-catalogue/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
- * Author:            Jure Jager - Knowledge Innovation
+ * Author:            Jure Jager & Carmen L. Padron - Knowledge Innovation
  * Author URI:        https://knowledgeinnovation.eu/
  * License:           GPL version 3 or any later version
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
