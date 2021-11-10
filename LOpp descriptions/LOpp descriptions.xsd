@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://data.europa.eu/snb" xmlns:snb="http://data.europa.eu/snb">
+  <xs:element name="learningOpportunity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:learningOpportunity_Identifier"/>
+        <xs:element ref="snb:title"/>
+        <xs:element ref="snb:description"/>
+        <xs:element ref="snb:additionalNote"/>
+        <xs:element ref="snb:homepage"/>
+        <xs:element ref="snb:startAtDate"/>
+        <xs:element ref="snb:endedAtDate"/>
+        <xs:element ref="snb:duration"/>
+        <xs:element ref="snb:learningSchedule"/>
+        <xs:element ref="snb:scheduleInformation"/>
+        <xs:element ref="snb:admissionProcedure"/>
+        <xs:element ref="snb:priceDetails"/>
+        <xs:element ref="snb:providedBy"/>
+        <xs:element ref="snb:typeOfProvider"/>
+        <xs:element ref="snb:providedAt"/>
+        <xs:element ref="snb:specifiedBy"/>
+        <xs:element ref="snb:agent"/>
+        <xs:element ref="snb:hasPart"/>
+        <xs:element ref="snb:bannerImage"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="learningOpportunity_Identifier" type="xs:NCName"/>
+  <xs:element name="additionalNote" type="snb:text"/>
+  <xs:element name="homepage" type="xs:anyURI"/>
+  <xs:element name="startAtDate" type="xs:date"/>
+  <xs:element name="endedAtDate" type="xs:date"/>
+  <xs:element name="duration" type="xs:integer"/>
+  <xs:element name="learningSchedule" type="snb:text"/>
+  <xs:element name="scheduleInformation" type="snb:text"/>
+  <xs:element name="admissionProcedure" type="snb:text"/>
+  <xs:element name="priceDetails" type="xs:integer"/>
+  <xs:element name="providedBy" type="snb:text"/>
+  <xs:element name="typeOfProvider" type="xs:string"/>
+  <xs:element name="providedAt" type="xs:anyURI"/>
+  <xs:element name="specifiedBy">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:learningSpecification"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="learningSpecification">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="snb:language"/>
+        <xs:element ref="snb:ECTSCreditPoints"/>
+        <xs:element ref="snb:ISCEDFCode"/>
+        <xs:element ref="snb:assessmentSpecification"/>
+        <xs:element ref="snb:awardingOpportunity"/>
+        <xs:element ref="snb:educationSubject"/>
+        <xs:element ref="snb:entryRequirementsNote"/>
+        <xs:element ref="snb:identifier"/>
+        <xs:element ref="snb:learningActivitiesSpefication"/>
+        <xs:element ref="snb:learningOpportunityType"/>
+        <xs:element ref="snb:learningOutcome"/>
+        <xs:element ref="snb:learningSettings"/>
+        <xs:element ref="snb:learningSpecificationID"/>
+        <xs:element ref="snb:mode"/>
+        <xs:element ref="snb:qualification"/>
+        <xs:element ref="snb:targetGroup"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ECTSCreditPoints" type="xs:string"/>
+  <xs:element name="ISCEDFCode" type="xs:string"/>
+  <xs:element name="assessmentSpecification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:assessmentType"/>
+        <xs:element ref="snb:assessorType"/>
+        <xs:element ref="snb:assessmentFormat"/>
+        <xs:element ref="snb:language"/>
+        <xs:element ref="snb:gradingSchema"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="assessmentType" type="xs:string"/>
+  <xs:element name="assessorType">
+    <xs:complexType>
+      <xs:attribute name="ECCOE" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="assessmentFormat">
+    <xs:complexType>
+      <xs:attribute name="ECCOE" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="gradingSchema">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="awardingOpportunity" type="xs:string"/>
+  <xs:element name="educationSubject" type="xs:string"/>
+  <xs:element name="entryRequirementsNote" type="snb:text"/>
+  <xs:element name="identifier" type="xs:NCName"/>
+  <xs:element name="learningActivitiesSpefication">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:learningActivityType"/>
+        <xs:element ref="snb:workload"/>
+        <xs:element ref="snb:language"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="learningActivityType" type="xs:string"/>
+  <xs:element name="workload" type="xs:NCName"/>
+  <xs:element name="learningOpportunityType" type="xs:NCName"/>
+  <xs:element name="learningOutcome">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:id"/>
+        <xs:element ref="snb:title"/>
+        <xs:element ref="snb:description"/>
+        <xs:element ref="snb:learningOutcomeType"/>
+        <xs:element ref="snb:reusabiltyLevel"/>
+        <xs:element maxOccurs="unbounded" ref="snb:relatedSkill"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="id" type="xs:NCName"/>
+  <xs:element name="learningOutcomeType" type="xs:string"/>
+  <xs:element name="reusabiltyLevel" type="xs:string"/>
+  <xs:element name="relatedSkill" type="xs:string"/>
+  <xs:element name="learningSettings" type="xs:NCName"/>
+  <xs:element name="learningSpecificationID" type="xs:NCName"/>
+  <xs:element name="mode" type="xs:NCName"/>
+  <xs:element name="qualification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:EQFLevel"/>
+        <xs:element ref="snb:NQFLevel"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EQFLevel" type="xs:string"/>
+  <xs:element name="NQFLevel" type="xs:string"/>
+  <xs:element name="targetGroup" type="xs:string"/>
+  <xs:element name="agent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:contactInfo"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="contactInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:note"/>
+        <xs:element ref="snb:contactForm"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="note" type="snb:text"/>
+  <xs:element name="contactForm" type="xs:anyURI"/>
+  <xs:element name="hasPart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="snb:LearningSpecification"/>
+      </xs:sequence>
+      <xs:attribute name="info" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LearningSpecification">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="bannerImage" type="xs:string"/>
+  <xs:element name="title" type="snb:text"/>
+  <xs:element name="description" type="snb:text"/>
+  <xs:complexType name="text">
+    <xs:sequence>
+      <xs:element ref="snb:text"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="text">
+    <xs:complexType mixed="true">
+      <xs:attribute name="content-type" use="required"/>
+      <xs:attribute name="lang" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="language" type="xs:string"/>
+</xs:schema>
