@@ -1,37 +1,27 @@
-# Parcel
-.cache/
-.parcel-cache/
-coverage/
-#dist/*
-!dist/index.html
-node_modules/
+# Build files
+/dist/
+/resources/styles/frontend/_sprite.scss
+/resources/styles/*.config.scss
 
-# Composer
-#/vendor/
-/composer.phar
-*.zip
+# Development files
+/config.json
 
-# PHP
-.phpcs.xml
-.phpunit.result.cache
-phpcs.xml
-phpunit.xml
+# Build modules
+/node_modules/
 
-# Tests
-!tests/_zips/*.zip
+# Composer packages
+/vendor/
 
-# Environment
-.env.local
+# NPM lockfile as it causes more problems than it solves
+package-lock.json
 
-# Logs
-/logs/
-*.log
-npm-debug.log*
+# WordPress test environment
+/tests/environment
 
-# IDE
-.idea
+# CLI tools
+drone.json
 
-# OS generated files
+# Common
 .DS_Store
 .DS_Store?
 ._*
@@ -39,6 +29,4 @@ npm-debug.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Miscellaneous
-*.local
+.idea
