@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<learningSettings_types>
+  
+   
+    <type lang="en" source="Europass Standard List Of Learning Setting Types" uri="http://data.europa.eu/snb/learning-setting/25831c2" label="formal learning" />
+    <type lang="en" source="Europass Standard List Of Learning Setting Types"  uri="http://data.europa.eu/snb/learning-setting/25831c2" label="non-formal learning" />
+   
+</learningSettings_types>

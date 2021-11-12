@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentTypes>
+    <type lang="en" source="ECCOE/EDDICO" label ="Quiz"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="Forum participation"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="Peer asseessment of ePortfolio"/> 
+    <type lang="en" source="ECCOE/EDDICO" label ="Formative asessment"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="Corporation"/>
+</assessmentTypes>

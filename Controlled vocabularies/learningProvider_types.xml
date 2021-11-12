@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<learningProvider_types>
+    <type lang="en" source="ECCOE/EDDICO" label ="European project"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="MOOC provider"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="HE Institution"/> 
+    <type lang="en" source="ECCOE/EDDICO" label ="Private provider-International initiative"/>
+    <type lang="en" source="ECCOE/EDDICO" label ="Corporation"/>
+</learningProvider_types>
