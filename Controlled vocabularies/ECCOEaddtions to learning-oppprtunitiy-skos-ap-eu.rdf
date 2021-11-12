@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xml:lang="en"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+ 
+    <!-- identifiers should be 10 digits long b2434ca358  notation 32 digits long notation_a95bbd0bcf5bc28e02be6fccdcd9de40-->
+    <rdf:Description rdf:about="http://data.europa.eu/snb/learning-opportunity/eccoeLOpp">
+        <startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-05-01</startDate>
+        <status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+        <xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/notation_eccoe0bcf5bc28e02be6fccdcd9de40"/>
+        <created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-04-18</created>
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.1.</versionInfo>
+        <inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/eccoe25831c2"/>
+        <notation xmlns="http://www.w3.org/2004/02/skos/core#"> OER type</notation>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en"> OER</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es"> Recurso Educativo Online</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Risorsa educativa aperta?</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Zaključno delo</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr"></prefLabel>
+        <topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/Add"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_X09711c00338fX"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <identifier xmlns="http://purl.org/dc/elements/1.1/">b2434ca370</identifier>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://data.europa.eu/snb/learning-opportunity/eccoeXXXX1">
+        <startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-05-01</startDate>
+        <status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+        <xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/notation_eccoe0bcf5bc28e02be6fccdcd9de40"/>
+        <created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-04-18</created>
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.1.</versionInfo>
+        <inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/eccoe25831c2"/>
+        <notation xmlns="http://www.w3.org/2004/02/skos/core#">Tool types</notation>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en"> Tool</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es"> Herramienta digital</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Risorsa educativa aperta?</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Zaključno delo</prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv"></prefLabel>
+        <prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr"></prefLabel>
+        <topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/Add"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_X09711c00338fX"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-opportunity/label_"/>
+        <identifier xmlns="http://purl.org/dc/elements/1.1/">b2434ca372</identifier>
+    </rdf:Description>
+</rdf:RDF>
