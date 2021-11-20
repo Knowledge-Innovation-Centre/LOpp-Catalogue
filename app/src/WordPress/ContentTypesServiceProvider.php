@@ -42,6 +42,7 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		$catalogueImporter = new CatalogueImporter();
 		add_action( 'wp_ajax_loc_catalog_import_xml', [$catalogueImporter, 'import' ] );
 		add_action( 'wp_ajax_loc_maturity_model_import_xml', [$catalogueImporter, 'import_maturity_model' ] );
+		add_action( 'wp_ajax_loc_vocabularies_import_xml', [$catalogueImporter, 'import_vocabularies' ] );
 
 		$learning_outcome = new LearningOutcome();
 		add_action( 'init', [$learning_outcome, 'register' ] );

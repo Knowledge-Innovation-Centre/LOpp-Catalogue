@@ -58,7 +58,7 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 					$field['max'] = (float) $this->end_meta_value( $slug, 'max' );
 					$field['min'] = (float) $this->end_meta_value( $slug, 'min' );
 				}
-				if ( $options[ $slugFilter ]->option_value == 'checkbox' ) {
+				if ( in_array($options[ $slugFilter ]->option_value, ['checkbox', 'dropdown']) ) {
 					if ( isset( $field['options'] ) ) {
 						$field['values'] = $field['options'];
 

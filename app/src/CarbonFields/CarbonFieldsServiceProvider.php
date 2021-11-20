@@ -88,6 +88,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 
 		Container::make( 'theme_options', __( 'LOC Options', 'learning_opportunities_catalogue' ) )
 			->set_page_file( 'learning_opportunities_catalogue-theme-options1.php' )
+			->set_page_menu_position( 80 )
 			->add_fields( [
 				\Carbon_Fields\Field::make( 'text', 'meilisearch_url', __( 'Meilisearch URL' ) ),
 				Field::make( 'text', 'meilisearch_key', __( 'Meilisearch API key' ) ),
@@ -128,6 +129,26 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 					->add_fields( [
 						Field::make( 'text', 'name', __( 'Name' ) )->set_width( 50 ),
 					] ),
+				Field::make( 'complex', 'iscedf_code' . self::crb_get_i18n_suffix(), __( 'ISCEDF Code' ) )
+					->set_layout( 'tabbed-horizontal' )
+					->add_fields( [
+						Field::make( 'text', 'name', __( 'Name' ) )->set_width( 50 ),
+					] ),
+				Field::make( 'complex', 'eqf_level' . self::crb_get_i18n_suffix(), __( 'EQF level' ) )
+					->set_layout( 'tabbed-horizontal' )
+					->add_fields( [
+						Field::make( 'text', 'name', __( 'Name' ) )->set_width( 50 ),
+					] ),
+				Field::make( 'complex', 'type_of_credential' . self::crb_get_i18n_suffix(), __( 'Type of credential' ) )
+					->set_layout( 'tabbed-horizontal' )
+					->add_fields( [
+						Field::make( 'text', 'name', __( 'Name' ) )->set_width( 50 ),
+					] ),
+				Field::make( 'complex', 'assessment_type' . self::crb_get_i18n_suffix(), __( 'Assessment type' ) )
+					->set_layout( 'tabbed-horizontal' )
+					->add_fields( [
+						Field::make( 'text', 'name', __( 'Name' ) )->set_width( 50 ),
+					] ),
 
 			] );
 
@@ -162,6 +183,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 
 
 		$container = Container::make( 'theme_options', __( 'LOC Fields settings' ) )
+			->set_page_menu_position( 80 )
 			->set_page_file( 'learning_opportunities_catalogue-theme-options2.php' );
 
 		foreach ( $fields as $fieldsForThemeOptions ) {
@@ -175,6 +197,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 					->set_options( [
 						'disable'  => __( 'Disable' ),
 						'checkbox' => __( 'Checkbox' ),
+						'dropdown' => __( 'Dropdown' ),
 						'slider'   => __( 'Slider' ),
 						'date'     => __( 'Date' ),
 					] )->set_width( 33 );
@@ -215,6 +238,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 						->set_options( [
 							'disable'  => __( 'Disable' ),
 							'checkbox' => __( 'Checkbox' ),
+							'dropdown' => __( 'Dropdown' ),
 							'slider'   => __( 'Slider' ),
 							'date'     => __( 'Date' ),
 						] )->set_width( 15 ),
@@ -287,7 +311,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 	 * @return void
 	 */
 	public function registerWidgets() {
-		register_widget( \LearningOpportunitiesCatalogue\Widgets\Carbon_Rich_Text_Widget::class );
+//		register_widget( \LearningOpportunitiesCatalogue\Widgets\Carbon_Rich_Text_Widget::class );
 	}
 
 
@@ -324,7 +348,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 		}
 
 		foreach ( $filter_fields as $field ) {
-			if (  in_array( $field['filter_type'], [  'checkbox', 'slider', 'date' ] )) {
+			if (  in_array( $field['filter_type'], [  'checkbox', 'dropdown', 'slider', 'date' ] )) {
 
 
 					$facets[] = $field['slug'];

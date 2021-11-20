@@ -44,6 +44,11 @@ trait CarbonFieldsHelper {
 				$addField = $addField->set_required(true);
 			}
 
+
+			if (  isset( $field['hint'])) {
+				$addField = $addField->set_help_text($field['hint']);
+			}
+
 			$fields[] = $addField;
 		}
 

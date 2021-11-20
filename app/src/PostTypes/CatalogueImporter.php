@@ -4,6 +4,7 @@ namespace LearningOpportunitiesCatalogue\PostTypes;
 
 // Abort if this file is called directly.
 use Exception;
+use LearningOpportunitiesCatalogue\CarbonFields\CarbonFieldsServiceProvider;
 use WP_Query;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -82,7 +83,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 					$dimension_id = $this->add_or_create_dimension_object( $post_type, $unique_id, $name );
 
 
-					foreach ( $dimension->subset as $subset ) {
+					foreach ( $dimension->subSet as $subset ) {
 						$post_type = DimensionSubset::POST_TYPE;
 
 						$subset_unique_id = (string) $subset['id'];
@@ -96,7 +97,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						$post_type = DimensionSubsetItem::POST_TYPE;
 
 						$unique_id   = $subset_unique_id . '_explorer_knowledge';
-						$name        = $subset_unique_id . ' Explorer knowledge';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Explorer knowledge';
 						$description = (string) $subset->explorer->knowledge['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -104,7 +105,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
 
 						$unique_id   = $subset_unique_id . '_explorer_skills';
-						$name        = $subset_unique_id . ' Explorer skills';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Explorer skills';
 						$description = (string) $subset->explorer->skills['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -112,7 +113,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'skills' );
 
 						$unique_id   = $subset_unique_id . '_explorer_attitudes';
-						$name        = $subset_unique_id . ' Explorer attitudes';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Explorer attitudes';
 						$description = (string) $subset->explorer->attitudes['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -121,7 +122,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 
 
 						$unique_id   = $subset_unique_id . '_expert_knowledge';
-						$name        = $subset_unique_id . ' Expert knowledge';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Expert knowledge';
 						$description = (string) $subset->expert->knowledge['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -129,7 +130,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
 
 						$unique_id   = $subset_unique_id . '_expert_skills';
-						$name        = $subset_unique_id . ' Expert skills';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Expert skills';
 						$description = (string) $subset->expert->skills['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -137,7 +138,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'skills' );
 
 						$unique_id   = $subset_unique_id . '_expert_attitudes';
-						$name        = $subset_unique_id . ' Expert attitudes';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Expert attitudes';
 						$description = (string) $subset->expert->attitudes['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -145,7 +146,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'attitudes' );
 
 						$unique_id   = $subset_unique_id . '_pioneer_knowledge';
-						$name        = $subset_unique_id . ' Pioneer knowledge';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Pioneer knowledge';
 						$description = (string) $subset->pioneer->knowledge['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -153,7 +154,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'knowledge' );
 
 						$unique_id   = $subset_unique_id . '_pioneer_skills';
-						$name        = $subset_unique_id . ' Pioneer skills';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Pioneer skills';
 						$description = (string) $subset->pioneer->skills['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -161,7 +162,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 						carbon_set_post_meta( $object_id, 'type', 'skills' );
 
 						$unique_id   = $subset_unique_id . '_pioneer_attitudes';
-						$name        = $subset_unique_id . ' Pioneer attitudes';
+						$name        = $subset_unique_id . ': ' . (string) $dimension['name'] .  ' -> ' . $subset['name'] . ' -> Pioneer attitudes';
 						$description = (string) $subset->pioneer->attitudes['text'];
 						$object_id   = $this->add_or_create_dimension_object( $post_type, $unique_id, $name, $description );
 						carbon_set_post_meta( $object_id, 'dimension_subset', $subset_id );
@@ -175,6 +176,57 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 				var_dump( $exception );
 			}
 
+			wp_send_json( true );
+		}
+
+		public function import_vocabularies() {
+			global $wpdb;
+			$xml_id = intval( $_POST['loc_xml_id'] );
+			$import_option_type = $_POST['import_option_type'];
+
+			$url = wp_get_attachment_url( $xml_id );
+
+			try {
+				$xml = simplexml_load_file( $url );
+
+				$wpdb->query('START TRANSACTION');
+				$items = [];
+				if ($xml->code) {
+					foreach ($xml->code as $code) {
+						if ((string)$code->attributes()->value) {
+							$items[] = ['name' => trim((string)$code->attributes()->value) . ' - ' . trim((string)$code->attributes()->description)];
+						}
+					}
+				}
+				if ($xml->type) {
+					foreach ( $xml->type as $type ) {
+						if ( (string) $type->attributes()->label ) {
+							$items[] = ['name' => trim((string) $type->attributes()->label)];
+						}
+					}
+				}
+				if ($xml->level) {
+					foreach ( $xml->level as $level ) {
+						if ( (string) $level->attributes()->label ) {
+							$items[] = ['name' => trim((string) $level->attributes()->label)];
+						}
+					}
+				}
+
+				var_dump($import_option_type . CarbonFieldsServiceProvider::crb_get_i18n_suffix());
+				carbon_set_theme_option( $import_option_type . CarbonFieldsServiceProvider::crb_get_i18n_suffix(), $items);
+
+				if ($this->importFailed) {
+					$wpdb->query('ROLLBACK');
+
+					wp_send_json( false );
+					return;
+				}
+
+				$wpdb->query('COMMIT');
+			} catch ( Exception $exception ) {
+				var_dump( $exception );
+			}
 			wp_send_json( true );
 		}
 
@@ -218,7 +270,7 @@ if ( ! class_exists( CatalogueImporter::class ) ) {
 			$data = array(
 				'post_title'   => wp_strip_all_tags( (string) $xmlTitle->text ),
 				'post_content' => (string) $xmlDescription->text,
-				'post_excerpt' => (string) $xmlExcerpt->text ?? null,
+				'post_excerpt' => (string) $xmlExcerpt->text ?? '',
 				'post_type'    => $post_type,
 				'post_status'  => 'publish',
 			);

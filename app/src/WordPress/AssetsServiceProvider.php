@@ -40,7 +40,7 @@ class AssetsServiceProvider implements ServiceProviderInterface
 		\LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
 			'theme-js-bundle',
 			\LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.js' ),
-			[ 'jquery' ],
+			[ 'jquery', 'jquery-ui-tabs' ],
 			true
 		);
 

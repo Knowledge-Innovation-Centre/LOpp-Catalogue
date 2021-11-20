@@ -9383,13 +9383,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var frame = void 0;
+var frame = null;
 exports.default = {
   data: function data() {
     return {
       attachments: [],
       attachmentsLearningMaturity: [],
+      attachmentsVocabulary: [],
       importing: false,
+      selectedImportType: 'iscedf_code',
       imported: 0,
       notImported: 0,
       failedImportAttachmentIds: []
@@ -9404,6 +9406,9 @@ exports.default = {
       if (this.attachmentsLearningMaturity.length) {
         return Math.round((this.imported + this.notImported) / this.attachmentsLearningMaturity.length * 100);
       }
+      if (this.attachmentsVocabulary.length) {
+        return Math.round((this.imported + this.notImported) / this.attachmentsVocabulary.length * 100);
+      }
       return 0;
     }
   },
@@ -9415,7 +9420,7 @@ exports.default = {
       event.preventDefault();
 
       var $this = this;
-      var frame = this.openFrame();
+      frame = this.openFrame();
 
       frame.on('select', function () {
         $this.attachments = frame.state().get('selection').models.map(function (model) {
@@ -9432,7 +9437,7 @@ exports.default = {
       event.preventDefault();
 
       var $this = this;
-      var frame = this.openFrame();
+      frame = this.openFrame();
 
       frame.on('select', function () {
         $this.attachmentsLearningMaturity = frame.state().get('selection').models.map(function (model) {
@@ -9445,11 +9450,24 @@ exports.default = {
         });
       });
     },
+    runUploader2: function runUploader2(event) {
+      event.preventDefault();
+
+      var $this = this;
+      frame = this.openFrame();
+
+      frame.on('select', function () {
+        $this.attachmentsVocabulary = frame.state().get('selection').models.map(function (model) {
+          return model.attributes;
+        });
+
+        _vue2.default.notify({
+          title: $this.$t('Files selected'),
+          type: 'success'
+        });
+      });
+    },
     openFrame: function openFrame() {
-      if (frame) {
-        frame.open();
-        return;
-      }
 
       var $this = this;
 
@@ -9475,6 +9493,11 @@ exports.default = {
 
       this.runImport(this.attachmentsLearningMaturity, "loc_maturity_model_import_xml");
     },
+    runImporterVocabulary: function runImporterVocabulary(event) {
+      event.preventDefault();
+
+      this.runImport(this.attachmentsVocabulary, "loc_vocabularies_import_xml");
+    },
     runImport: function runImport(attachments, type) {
       var _this = this;
 
@@ -9499,7 +9522,8 @@ exports.default = {
 
                           formData.append("action", type);
                           formData.append("loc_xml_id", attachment.id);
-                          _context.next = 5;
+                          formData.append("import_option_type", _this.selectedImportType);
+                          _context.next = 6;
                           return _Api2.default.post(ajaxurl, formData, {
                             processData: false,
                             contentType: false
@@ -9511,13 +9535,12 @@ exports.default = {
                               _this.notImported++;
                               _this.failedImportAttachmentIds.push(attachment.id);
                             }
-                            console.log(response);
                           });
 
-                        case 5:
+                        case 6:
                           response = _context.sent;
 
-                        case 6:
+                        case 7:
                         case 'end':
                           return _context.stop();
                       }
@@ -10893,12 +10916,12 @@ module.exports = function isAxiosError(payload) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ render; });
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ staticRenderFns; });
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/scripts/admin/App.vue?vue&type=template&id=278a6e0c&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('notifications'),_vm._v(" "),_c('h1',{staticClass:"tw-my-2 tw-text-2xl"},[_vm._v(_vm._s(_vm.$t('Import catalog items and learning maturity models')))]),_vm._v(" "),_c('div',{staticClass:"tw-grid tw-grid-cols-2 tw-gap-5"},[_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white",on:{"click":_vm.runUploader}},[_vm._v("\n        "+_vm._s(_vm.$t('Select Catalog XML'))+"\n      ")]),_vm._v("\n\n      "+_vm._s(_vm.$t('Selected files:'))+"\n      "),(!_vm.attachments.length)?_c('div',[_vm._v(_vm._s(_vm.$t('No files selected')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.attachments),function(attachment){return _c('div',{staticClass:"tw-mt-5",class:_vm.failedImportAttachmentIds.includes(attachment.id) ? 'tw-text-red-500' : ''},[_vm._v("\n         "+_vm._s(attachment.name)+"\n      ")])}),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5",on:{"click":_vm.runImporterCatalog}},[_vm._v("\n          "+_vm._s(_vm.$t('Import Catalog'))+"\n\n        ")])])],2),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white",on:{"click":_vm.runUploader1}},[_vm._v("\n        "+_vm._s(_vm.$t('Select learning maturity model XML'))+"\n      ")]),_vm._v(" "),_vm._l((_vm.attachmentsLearningMaturity),function(attachmentLearningMaturity){return _c('div',{staticClass:"tw-mt-5"},[_vm._v("\n        "+_vm._s(_vm.$t('Selected files:'))+" "+_vm._s(attachmentLearningMaturity.name)+"\n      ")])}),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5",on:{"click":_vm.runImporterMaturity}},[_vm._v("\n          "+_vm._s(_vm.$t('Import learning maturity model'))+"\n\n        ")])])],2)]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Imported:'))+" "+_vm._s(_vm.imported))]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Failed to imported:'))+" "+_vm._s(_vm.notImported))]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Progress:'))+" "+_vm._s(_vm.progress)+"%")])],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/scripts/admin/App.vue?vue&type=template&id=869decda&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('notifications'),_vm._v(" "),_c('h1',{staticClass:"tw-my-5 tw-text-2xl"},[_vm._v(_vm._s(_vm.$t('Import catalog items and learning maturity models')))]),_vm._v(" "),_c('div',{staticClass:"tw-grid tw-grid-cols-3 tw-gap-5"},[_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white",on:{"click":_vm.runUploader}},[_vm._v("\n          "+_vm._s(_vm.$t('Select Catalog XML'))+"\n        ")]),_vm._v("\n\n        "+_vm._s(_vm.$t('Selected files:'))+"\n        "),(!_vm.attachments.length)?_c('div',[_vm._v(_vm._s(_vm.$t('No files selected')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.attachments),function(attachment){return _c('div',{staticClass:"tw-mt-5",class:_vm.failedImportAttachmentIds.includes(attachment.id) ? 'tw-text-red-500' : ''},[_vm._v("\n           "+_vm._s(attachment.name)+"\n        ")])}),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5",attrs:{"disabled":!_vm.attachments.length},on:{"click":_vm.runImporterCatalog}},[_vm._v("\n            "+_vm._s(_vm.$t('Import Catalog'))+"\n\n          ")])])],2),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white",on:{"click":_vm.runUploader1}},[_vm._v("\n          "+_vm._s(_vm.$t('Select learning maturity model XML'))+"\n        ")]),_vm._v(" "),_vm._l((_vm.attachmentsLearningMaturity),function(attachmentLearningMaturity){return _c('div',{staticClass:"tw-mt-5"},[_vm._v("\n          "+_vm._s(_vm.$t('Selected files:'))+" "+_vm._s(attachmentLearningMaturity.name)+"\n        ")])}),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5",attrs:{"disabled":!_vm.attachmentsLearningMaturity.length},on:{"click":_vm.runImporterMaturity}},[_vm._v("\n            "+_vm._s(_vm.$t('Import learning maturity model'))+"\n\n          ")])])],2),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white",on:{"click":_vm.runUploader2}},[_vm._v("\n          "+_vm._s(_vm.$t('Select controlled vocabularies XML'))+"\n        ")]),_vm._v(" "),_vm._l((_vm.attachmentsVocabulary),function(attachmentVocabulary){return _c('div',{staticClass:"tw-mt-5"},[_vm._v("\n          "+_vm._s(_vm.$t('Selected files:'))+" "+_vm._s(attachmentVocabulary.name)+"\n        ")])}),_c('div',{staticClass:"tw-flex tw-flex-col tw-mt-4"},[_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"iscedf_code"},domProps:{"checked":_vm._q(_vm.selectedImportType,"iscedf_code")},on:{"change":function($event){_vm.selectedImportType="iscedf_code"}}}),_vm._v(" ISCEDF codes\n\t\t\t")]),_vm._v(" "),_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"assessment_type"},domProps:{"checked":_vm._q(_vm.selectedImportType,"assessment_type")},on:{"change":function($event){_vm.selectedImportType="assessment_type"}}}),_vm._v(" Assessment types\n\t\t\t")]),_vm._v(" "),_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"type_of_credential"},domProps:{"checked":_vm._q(_vm.selectedImportType,"type_of_credential")},on:{"change":function($event){_vm.selectedImportType="type_of_credential"}}}),_vm._v(" Types of credential\n\t\t\t")]),_vm._v(" "),_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"eqf_level"},domProps:{"checked":_vm._q(_vm.selectedImportType,"eqf_level")},on:{"change":function($event){_vm.selectedImportType="eqf_level"}}}),_vm._v(" EQF levels\n\t\t\t")]),_vm._v(" "),_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"provider_types"},domProps:{"checked":_vm._q(_vm.selectedImportType,"provider_types")},on:{"change":function($event){_vm.selectedImportType="provider_types"}}}),_vm._v(" Provider types\n\t\t\t")]),_vm._v(" "),_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.selectedImportType),expression:"selectedImportType"}],attrs:{"type":"radio","value":"learning_settings"},domProps:{"checked":_vm._q(_vm.selectedImportType,"learning_settings")},on:{"change":function($event){_vm.selectedImportType="learning_settings"}}}),_vm._v(" Learning setting\n\t\t\t")])]),_vm._v(" "),_c('div',[_c('button',{staticClass:"tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5",attrs:{"disabled":!_vm.attachmentsVocabulary.length},on:{"click":_vm.runImporterVocabulary}},[_vm._v("\n            "+_vm._s(_vm.$t('Import controlled vocabularies'))+"\n\n          ")])])],2)]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Imported:'))+" "+_vm._s(_vm.imported))]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Failed to imported:'))+" "+_vm._s(_vm.notImported))]),_vm._v(" "),_c('div',{staticClass:"tw-mt-5"},[_vm._v(_vm._s(_vm.$t('Progress:'))+" "+_vm._s(_vm.progress)+"%")])],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./resources/scripts/admin/App.vue?vue&type=template&id=278a6e0c&
+// CONCATENATED MODULE: ./resources/scripts/admin/App.vue?vue&type=template&id=869decda&
 
 
 /***/ }),
@@ -11003,7 +11026,7 @@ if (document.getElementById("vue-admin")) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _App_vue_vue_type_template_id_278a6e0c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
+/* harmony import */ var _App_vue_vue_type_template_id_869decda___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
 /* harmony import */ var _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _App_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(92);
@@ -11018,8 +11041,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(
   _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _App_vue_vue_type_template_id_278a6e0c___WEBPACK_IMPORTED_MODULE_0__[/* render */ "a"],
-  _App_vue_vue_type_template_id_278a6e0c___WEBPACK_IMPORTED_MODULE_0__[/* staticRenderFns */ "b"],
+  _App_vue_vue_type_template_id_869decda___WEBPACK_IMPORTED_MODULE_0__[/* render */ "a"],
+  _App_vue_vue_type_template_id_869decda___WEBPACK_IMPORTED_MODULE_0__[/* staticRenderFns */ "b"],
   false,
   null,
   null,

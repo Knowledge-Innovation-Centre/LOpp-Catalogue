@@ -28,7 +28,8 @@ if ( ! class_exists( Dimension::class ) ) {
 			if ( ! $enable_lmm ) {
 				return;
 			}
-			register_extended_post_type( $this->post_type, [], [
+			register_extended_post_type( $this->post_type, [
+				'menu_position'=> 52,], [
 				'singular' => 'LMM dimension',
 				'plural'   => 'LMM dimensions',
 			] );

@@ -1,25 +1,10 @@
 <template>
   <div class="container">
-    <div class="tw-grid tw-grid-cols-4 tw-gap-10">
+    <div class="tw-mx-5">
 
-      <div class="tw-col-span-1">
-      </div>
-      <div class="tw-col-span-3 tw-flex tw-justify-between">
-        <div>
-          <select v-model="limit">
-            <option :value="3">3</option>
-            <option :value="6">6</option>
-            <option :value="12">12</option>
-            <option :value="24">24</option>
-            <option :value="48">48</option>
-            <option :value="96">96</option>
-          </select>
-        </div>
-        <input v-model="searchString" :placeholder="$t('Search...')" type="text"/>
-      </div>
-      <div class="tw-col-span-1">
+      <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
 
-        <div v-for="(filterField, index) in filterFields" class="tw-mb-5" :key="index">
+        <div v-for="(filterField, index) in filterFields" class="tw-mb-5 tw-mr-0 sm:tw-mr-5" :key="index">
           <h4 class="tw-mb-3">{{ filterField.title }}</h4>
           <date-picker v-if="filterField.type === 'date'" @input="filterDate($event, filterField.field)"></date-picker>
 
@@ -32,6 +17,16 @@
               @change="search()"
 
           ></vue-slider>
+          <select
+              v-else-if="filterField.type === 'dropdown'"
+			  class="tw-max-w-full"
+              v-model="filterValues[filterField.field]"
+              @change="search()"
+          >
+			  <option :value="key" v-for="(value, key) in filterField.values" :key="key">
+				  {{ value }}
+			  </option>
+		  </select>
 
           <ul v-else class="tw-list-none tw-p-0">
 
@@ -42,9 +37,15 @@
             </li>
           </ul>
 
+
         </div>
+		  <div class="tw-mb-5">
+
+		  <h4 class="tw-mb-3">{{ $t('Search') }}</h4>
+			<input v-model="searchString" :placeholder="$t('Enter text')" type="text"/>
+		  </div>
       </div>
-      <div class="tw-col-span-3">
+      <div class="">
         <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
         <span v-if="meilisearchFail">
                 {{
@@ -53,7 +54,15 @@
               </span>
         <hits v-else :hits="hits"></hits>
       </div>
-      <div class="tw-col-span-4">
+      <div class="tw-flex tw-justify-between tw-mt-5">
+		  <select v-model="limit">
+			  <option :value="3">3</option>
+			  <option :value="6">6</option>
+			  <option :value="12">12</option>
+			  <option :value="24">24</option>
+			  <option :value="48">48</option>
+			  <option :value="96">96</option>
+		  </select>
         <pagination :limit="limit" :offset="offset" :nb-hits="nbHits"
                     @update-offset="updateOffset($event)"></pagination>
       </div>
@@ -156,7 +165,7 @@ export default {
             this.$set(this.filterValues, field.slug, [field.min, field.max])
 
           }
-          if (field.filter === 'checkbox') {
+          if (['checkbox', 'dropdown'].includes(field.filter)) {
             filter.values = field.values;
             this.$set(this.filterValues, field.slug, [])
           }

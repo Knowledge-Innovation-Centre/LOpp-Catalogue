@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <notifications></notifications>
-    <h1 class="tw-my-2 tw-text-2xl">{{ $t('Import catalog items and learning maturity models') }}</h1>
-    <div class="tw-grid tw-grid-cols-2 tw-gap-5">
+    <h1 class="tw-my-5 tw-text-2xl">{{ $t('Import catalog items and learning maturity models') }}</h1>
+    <div class="tw-grid tw-grid-cols-3 tw-gap-5">
 
       <div>
         <button class="tw-bg-blue-600 tw-p-3 tw-text-white" @click="runUploader">
@@ -16,7 +16,7 @@
         </div>
 
         <div>
-          <button class="tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5" @click="runImporterCatalog">
+          <button :disabled="!attachments.length" class="tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5" @click="runImporterCatalog">
             {{ $t('Import Catalog') }}
 
           </button>
@@ -32,8 +32,44 @@
         </div>
 
         <div>
-          <button class="tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5" @click="runImporterMaturity">
+          <button :disabled="!attachmentsLearningMaturity.length" class="tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5" @click="runImporterMaturity">
             {{ $t('Import learning maturity model') }}
+
+          </button>
+        </div>
+      </div>
+		<div>
+        <button class="tw-bg-blue-600 tw-p-3 tw-text-white" @click="runUploader2">
+          {{ $t('Select controlled vocabularies XML') }}
+        </button>
+
+        <div class="tw-mt-5" v-for="attachmentVocabulary in attachmentsVocabulary">
+          {{ $t('Selected files:') }} {{ attachmentVocabulary.name }}
+        </div><div class="tw-flex tw-flex-col tw-mt-4">
+
+			<label>
+				<input type="radio" v-model="selectedImportType" value="iscedf_code"> ISCEDF codes
+			</label>
+			<label>
+				<input type="radio" v-model="selectedImportType" value="assessment_type"> Assessment types
+			</label>
+			<label>
+				<input type="radio" v-model="selectedImportType" value="type_of_credential"> Types of credential
+			</label>
+			<label>
+				<input type="radio" v-model="selectedImportType" value="eqf_level"> EQF levels
+			</label>
+			<label>
+				<input type="radio" v-model="selectedImportType" value="provider_types"> Provider types
+			</label>
+			<label>
+				<input type="radio" v-model="selectedImportType" value="learning_settings"> Learning setting
+			</label>
+
+		</div>
+        <div>
+          <button :disabled="!attachmentsVocabulary.length" class="tw-bg-blue-600 tw-p-3 tw-text-white tw-mt-5" @click="runImporterVocabulary">
+            {{ $t('Import controlled vocabularies') }}
 
           </button>
         </div>
@@ -52,13 +88,15 @@
 import Api from "../Api";
 import Vue from 'vue'
 
-let frame
+let frame = null
 export default {
   data() {
     return {
       attachments: [],
       attachmentsLearningMaturity: [],
+		attachmentsVocabulary: [],
       importing: false,
+		selectedImportType: 'iscedf_code',
       imported: 0,
       notImported: 0,
       failedImportAttachmentIds: [],
@@ -72,6 +110,9 @@ export default {
       if (this.attachmentsLearningMaturity.length) {
         return Math.round((this.imported+this.notImported) / this.attachmentsLearningMaturity.length * 100)
       }
+      if (this.attachmentsVocabulary.length) {
+        return Math.round((this.imported+this.notImported) / this.attachmentsVocabulary.length * 100)
+      }
       return 0;
     }
   },
@@ -84,7 +125,7 @@ export default {
       event.preventDefault()
 
       let $this = this;
-      let frame = this.openFrame()
+	  frame = this.openFrame()
 
       // When an image is selected in the media frame...
       frame.on('select', function () {
@@ -100,7 +141,7 @@ export default {
       event.preventDefault()
 
       let $this = this;
-      let frame = this.openFrame()
+	  frame = this.openFrame()
 
       // When an image is selected in the media frame...
       frame.on('select', function () {
@@ -112,13 +153,29 @@ export default {
         })
       });
     },
+    runUploader2(event) {
+      event.preventDefault()
+
+      let $this = this;
+       frame = this.openFrame()
+
+      // When an image is selected in the media frame...
+      frame.on('select', function () {
+        $this.attachmentsVocabulary = frame.state().get('selection').models.map(model => model.attributes)
+
+        Vue.notify({
+          title: $this.$t('Files selected'),
+          type: 'success'
+        })
+      });
+    },
     openFrame() {
 
       // If the media frame already exists, reopen it.
-      if (frame) {
-        frame.open()
-        return
-      }
+      // if (frame) {
+      //   frame.open()
+      //   return
+      // }
 
       let $this = this;
       // Create a new media frame
@@ -145,6 +202,11 @@ export default {
 
       this.runImport(this.attachmentsLearningMaturity, "loc_maturity_model_import_xml");
     },
+    runImporterVocabulary(event) {
+      event.preventDefault()
+
+      this.runImport(this.attachmentsVocabulary, "loc_vocabularies_import_xml");
+    },
     async runImport(attachments, type) {
       this.importing = true;
       this.imported = 0;
@@ -154,6 +216,7 @@ export default {
         const formData = new FormData();
         formData.append("action", type);
         formData.append("loc_xml_id", attachment.id);
+        formData.append("import_option_type", this.selectedImportType);
         let response = await Api.post(ajaxurl, formData, {
           processData: false,
           contentType: false
@@ -165,9 +228,7 @@ export default {
             this.notImported++;
             this.failedImportAttachmentIds.push(attachment.id)
           }
-          console.log(response);
         })
-
       }
 
       Vue.notify({

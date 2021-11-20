@@ -12,7 +12,7 @@
     </div>
     <div class="tw-hidden sm:tw-flex-1 sm:tw-flex sm:tw-items-center sm:tw-justify-between">
       <div>
-        <p class="tw-text-sm tw-text-gray-800">
+        <p class="tw-text-sm tw-text-gray-800 tw-mr-5">
           {{ $t('Showing') }}
           <span class="tw-font-medium">{{ offset + 1 }}</span>
           {{ $t('to') }}

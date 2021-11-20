@@ -26,7 +26,8 @@ if ( ! class_exists( DimensionSubsetItem::class ) ) {
 			if ( ! $enable_lmm ) {
 				return;
 			}
-			register_extended_post_type( $this->post_type, [], [
+			register_extended_post_type( $this->post_type, [
+				'menu_position'=> 54,], [
 				'singular' => 'LMM dimension subset item',
 				'plural'   => 'LMM dimension subset items',
 			] );

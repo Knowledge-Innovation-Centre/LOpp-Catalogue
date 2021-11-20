@@ -2,7 +2,6 @@
 
 namespace LearningOpportunitiesCatalogue\WordPress;
 
-use LearningOpportunitiesCatalogue\PluginData as PluginData;
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
 
 /**
