@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<efqlLevels>
+<eqfLevels>
     <level label="EQFLevel 1"/>
     <level label="EQFLevel 2"/>
     <level label="EQFLevel 3"/>
@@ -8,4 +8,4 @@
     <level label="EQFLevel 6"/>
     <level label=" EQFLevel 7"/>
     <level label=" EQFLevel 8"/>
-</efqlLevels>
+</eqfLevels>
