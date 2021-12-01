@@ -18,6 +18,8 @@ if ( ! class_exists( Catalogue::class ) ) {
 	class Catalogue {
 		public $post_type = 'loc_catalogue_item';
 		const POST_TYPE = 'loc_catalogue_item';
+		private $is_url_fields = [];
+		private $is_url_options = [];
 
 		public function register() {
 			register_extended_post_type( $this->post_type, [
@@ -25,6 +27,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 				'has_archive' => true,
 				'menu_position'=> 50,
 				'supports'    => [ 'title', 'thumbnail', 'editor', 'excerpt' ],
+				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE
 				// 'capabilities' => [
 				// 	'edit_post'          => 'edit_catalogue_item',
 				// 	'read_post'          => 'read_catalogue_item',
@@ -103,8 +106,10 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 		function add_content_after( $content ) {
 			global $post;
+			global $wpdb;
 			if ( is_single() && $post->post_type == $this->post_type ) {
 				$content .= '<p>'  . $post->post_excerpt . '</p>';
+			$this->is_url_fields = [];
 
 
 				$fields =  $this->filterVisible(CatalogueFields::get_general_fields(), Catalogue::POST_TYPE);
@@ -113,9 +118,21 @@ if ( ! class_exists( Catalogue::class ) ) {
 				$contactFields =  $this->filterVisible(CatalogueFields::get_contact_fields(), Catalogue::POST_TYPE);
 
 
+				$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_is_url'";
+				$this->is_url_options = $wpdb->get_results( $query, OBJECT_K );
+
+				foreach (array_merge($fields, $informationAboutTheLoopFields, $learningSpecificationFields, $contactFields) as $field) {
+					$slugFilter = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_is_url';
+					if ( ! isset( $this->is_url_options[ $slugFilter ] ) || $this->is_url_options[ $slugFilter ]->option_value !== 'yes' ) {
+						continue;
+					}
+					$this->is_url_fields[] = $field['slug'];
+				}
+
+
 				$content .= '
 				<div id="tabs">
-				  <ul class="tw-flex tw-flex-col md:tw-flex-row">
+				  <ul class="tw-flex tw-flex-col sm:tw-flex-row">
 					<li class="tw-border tw-border-solid tw-border-gray-800"><a href="#tabs-1">' . __( 'General data' ) . '</a></li>';
 
 						if (count($informationAboutTheLoopFields)):
@@ -190,6 +207,10 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 			if (is_string($value)) {
 
+				if (in_array($slug, $this->is_url_fields)) {
+					$value = '<a target="_blank" href="'. $value . '">'. $value .'</a>';
+				}
+
 			return '<tr>' .
 				'<td>' . $title . '</td>' .
 				'<td>' . $value . '</td>'
@@ -214,6 +235,15 @@ if ( ! class_exists( Catalogue::class ) ) {
 					}
 					if (isset($valueItem['subtype']) && $valueItem['subtype'] == LearningOutcome::POST_TYPE) {
 						$fields = $this->filterVisible(LearningOutcomeFields::get_general_fields(), LearningOutcome::POST_TYPE);
+
+						foreach ($fields as $field) {
+							$slugFilter = '_' . $field['slug'] . '_' . LearningOutcome::POST_TYPE . '_is_url';
+							if ( ! isset( $this->is_url_options[ $slugFilter ] ) || $this->is_url_options[ $slugFilter ]->option_value !== 'yes' ) {
+								continue;
+							}
+							$this->is_url_fields[] = $field['slug'];
+						}
+
 						foreach ( $fields as $field ) :
 							$content .= $this->getTableRowCarbon($valueItem['id'], $field['slug'], $field['title']);
 						endforeach;

@@ -43,6 +43,12 @@ if ( ! class_exists( LearningOutcomeFields::class ) ) {
 					'title'    => __( 'Reusability level' )
 				],
 				[
+					'type'     => 'text',
+					'slug'     => 'related_skill',
+					'xml_slug' => $prefix . 'relatedSkill',
+					'title'    => __( 'Related skill' )
+				],
+				[
 					'type'          => 'complex',
 					'slug'          => 'learning_maturity_model_skills',
 					'xml_slug'      => $prefix . 'relatedSkill',

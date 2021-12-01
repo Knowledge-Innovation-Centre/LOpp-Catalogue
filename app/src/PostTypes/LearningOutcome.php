@@ -31,6 +31,8 @@ if ( ! class_exists( LearningOutcome::class ) ) {
 				# Override the base names used for labels:
 				'singular' => 'Learning Outcome',
 				'plural'   => 'Learning Outcomes',
+				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE,
+				'show_in_nav_menus' => false
 
 			] );
 

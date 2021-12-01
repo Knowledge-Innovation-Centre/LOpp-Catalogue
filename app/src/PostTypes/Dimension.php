@@ -32,6 +32,7 @@ if ( ! class_exists( Dimension::class ) ) {
 				'menu_position'=> 52,], [
 				'singular' => 'LMM dimension',
 				'plural'   => 'LMM dimensions',
+				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE
 			] );
 
 		}

@@ -30,6 +30,7 @@ if ( ! class_exists( DimensionSubsetItem::class ) ) {
 				'menu_position'=> 54,], [
 				'singular' => 'LMM dimension subset item',
 				'plural'   => 'LMM dimension subset items',
+				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE
 			] );
 
 		}
