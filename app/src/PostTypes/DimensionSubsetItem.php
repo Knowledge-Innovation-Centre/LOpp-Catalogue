@@ -27,10 +27,11 @@ if ( ! class_exists( DimensionSubsetItem::class ) ) {
 				return;
 			}
 			register_extended_post_type( $this->post_type, [
-				'menu_position'=> 54,], [
+				'menu_position'=> 54,
+				'show_in_menu' => false
+			], [
 				'singular' => 'LMM dimension subset item',
 				'plural'   => 'LMM dimension subset items',
-				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE
 			] );
 
 		}

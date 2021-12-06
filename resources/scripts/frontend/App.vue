@@ -58,7 +58,7 @@
         <hits v-else :hits="hits"></hits>
       </div>
       <div class="tw-flex tw-justify-between tw-mt-5">
-		  <select class="tw-w-20" v-model="limit">
+		  <select class="tw-w-20-important" v-model="limit">
 			  <option :value="3">3</option>
 			  <option :value="6">6</option>
 			  <option :value="12">12</option>
@@ -349,5 +349,8 @@ export default {
   }
 }
 
+.tw-w-20-important {
+	width: 5rem !important;
+}
 
 </style>

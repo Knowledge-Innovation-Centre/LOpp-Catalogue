@@ -26,6 +26,7 @@ if ( ! class_exists( LearningOutcome::class ) ) {
 			register_extended_post_type( $this->post_type, [
 				'admin_cols' => $this->get_admin_cols(),
 				'menu_position'=> 51,
+				'show_in_menu' => false
 			], [
 
 				# Override the base names used for labels:

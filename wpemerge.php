@@ -3,7 +3,7 @@
  * Plugin Name: Learning Opportunities Catalogue
  * Plugin URI: https://knowledgeinnovation.eu/
  * Description:
- * Version: 1.4.1
+ * Version: 1.5.0
  * Requires at least: 4.7
  * Requires PHP: 5.5.9
  * Author: Jure Jager & Carmen L. Padron - Knowledge innovation
