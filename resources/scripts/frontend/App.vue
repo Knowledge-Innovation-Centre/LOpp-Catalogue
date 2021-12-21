@@ -234,7 +234,7 @@ export default {
           }
           filters.push(" ((" + slug + " >= " + value[0] + " AND " + slug + " <= " + value[1] + ") OR " + slug + " = '') ")
         }
-        if (filterField.type === 'checkbox') {
+        if (['checkbox'].includes(filterField.type)) {
           if (!value.length) {
             continue;
           }
@@ -250,6 +250,16 @@ export default {
 
 				index++;
 			}
+			facet += ") ";
+			filters.push(facet);
+        }
+        if (['dropdown'].includes(filterField.type)) {
+          if (!value) {
+            continue;
+          }
+			let facet = " (";
+				facet += slug + " = " + "'" + value + "'";
+
 			facet += ") ";
 			filters.push(facet);
         }

@@ -187,6 +187,11 @@ if ( ! class_exists( Catalogue::class ) ) {
 				  </div>
 				</div>';
 
+				$catalogue_search_page = carbon_get_theme_option( 'catalogue_search_page' );
+
+				if (count($catalogue_search_page)) {
+					$content .= __('<p><a href="' . get_permalink($catalogue_search_page[0]['id']) . '">Back to search</a></p>');
+				}
 			}
 
 
@@ -198,7 +203,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 		{
 			return '<tr>' .
 				'<td>' . $title . '</td>' .
-				'<td>' . $value . '</td>'
+				'<td>' . ($value ?: __('No data available')) . '</td>'
 				. '</tr>';
 
 		}
@@ -208,13 +213,11 @@ if ( ! class_exists( Catalogue::class ) ) {
 			if (is_string($value)) {
 
 				if (in_array($slug, $this->is_url_fields)) {
+
 					$value = '<a target="_blank" href="'. $value . '">'. $value .'</a>';
 				}
 
-			return '<tr>' .
-				'<td>' . $title . '</td>' .
-				'<td>' . $value . '</td>'
-				. '</tr>';
+				return $this->getTableRow($title, $value);
 			}
 
 			$content = '';

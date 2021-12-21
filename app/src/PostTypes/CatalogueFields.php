@@ -221,14 +221,14 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'xml_slug' => $prefix . 'ISCEDFCode',
 					'title'    => __( 'ISCEDF Code' ),
 					'options'  => self::get_options( 'iscedf_code', 'name', 'name' ),
-					'hint' => __(''),
+					'hint' => __('The field of education for which the accreditation is valid. ISCED codes'),
 				],
 				[
 					'type'     => 'text',
 					'slug'     => 'education_subject',
 					'xml_slug' => $prefix . 'educationSubject',
 					'title'    => __( 'Education subject' ),
-					'hint' => __('The field of education for which the accreditation is valid. ISCED codes'),
+					'hint' => __(''),
 				],
 				[
 					'type'     => 'select',
@@ -260,7 +260,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'class'     => LearningOutcome::class,
 					'fields'    => LearningOutcomeFields::class,
 					'prefix'    => $prefix . 'learningOutcome',
-					'hint' => __('Expected learning outcomes: he expected learning outcomes this learning activity specification can lead or contribute to.'),
+					'hint' => __('Expected learning outcomes: he expected learning outcomes this learning activity specification can lead or contribute to. <a href="/wp-admin/post-new.php?post_type=loc_learning_outcome">You can add more learning outcomes here.</a>'),
 				],
 
 				[

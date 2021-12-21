@@ -93,6 +93,12 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 				\Carbon_Fields\Field::make( 'text', 'meilisearch_url', __( 'Meilisearch URL' ) ),
 				Field::make( 'text', 'meilisearch_key', __( 'Meilisearch API key' ) ),
 				Field::make( 'text', 'meilisearch_index_key', __( 'Meilisearch index key' ) )->set_default_value(Catalogue::POST_TYPE),
+				Field::make( 'association', 'catalogue_search_page', __( 'Catalogue items search page' ) )->set_types( array(
+					array(
+						'type'      => 'post',
+						'post_type' => 'page',
+					)
+				) )->set_max(1),
 				Field::make( 'checkbox', 'enable_lmm', __( 'Enable learning maturity models' ) )
 					->set_option_value( 'yes' ),
 
