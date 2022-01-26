@@ -2,6 +2,14 @@
   <div class="container">
     <div class="tw-mx-5">
 
+
+      <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
+
+		  <div class="tw-mb-5 tw-w-full">
+			  <h4 class="tw-mb-3">{{ $t('Search') }}</h4>
+			  <input v-model="searchString" :placeholder="$t('Enter text')" type="text" class="tw-w-full"/>
+		  </div>
+	  </div>
       <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
 
         <div v-for="(filterField, index) in filterFields" class="tw-mb-5 tw-mr-0 sm:tw-mr-5" :key="index">
@@ -39,11 +47,6 @@
 
 
         </div>
-		  <div class="tw-mb-5">
-
-		  <h4 class="tw-mb-3">{{ $t('Search') }}</h4>
-			<input v-model="searchString" :placeholder="$t('Enter text')" type="text"/>
-		  </div>
       </div>
       <div class="">
         <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
@@ -55,7 +58,7 @@
         <hits v-else :hits="hits"></hits>
       </div>
       <div class="tw-flex tw-justify-between tw-mt-5">
-		  <select v-model="limit">
+		  <select class="tw-w-20-important" v-model="limit">
 			  <option :value="3">3</option>
 			  <option :value="6">6</option>
 			  <option :value="12">12</option>
@@ -94,6 +97,7 @@ export default {
       searchClient: null,
       meilisearchUrl: null,
       meilisearchKey: null,
+		meilisearchIndexKey: null,
       searchString: null,
       fees: null,
       filterFields: [],
@@ -133,6 +137,7 @@ export default {
       let setSearchClient = Api.post(ajaxurl, formData).then(response => {
         this.meilisearchUrl = response.data.url;
         this.meilisearchKey = response.data.key;
+        this.meilisearchIndexKey = response.data.index_key;
 
         this.searchClient = new MeiliSearch({
           host: this.meilisearchUrl,
@@ -196,7 +201,7 @@ export default {
       searchParams.offset = this.offset
       try {
 
-        this.searchClient.index('loc_catalogue_item').search(this.searchString, searchParams).then(response => {
+        this.searchClient.index(this.meilisearchIndexKey).search(this.searchString, searchParams).then(response => {
 
         this.hits = response.hits;
         this.nbHits = response.nbHits;
@@ -229,7 +234,7 @@ export default {
           }
           filters.push(" ((" + slug + " >= " + value[0] + " AND " + slug + " <= " + value[1] + ") OR " + slug + " = '') ")
         }
-        if (filterField.type === 'checkbox') {
+        if (['checkbox'].includes(filterField.type)) {
           if (!value.length) {
             continue;
           }
@@ -245,6 +250,16 @@ export default {
 
 				index++;
 			}
+			facet += ") ";
+			filters.push(facet);
+        }
+        if (['dropdown'].includes(filterField.type)) {
+          if (!value) {
+            continue;
+          }
+			let facet = " (";
+				facet += slug + " = " + "'" + value + "'";
+
 			facet += ") ";
 			filters.push(facet);
         }
@@ -344,5 +359,8 @@ export default {
   }
 }
 
+.tw-w-20-important {
+	width: 5rem !important;
+}
 
 </style>

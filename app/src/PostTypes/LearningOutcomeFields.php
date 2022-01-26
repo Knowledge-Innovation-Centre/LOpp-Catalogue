@@ -27,20 +27,26 @@ if ( ! class_exists( LearningOutcomeFields::class ) ) {
 					'type'     => 'text',
 					'slug'     => 'unique_id',
 					'xml_slug' => $prefix . 'id',
-					'title'    => __( 'Learing outcome ID' )
+					'title'    => __( 'Learning outcome ID' )
 				],
 
 				[
 					'type'     => 'text',
 					'slug'     => 'learning_outcome_type',
 					'xml_slug' => $prefix . 'learningOutcomeType',
-					'title'    => __( 'Learing outcome type' )
+					'title'    => __( 'Learning outcome type' )
 				],
 				[
 					'type'     => 'text',
 					'slug'     => 'reusability_level',
 					'xml_slug' => $prefix . 'reusabiltyLevel',
 					'title'    => __( 'Reusability level' )
+				],
+				[
+					'type'     => 'text',
+					'slug'     => 'related_skill',
+					'xml_slug' => $prefix . 'relatedSkill',
+					'title'    => __( 'Related skill' )
 				],
 				[
 					'type'          => 'complex',

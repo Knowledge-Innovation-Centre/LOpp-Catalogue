@@ -85,13 +85,20 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 				$languagesOptions[ $language['language_code'] ] = $language['translated_name'];
 			}
 		}
-
-		Container::make( 'theme_options', __( 'LOC Options', 'learning_opportunities_catalogue' ) )
-			->set_page_file( 'learning_opportunities_catalogue-theme-options1.php' )
+		$parentContainer = Container::make( 'theme_options', __( 'LOC Options', 'learning_opportunities_catalogue' ) )
+			->set_page_parent('edit.php?post_type=loc_catalogue_item')
+			->set_page_file( 'learning_opportunities_catalogue-theme-options' )
 			->set_page_menu_position( 80 )
 			->add_fields( [
 				\Carbon_Fields\Field::make( 'text', 'meilisearch_url', __( 'Meilisearch URL' ) ),
 				Field::make( 'text', 'meilisearch_key', __( 'Meilisearch API key' ) ),
+				Field::make( 'text', 'meilisearch_index_key', __( 'Meilisearch index key' ) )->set_default_value(Catalogue::POST_TYPE),
+				Field::make( 'association', 'catalogue_search_page', __( 'Catalogue items search page' ) )->set_types( array(
+					array(
+						'type'      => 'post',
+						'post_type' => 'page',
+					)
+				) )->set_max(1),
 				Field::make( 'checkbox', 'enable_lmm', __( 'Enable learning maturity models' ) )
 					->set_option_value( 'yes' ),
 
@@ -183,6 +190,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 
 
 		$container = Container::make( 'theme_options', __( 'LOC Fields settings' ) )
+			->set_page_parent('edit.php?post_type=loc_catalogue_item')
 			->set_page_menu_position( 80 )
 			->set_page_file( 'learning_opportunities_catalogue-theme-options2.php' );
 
@@ -200,13 +208,13 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 						'dropdown' => __( 'Dropdown' ),
 						'slider'   => __( 'Slider' ),
 						'date'     => __( 'Date' ),
-					] )->set_width( 33 );
+					] )->set_width( 30 );
 				$title                      = __( 'Search weight' );
 				$slug                       = $prefix . 'searchable';
 				$fields_for_theme_options[] = Field::make( 'text', $slug, $title )
 					->set_attribute( 'type', 'number' )
 					->set_default_value( 1 )
-					->set_width( 33 );
+					->set_width( 30 );
 				$title                      = __( 'Visible in website (frontend) table' );
 				$slug                       = $prefix . 'visible';
 				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
@@ -216,7 +224,12 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 				$slug                       = $prefix . 'required';
 				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
 					->set_option_value( 'yes' )
-					->set_width( 13 );
+					->set_width( 10 );
+				$title                      = __( 'Is url' );
+				$slug                       = $prefix . 'is_url';
+				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
+					->set_option_value( 'yes' )
+					->set_width( 10 );
 			}
 			$container = $container->add_tab( $fieldsForThemeOptions['title'], $fields_for_theme_options );
 		}
@@ -349,14 +362,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 
 		foreach ( $filter_fields as $field ) {
 			if (  in_array( $field['filter_type'], [  'checkbox', 'dropdown', 'slider', 'date' ] )) {
-
-
 					$facets[] = $field['slug'];
-
 			}
 		}
 
-		$searchIndex = Meilisearch::get_index( Catalogue::POST_TYPE );
+		$searchIndex = Meilisearch::get_index( carbon_get_theme_option( 'meilisearch_index_key' ) );
 
 		$searchIndex->updateFilterableAttributes( $facets );
 		$searchIndex->updateSearchableAttributes( $searchables );

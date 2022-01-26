@@ -26,11 +26,14 @@ if ( ! class_exists( LearningOutcome::class ) ) {
 			register_extended_post_type( $this->post_type, [
 				'admin_cols' => $this->get_admin_cols(),
 				'menu_position'=> 51,
+				'show_in_menu' => false
 			], [
 
 				# Override the base names used for labels:
 				'singular' => 'Learning Outcome',
 				'plural'   => 'Learning Outcomes',
+				'show_in_menu' => 'edit.php?post_type=' . self::POST_TYPE,
+				'show_in_nav_menus' => false
 
 			] );
 

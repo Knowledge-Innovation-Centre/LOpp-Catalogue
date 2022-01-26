@@ -29,7 +29,9 @@ if ( ! class_exists( Dimension::class ) ) {
 				return;
 			}
 			register_extended_post_type( $this->post_type, [
-				'menu_position'=> 52,], [
+				'menu_position'=> 52,
+				'show_in_menu' => false
+			], [
 				'singular' => 'LMM dimension',
 				'plural'   => 'LMM dimensions',
 			] );

@@ -10,3 +10,24 @@
 \* ------------------------------------------------------------ */
 
 @import './vendor/*.scss';
+
+#carbon_fields_container_catalogue_item_data1 {
+  .cf-association__cols  {
+    .cf-association__col {
+      max-height: 500px;
+      .cf-association__option {
+        height: auto;
+        .cf-association__option-type {
+          display: none;
+        }
+        .cf-association__option-title-inner {
+          position:relative;
+          overflow: auto;
+          white-space: normal;
+          transform: none;
+          width: auto;
+        }
+      }
+    }
+  }
+}

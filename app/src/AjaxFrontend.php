@@ -108,7 +108,8 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 		public function get_meilisearch_key() {
 			echo json_encode( [
 				'url' => carbon_get_theme_option( 'meilisearch_url' ),
-				'key' => carbon_get_theme_option( 'meilisearch_key' )
+				'key' => carbon_get_theme_option( 'meilisearch_key' ),
+				'index_key' => carbon_get_theme_option( 'meilisearch_index_key' ),
 			] );
 			die;
 		}
