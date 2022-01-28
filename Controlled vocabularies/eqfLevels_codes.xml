@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <eqfLevels>
+    <level label="not specified"/>
     <level label="EQFLevel 1"/>
     <level label="EQFLevel 2"/>
     <level label="EQFLevel 3"/>
