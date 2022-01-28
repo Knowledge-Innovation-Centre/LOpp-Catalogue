@@ -254,7 +254,7 @@ export default {
 			filters.push(facet);
         }
         if (['dropdown'].includes(filterField.type)) {
-          if (!value) {
+          if (!value.length) {
             continue;
           }
 			let facet = " (";
