@@ -138,7 +138,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'schedule_information',
 					'xml_slug' => 'scheduleInformation',
 					'title'    => __( 'Schedule information' ),
-					'hint' => __(''),
+					'hint' => __('Detailed information about the timetable or schedule. This may include weekly schedules (e.g. "Every Monday, 4pm", but may also include the overall schedule for the course, (e.g. October: lectures, November: group-work, December: break, January: assessment).'),
 				],
 				[
 					'type'  => 'text',
@@ -192,7 +192,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'unique_id',
 					'xml_slug' => 'learningOpportunity_Identifier',
 					'title'    => __( "Unique ID" ),
-					'hint' => __(''),
+					'hint' => __('This is an automatically generated ID'),
 				],
 			];
 		}
@@ -228,7 +228,7 @@ if ( ! class_exists( CatalogueFields::class ) ) {
 					'slug'     => 'education_subject',
 					'xml_slug' => $prefix . 'educationSubject',
 					'title'    => __( 'Education subject' ),
-					'hint' => __(''),
+					'hint' => __('An associated field of education from another semantic framework than the ISCED classification.'),
 				],
 				[
 					'type'     => 'select',
