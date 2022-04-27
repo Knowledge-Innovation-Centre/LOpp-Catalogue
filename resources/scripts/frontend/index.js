@@ -22,7 +22,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$t = (t) => {
   return t
 };
-console.log('not');
+
 if (document.getElementById('search-catalog-items')) {
   new Vue({
     // store,

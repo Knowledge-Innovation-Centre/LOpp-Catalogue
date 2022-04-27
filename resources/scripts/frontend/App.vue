@@ -213,9 +213,33 @@ export default {
 
       this.loading = false;
     },
+	  setDimensionsFilter(filters) {
 
+		  const params = new Proxy(new URLSearchParams(window.location.search), {
+			  get: (searchParams, prop) => searchParams.get(prop),
+		  });
+
+		  if (params.dimensions) {
+			  let facet = " (";
+			  let index = 1;
+			  for (const dimension of params.dimensions.split(',')) {
+
+				  if (index !== 1) {
+					  facet +=  " OR ";
+				  }
+				  facet += "loc_subset_items = " + dimension;
+				  index++;
+			  }
+
+			  facet += ") ";
+			  filters.push(facet);
+		  }
+		  return filters
+	  },
     getFilters() {
       let filters = [];
+	  filters = this.setDimensionsFilter(filters)
+
       for (let filterField of this.filterFields) {
         if (!this.filterValues[filterField.field]) {
           continue;
@@ -263,6 +287,14 @@ export default {
 			facet += ") ";
 			filters.push(facet);
         }
+		if(true) {
+
+			let facet = " (";
+			facet += "loc_subset_items = " + "'6615'";
+
+			facet += ") ";
+			filters.push(facet);
+		}
       }
       return filters;
     },

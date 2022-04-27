@@ -9536,15 +9536,63 @@ exports.default = {
 
       this.loading = false;
     },
+    setDimensionsFilter: function setDimensionsFilter(filters) {
+
+      var params = new Proxy(new URLSearchParams(window.location.search), {
+        get: function get(searchParams, prop) {
+          return searchParams.get(prop);
+        }
+      });
+
+      if (params.dimensions) {
+        var facet = " (";
+        var index = 1;
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = params.dimensions.split(',')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var dimension = _step2.value;
+
+
+            if (index !== 1) {
+              facet += " OR ";
+            }
+            facet += "loc_subset_items = " + dimension;
+            index++;
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+
+        facet += ") ";
+        filters.push(facet);
+      }
+      return filters;
+    },
     getFilters: function getFilters() {
       var filters = [];
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      filters = this.setDimensionsFilter(filters);
+
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator2 = this.filterFields[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var filterField = _step2.value;
+        for (var _iterator3 = this.filterFields[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var filterField = _step3.value;
 
           if (!this.filterValues[filterField.field]) {
             continue;
@@ -9570,13 +9618,13 @@ exports.default = {
             var facet = " (";
 
             var index = 1;
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
 
             try {
-              for (var _iterator3 = value[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var valueItem = _step3.value;
+              for (var _iterator4 = value[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                var valueItem = _step4.value;
 
 
                 if (index !== 1) {
@@ -9587,16 +9635,16 @@ exports.default = {
                 index++;
               }
             } catch (err) {
-              _didIteratorError3 = true;
-              _iteratorError3 = err;
+              _didIteratorError4 = true;
+              _iteratorError4 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                  _iterator3.return();
+                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                  _iterator4.return();
                 }
               } finally {
-                if (_didIteratorError3) {
-                  throw _iteratorError3;
+                if (_didIteratorError4) {
+                  throw _iteratorError4;
                 }
               }
             }
@@ -9614,18 +9662,26 @@ exports.default = {
             _facet += ") ";
             filters.push(_facet);
           }
+          if (true) {
+
+            var _facet2 = " (";
+            _facet2 += "loc_subset_items = " + "'6615'";
+
+            _facet2 += ") ";
+            filters.push(_facet2);
+          }
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
@@ -9634,13 +9690,13 @@ exports.default = {
     },
     getFacets: function getFacets() {
       var facets = [];
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
 
       try {
-        for (var _iterator4 = this.filterFields[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var filterField = _step4.value;
+        for (var _iterator5 = this.filterFields[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var filterField = _step5.value;
 
           if (!this.filterValues[filterField.field]) {
             continue;
@@ -9649,29 +9705,29 @@ exports.default = {
           var slug = filterField.field;
           if (filterField.type === 'checkbox') {
             var facetItems = [];
-            var _iteratorNormalCompletion5 = true;
-            var _didIteratorError5 = false;
-            var _iteratorError5 = undefined;
+            var _iteratorNormalCompletion6 = true;
+            var _didIteratorError6 = false;
+            var _iteratorError6 = undefined;
 
             try {
-              for (var _iterator5 = values[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                var value = _step5.value;
+              for (var _iterator6 = values[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                var value = _step6.value;
 
                 if (value) {
                   facetItems.push(slug + ":" + value);
                 }
               }
             } catch (err) {
-              _didIteratorError5 = true;
-              _iteratorError5 = err;
+              _didIteratorError6 = true;
+              _iteratorError6 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                  _iterator5.return();
+                if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                  _iterator6.return();
                 }
               } finally {
-                if (_didIteratorError5) {
-                  throw _iteratorError5;
+                if (_didIteratorError6) {
+                  throw _iteratorError6;
                 }
               }
             }
@@ -9683,16 +9739,16 @@ exports.default = {
           }
         }
       } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
           }
         } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
+          if (_didIteratorError5) {
+            throw _iteratorError5;
           }
         }
       }
@@ -11214,12 +11270,12 @@ module.exports = function isAxiosError(payload) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ render; });
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ staticRenderFns; });
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/scripts/frontend/App.vue?vue&type=template&id=2c53d56f&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/scripts/frontend/App.vue?vue&type=template&id=04c0951e&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('div',{staticClass:"tw-mx-5"},[_c('div',{staticClass:"tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full"},[_c('div',{staticClass:"tw-mb-5 tw-w-full"},[_c('h4',{staticClass:"tw-mb-3"},[_vm._v(_vm._s(_vm.$t('Search')))]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchString),expression:"searchString"}],staticClass:"tw-w-full",attrs:{"placeholder":_vm.$t('Enter text'),"type":"text"},domProps:{"value":(_vm.searchString)},on:{"input":function($event){if($event.target.composing){ return; }_vm.searchString=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full"},_vm._l((_vm.filterFields),function(filterField,index){return _c('div',{key:index,staticClass:"tw-mb-5 tw-mr-0 sm:tw-mr-5"},[_c('h4',{staticClass:"tw-mb-3"},[_vm._v(_vm._s(filterField.title))]),_vm._v(" "),(filterField.type === 'date')?_c('date-picker',{on:{"input":function($event){return _vm.filterDate($event, filterField.field)}}}):(filterField.type === 'slider')?_c('vue-slider',{attrs:{"min":filterField.min,"max":filterField.max,"lazy":true},on:{"change":function($event){return _vm.search()}},model:{value:(_vm.filterValues[filterField.field]),callback:function ($$v) {_vm.$set(_vm.filterValues, filterField.field, $$v)},expression:"filterValues[filterField.field]"}}):(filterField.type === 'dropdown')?_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.filterValues[filterField.field]),expression:"filterValues[filterField.field]"}],staticClass:"tw-max-w-full",on:{"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.$set(_vm.filterValues, filterField.field, $event.target.multiple ? $$selectedVal : $$selectedVal[0])},function($event){return _vm.search()}]}},_vm._l((filterField.values),function(value,key){return _c('option',{key:key,domProps:{"value":key}},[_vm._v("\n\t\t\t\t  "+_vm._s(value)+"\n\t\t\t  ")])}),0):_c('ul',{staticClass:"tw-list-none tw-p-0"},_vm._l((filterField.values),function(value,key){return _c('li',{key:key,staticClass:"tw-flex tw-items-center"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filterValues[filterField.field]),expression:"filterValues[filterField.field]"}],attrs:{"type":"checkbox"},domProps:{"value":key,"checked":Array.isArray(_vm.filterValues[filterField.field])?_vm._i(_vm.filterValues[filterField.field],key)>-1:(_vm.filterValues[filterField.field])},on:{"change":[function($event){var $$a=_vm.filterValues[filterField.field],$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=key,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.filterValues, filterField.field, $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.filterValues, filterField.field, $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.filterValues, filterField.field, $$c)}},function($event){return _vm.search()}]}}),_vm._v(" "),_c('span',{staticClass:"tw-ml-5"},[_vm._v(_vm._s(value))])])}),0)],1)}),0),_vm._v(" "),_c('div',{},[(_vm.loading)?_c('div',{staticClass:"loader"},[_vm._v(_vm._s(_vm.$t('Loading...')))]):_vm._e(),_vm._v(" "),(_vm.meilisearchFail)?_c('span',[_vm._v("\n                "+_vm._s(_vm.$t('There is a problem with search engine. Try using default wordpress search at top of the page...'))+"\n              ")]):_c('hits',{attrs:{"hits":_vm.hits}})],1),_vm._v(" "),_c('div',{staticClass:"tw-flex tw-justify-between tw-mt-5"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.limit),expression:"limit"}],staticClass:"tw-w-20-important",on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.limit=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{domProps:{"value":3}},[_vm._v("3")]),_vm._v(" "),_c('option',{domProps:{"value":6}},[_vm._v("6")]),_vm._v(" "),_c('option',{domProps:{"value":12}},[_vm._v("12")]),_vm._v(" "),_c('option',{domProps:{"value":24}},[_vm._v("24")]),_vm._v(" "),_c('option',{domProps:{"value":48}},[_vm._v("48")]),_vm._v(" "),_c('option',{domProps:{"value":96}},[_vm._v("96")])]),_vm._v(" "),_c('pagination',{attrs:{"limit":_vm.limit,"offset":_vm.offset,"nb-hits":_vm.nbHits},on:{"update-offset":function($event){return _vm.updateOffset($event)}}})],1)])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./resources/scripts/frontend/App.vue?vue&type=template&id=2c53d56f&
+// CONCATENATED MODULE: ./resources/scripts/frontend/App.vue?vue&type=template&id=04c0951e&
 
 
 /***/ }),
@@ -11414,7 +11470,7 @@ _vue2.default.config.productionTip = false;
 _vue2.default.prototype.$t = function (t) {
   return t;
 };
-console.log('not');
+
 if (document.getElementById('search-catalog-items')) {
   new _vue2.default({
     el: '#search-catalog-items',
@@ -11469,7 +11525,7 @@ webpackEmptyContext.id = 65;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _App_vue_vue_type_template_id_2c53d56f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49);
+/* harmony import */ var _App_vue_vue_type_template_id_04c0951e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49);
 /* harmony import */ var _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _App_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(88);
@@ -11484,8 +11540,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(
   _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _App_vue_vue_type_template_id_2c53d56f___WEBPACK_IMPORTED_MODULE_0__[/* render */ "a"],
-  _App_vue_vue_type_template_id_2c53d56f___WEBPACK_IMPORTED_MODULE_0__[/* staticRenderFns */ "b"],
+  _App_vue_vue_type_template_id_04c0951e___WEBPACK_IMPORTED_MODULE_0__[/* render */ "a"],
+  _App_vue_vue_type_template_id_04c0951e___WEBPACK_IMPORTED_MODULE_0__[/* staticRenderFns */ "b"],
   false,
   null,
   null,

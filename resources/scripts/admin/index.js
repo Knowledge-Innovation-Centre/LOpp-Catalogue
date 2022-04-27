@@ -2,8 +2,6 @@
 import config from '@config';
 import '@styles/admin';
 
-console.log('not');
-
 import Vue from "vue";
 import App from "./App.vue";
 import Notifications from 'vue-notification'
@@ -17,9 +15,7 @@ Vue.use(Notifications)
 
 if (document.getElementById("vue-admin")) {
   new Vue({
-    // store,
     el: "#vue-admin",
-    // router,
     render: h => h(App)
   });
 }

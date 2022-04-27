@@ -366,6 +366,8 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 			}
 		}
 
+		$facets[] = 'loc_subset_items';
+
 		$searchIndex = Meilisearch::get_index( carbon_get_theme_option( 'meilisearch_index_key' ) );
 
 		$searchIndex->updateFilterableAttributes( $facets );

@@ -75,29 +75,56 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 				$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 				// $fields = array_merge( $fields, carbon_get_theme_option( 'loc_option_catalogue_fields' ) );
 
-				foreach ( $fields as $field ) {
+				$learningOutcomes = carbon_get_post_meta($post->ID, 'learning_outcome');
 
-					$value = self::get_value( $post, $field, $allMeta );
-					if ( ! is_array( $value ) ) {
-						if ($field['slug'] == 'duration') {
-						$catalogItemIndex[ $field['slug'] ] = (float)$value;
-						continue;
+				$subsetIds = [];
 
-						}
-						$catalogItemIndex[ $field['slug'] ] = $value;
-						continue;
-					}
-					foreach ( $value as $key => $valueItem ) {
+				foreach ($learningOutcomes as $learningOutcome) {
+					$subsetItems = carbon_get_post_meta($learningOutcome["id"], 'dimension_subset_item');
+					foreach ($subsetItems as $subsetItem) {
+						$subsetIds[] = $subsetItem['id'];
 
-						$catalogItemIndex[ $key ] = $valueItem;
 					}
 				}
+				$catalogItemIndex['loc_subset_items']         = $subsetIds;
+//				echo '<pre>';
+				$catalogItemIndex = self::getIndex($post, $fields, $catalogItemIndex, $allMeta);
+
+
+//				die;
 
 				$searchIndex->addDocuments( [ $catalogItemIndex ] );
 
 			} catch (Exception $e) {
 				var_dump($e);
 			}
+		}
+
+		private static function getIndex($post, $fields, $catalogItemIndex, $allMeta) {
+
+
+//				print_r($allMeta);
+			foreach ( $fields as $field ) {
+
+				$value = self::get_value( $post, $field, $allMeta );
+//				print_r($field);
+//				print_r($value);
+				if ( ! is_array( $value ) ) {
+					if ($field['slug'] == 'duration') {
+						$catalogItemIndex[ $field['slug'] ] = (float)$value;
+						continue;
+
+					}
+					$catalogItemIndex[ $field['slug'] ] = $value;
+					continue;
+				}
+				foreach ( $value as $key => $valueItem ) {
+
+					$catalogItemIndex[ $key ] = $valueItem;
+				}
+			}
+
+			return $catalogItemIndex;
 		}
 
 		private static function get_value( $post, $field, $allMeta ) {

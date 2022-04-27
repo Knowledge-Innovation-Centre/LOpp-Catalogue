@@ -10994,8 +10994,6 @@ var _vueNotification2 = _interopRequireDefault(_vueNotification);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log('not');
-
 _vue2.default.config.productionTip = false;
 
 var _x = wp.i18n._x;
@@ -11007,7 +11005,6 @@ _vue2.default.use(_vueNotification2.default);
 if (document.getElementById("vue-admin")) {
   new _vue2.default({
     el: "#vue-admin",
-
     render: function render(h) {
       return h(_App2.default);
     }
