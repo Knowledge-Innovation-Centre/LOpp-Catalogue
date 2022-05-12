@@ -287,14 +287,6 @@ export default {
 			facet += ") ";
 			filters.push(facet);
         }
-		if(true) {
-
-			let facet = " (";
-			facet += "loc_subset_items = " + "'6615'";
-
-			facet += ") ";
-			filters.push(facet);
-		}
       }
       return filters;
     },
