@@ -194,9 +194,6 @@ export default {
       if (filters.length) {
         searchParams.filter = filters.join(' AND ')
       }
-      // if (facets.length) {
-      //   searchParams.filterableAttributes = facets
-      // }
       searchParams.limit = this.limit
       searchParams.offset = this.offset
       try {

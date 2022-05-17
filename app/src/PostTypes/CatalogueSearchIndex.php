@@ -80,18 +80,16 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 				$subsetIds = [];
 
 				foreach ($learningOutcomes as $learningOutcome) {
-					$subsetItems = carbon_get_post_meta($learningOutcome["id"], 'dimension_subset_item');
-					foreach ($subsetItems as $subsetItem) {
-						$subsetIds[] = $subsetItem['id'];
 
+					$relatedObjects = carbon_get_post_meta( $learningOutcome['id'], 'dimension_subset_item' );
+
+					foreach ( $relatedObjects as $related_object ) {
+						$subsetIds[] = $related_object["id"];
 					}
 				}
 				$catalogItemIndex['loc_subset_items']         = $subsetIds;
-//				echo '<pre>';
+
 				$catalogItemIndex = self::getIndex($post, $fields, $catalogItemIndex, $allMeta);
-
-
-//				die;
 
 				$searchIndex->addDocuments( [ $catalogItemIndex ] );
 
