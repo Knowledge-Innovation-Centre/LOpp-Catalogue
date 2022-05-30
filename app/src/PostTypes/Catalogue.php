@@ -20,6 +20,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 		const POST_TYPE = 'loc_catalogue_item';
 		private $is_url_fields = [];
 		private $is_url_options = [];
+		private $hide_rows = false;
 
 		public function register() {
 			register_extended_post_type( $this->post_type, [
@@ -108,6 +109,8 @@ if ( ! class_exists( Catalogue::class ) ) {
 			global $post;
 			global $wpdb;
 			if ( is_single() && $post->post_type == $this->post_type ) {
+
+				$this->hide_rows = carbon_get_theme_option( 'hide_rows_no_data' );
 				$content .= '<p>'  . $post->post_excerpt . '</p>';
 			$this->is_url_fields = [];
 
@@ -199,8 +202,12 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 		}
 
-		private function getTableRow($title, $value)
+		private function getTableRow($title, $value): string
 		{
+
+			if ( $this->hide_rows && !$value ) {
+				return '';
+			}
 			return '<tr>' .
 				'<td>' . $title . '</td>' .
 				'<td>' . ($value ?: __('No data available')) . '</td>'

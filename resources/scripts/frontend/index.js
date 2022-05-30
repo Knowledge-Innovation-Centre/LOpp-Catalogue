@@ -9,7 +9,14 @@ import App from './App.vue';
 
 (function ( frontend, $ ) {
   $( document ).ready( () => {
-    $( "#tabs" ).tabs({ active: 0 });
+    $( "#tabs" ).tabs({
+      active: 0,
+      activate: function(event, ui) {
+
+        var scrollTop = $(window).scrollTop(); // save current scroll position
+        window.location.hash = ui.newPanel.attr('id'); // add hash to url
+        $(window).scrollTop(scrollTop); // keep scroll at current position
+      }});
   } );
 })( window.frontend = window.frontend || {}, jQuery );
 
