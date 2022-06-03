@@ -202,13 +202,14 @@ export default {
 
         this.hits = response.hits;
         this.nbHits = response.nbHits;
+		}).finally(() => {
+      		this.loading = false;
 		})
 
       } catch (e) {
         this.meilisearchFail = true;
       }
 
-      this.loading = false;
     },
 	  setDimensionsFilter(filters) {
 

@@ -101,6 +101,8 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 				) )->set_max(1),
 				Field::make( 'checkbox', 'enable_lmm', __( 'Enable learning maturity models' ) )
 					->set_option_value( 'yes' ),
+				Field::make( 'checkbox', 'hide_rows_no_data', __( 'Hide rows with no data' ) )
+					->set_option_value( 'yes' ),
 
 				Field::make( 'complex', 'languages' . self::crb_get_i18n_suffix(), __( 'Languages' ) )
 					->set_layout( 'tabbed-horizontal' )
