@@ -97,6 +97,7 @@ Attitudes(is related to Autonomy and Responsibility) -->
      <skills text="considers all relevant aspects and sources (e.g. collaborative platforms, official repositories) when assessing and selecting resources; promotes the use of digital resources with fellow educators by pointing out strategies and sources as well as sharing his/her own repository of resources. when using resources in class, he/she contextualises them for the students (e.g. by pointing out their source and potential bias)"/>
  <attitudes text="commitment towards empowering others and promoting digital resources in education among his/her students and colleagues"/>
 </pioneer>
+    </subSet>
         <subSet id="2.2" name="Creating and modifying digital resources">
             <definition text="To modify and build on existing openly-licensed resources and other resources where this is permitted. To create or co-create new digital educational resources. To consider the specific learning objective, context, pedagogical approach, and learner group, when designing digital resources and planning their use. (DigCompEdu)"/>
 <explorer>
@@ -115,7 +116,7 @@ Attitudes(is related to Autonomy and Responsibility) -->
             <attitudes text="great creativity and confidence in the process of (co-)creating and modifying digital resources"/>
 </pioneer> 
         </subSet>
-        <subSet id="2.3" name="Managing, protecting and sharing digital resources"/>
+        <subSet id="2.3" name="Managing, protecting and sharing digital resources">
         <definition text="To organise digital content and make it available to learners, parents and other educators. To effectively protect sensitive digital content. To respect and correctly apply privacy and copyright rules. To understand the use and creation of open licenses and open educational resources, including their proper attribution. (DigCompEdu)"/>
         <explorer><knowledge  text="knows basic strategies to manage and share digital content. is aware that some digital resources are copyrighted"/>
             <skills text="stores and organises digital content for his/her own future use and shares digital content using basic strategies (e.g. via e-mail attachments or through links)"/>
@@ -129,7 +130,8 @@ Attitudes(is related to Autonomy and Responsibility) -->
         <pioneer><knowledge  text="knows professional strategies to create, manage, share and protect digital content"/>
             <skills text="professionally manages and shares digital content (e.g. compiles comprehensive digital content repositories and makes them available to learners or other educators); digitally publishes self-created resources and attributes (open) licenses to the respective content; effectively protects personal and sensitive data"/>
                 <attitudes text="innovative approach toward managing and sharing digital content. valuing data protection, privacy and copyright rules"/>
-        </pioneer></subSet>
+        </pioneer>
+        </subSet>
 </dimension>
  
  
