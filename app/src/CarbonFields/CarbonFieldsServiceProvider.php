@@ -221,7 +221,12 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 				$slug                       = $prefix . 'visible';
 				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
 					->set_option_value( 'yes' )
-					->set_width( 20 );
+					->set_width( 10 );
+				$title                      = __( 'Visible in catalogue list (frontend)' );
+				$slug                       = $prefix . 'visible_in_list';
+				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )
+					->set_option_value( 'yes' )
+					->set_width( 10 );
 				$title                      = __( 'Required field' );
 				$slug                       = $prefix . 'required';
 				$fields_for_theme_options[] = Field::make( 'checkbox', $slug, $title )

@@ -1,18 +1,18 @@
 <template>
-  <div class="tw-px-4 tw-py-3 tw-flex tw-items-center tw-justify-between tw-border-t tw-border-gray-800 sm:tw-px-6">
+  <div class="tw-px-4 tw-py-3 tw-flex tw-items-center tw-justify-between tw-border-t sm:tw-px-6">
     <div class="tw-flex-1 tw-flex tw-justify-between sm:tw-hidden">
       <a href="#"
-         class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 tw-hover">
+         class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
         {{ $t('Previous') }}
       </a>
       <a href="#"
-         class="tw-ml-3 tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 tw-hover">
+         class="tw-ml-3 tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
         {{ $t('Next') }}
       </a>
     </div>
     <div class="tw-hidden sm:tw-flex-1 sm:tw-flex sm:tw-items-center sm:tw-justify-between">
       <div>
-        <p class="tw-text-sm tw-text-gray-800 tw-mr-5">
+        <p class="tw-text-sm tw-mr-5">
           {{ $t('Showing') }}
           <span class="tw-font-medium">{{ offset + 1 }}</span>
           {{ $t('to') }}
@@ -28,7 +28,7 @@
           <button :disabled="showingFirstPage"
                   v-if="nbHits > (limit * 3)"
                   @click="updateOffset(currentPage-1)"
-                  class="tw-relative tw-inline-flex tw-items-center tw-px-2 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium hover:tw-bg-gray-50">
+                  class="tw-relative tw-inline-flex tw-items-center tw-px-2 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             <span class="tw-sr-only">Previous</span>
             <!-- Heroicon name: solid/chevron-left -->
             <svg class="tw-h-5 tw-w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -42,35 +42,35 @@
           <button
               v-if="hasSecondPreviousPage"
               @click="updateOffset(currentPage-2)"
-              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 hover:tw-bg-gray-500">
+              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             {{ currentPage - 2 }}
           </button>
           <button
               v-if="hasPreviousPage"
               @click="updateOffset(currentPage-1)"
-              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 hover:tw-bg-gray-500">
+              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             {{ currentPage - 1 }}
           </button>
           <button
-              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 tw-bg-gray-500">
+              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             {{ currentPage }}
           </button>
           <button
               v-if="hasNextPage"
               @click="updateOffset(currentPage+1)"
-              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 hover:tw-bg-gray-500">
+              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             {{ currentPage + 1 }}
           </button>
           <button
               v-if="hasSecondNextPage"
               @click="updateOffset(currentPage+2)"
-              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium tw-text-gray-800 hover:tw-bg-gray-500">
+              class="tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             {{ currentPage + 2 }}
           </button>
           <button :disabled="showingLastPage"
                   v-if="nbHits > (limit * 3)"
                   @click="updateOffset(currentPage+1)"
-                  class="tw-relative tw-inline-flex tw-items-center tw-px-2 tw-py-2 tw-border tw-border-solid tw-border-gray-800 tw-text-sm tw-font-medium hover:tw-bg-gray-50">
+                  class="tw-relative tw-inline-flex tw-items-center tw-px-2 tw-py-2 tw-border tw-border-solid tw-text-sm tw-font-medium">
             <span class="tw-sr-only">Next</span>
             <!-- Heroicon name: solid/chevron-right -->
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

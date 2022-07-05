@@ -57,6 +57,13 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 
 				$searchIndex = Meilisearch::get_index( carbon_get_theme_option( 'meilisearch_index_key' ) );
 
+				$current_post_status = get_post_status($post);
+
+				if($current_post_status != 'publish') {
+					self::delete_index($post);
+					return true;
+				}
+
 				$catalogItemIndex                 = [];
 				$catalogItemIndex['id']           = $post->ID;
 				$catalogItemIndex['post_title']   = $post->post_title;

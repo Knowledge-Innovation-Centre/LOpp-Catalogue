@@ -64,6 +64,8 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		add_action( 'wp_ajax_nopriv_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields'] );
 		add_action( 'wp_ajax_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key'] );
 		add_action( 'wp_ajax_nopriv_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key'] );
+		add_action( 'wp_ajax_get_display_fields', [$ajaxFrontEnd, 'get_display_fields'] );
+		add_action( 'wp_ajax_nopriv_get_display_fields', [$ajaxFrontEnd, 'get_display_fields'] );
 		add_action( 'wp_ajax_reindex_items', [$ajaxFrontEnd, 'reindex_items'] );
 		add_action( 'wp_ajax_delete_index_items', [$ajaxFrontEnd, 'delete_index_items'] );
 		add_action( 'wp_head', [$ajaxFrontEnd, 'ajax_url'] );

@@ -104,6 +104,30 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 			return $newFields;
 		}
+		public function filterVisibleInList() {
+			global $wpdb;
+			$newFields = [];
+
+			$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_visible_in_list'";
+			$options = $wpdb->get_results( $query, OBJECT_K );
+
+			$fields =  $this->filterVisible(CatalogueFields::get_general_fields(), Catalogue::POST_TYPE);
+			$informationAboutTheLoopFields =  $this->filterVisible(CatalogueFields::get_information_about_the_lopp_fields(), Catalogue::POST_TYPE);
+			$learningSpecificationFields =  $this->filterVisible(CatalogueFields::get_learning_specification_fields(), Catalogue::POST_TYPE);
+			$contactFields =  $this->filterVisible(CatalogueFields::get_contact_fields(), Catalogue::POST_TYPE);
+
+			$fields = array_merge($fields, $informationAboutTheLoopFields,$learningSpecificationFields, $contactFields );
+
+			foreach ($fields as $field) {
+				$slugFilter = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_visible_in_list';
+				if ( ! isset( $options[ $slugFilter ] ) || $options[ $slugFilter ]->option_value !== 'yes' ) {
+					continue;
+				}
+				$newFields[] = $field['slug'];
+			}
+
+			return $newFields;
+		}
 
 		function add_content_after( $content ) {
 			global $post;

@@ -55,7 +55,7 @@
             $t('There is a problem with search engine. Try using default wordpress search at top of the page...')
           }}
               </span>
-        <hits v-else :hits="hits"></hits>
+        <hits v-else :display-fields="displayFields" :hits="hits"></hits>
       </div>
       <div class="tw-flex tw-justify-between tw-mt-5">
 		  <select class="tw-w-20-important" v-model="limit">
@@ -100,6 +100,7 @@ export default {
 		meilisearchIndexKey: null,
       searchString: null,
       fees: null,
+		displayFields: [],
       filterFields: [],
       filterValues: {},
       limit: 12,
@@ -143,6 +144,12 @@ export default {
           host: this.meilisearchUrl,
           apiKey: this.meilisearchKey
         })
+      })
+       formData = new FormData();
+      formData.append("action", "get_display_fields");
+      Api.post(ajaxurl, formData).then(response => {
+        this.displayFields = response.data;
+		console.log(this.displayFields);
       })
       formData = new FormData();
       formData.append("action", "get_xml_fields");

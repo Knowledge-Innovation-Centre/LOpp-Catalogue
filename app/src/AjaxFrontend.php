@@ -114,6 +114,12 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			die;
 		}
 
+		public function get_display_fields() {
+			$catalog = new Catalogue();
+			echo json_encode( $catalog->filterVisibleInList() );
+			die;
+		}
+
 		public function reindex_items() {
 			$args          = array(
 				'post_type'        => Catalogue::POST_TYPE,
