@@ -131,7 +131,7 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			);
 			$catalog_items = new WP_Query( $args );
 
-			CatalogueSearchIndex::delete_all_index( Catalogue::POST_TYPE );
+			CatalogueSearchIndex::delete_all_index(  );
 
 			if ( $catalog_items->have_posts() ) {
 
@@ -151,7 +151,7 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			die;
 		}
 		public function delete_index_items() {
-			CatalogueSearchIndex::delete_all_index( Catalogue::POST_TYPE );
+			CatalogueSearchIndex::delete_all_index(  );
 
 			wp_reset_postdata();
 

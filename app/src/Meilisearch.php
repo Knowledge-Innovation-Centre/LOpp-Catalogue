@@ -39,11 +39,11 @@ if ( ! class_exists( Meilisearch::class ) ) {
 
 		}
 
-		public static function get_index( $post_type ) {
+		public static function get_index(  ) {
 			try {
 				$client = self::get_client();
 
-				return $client->index( $post_type );
+				return $client->index(  carbon_get_theme_option( 'meilisearch_index_key' ) );
 			} catch (Exception $e) {
 				return null;
 			}

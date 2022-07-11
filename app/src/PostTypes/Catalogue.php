@@ -245,7 +245,11 @@ if ( ! class_exists( Catalogue::class ) ) {
 
 				if (in_array($slug, $this->is_url_fields)) {
 
-					$value = '<a target="_blank" href="'. $value . '">'. $value .'</a>';
+					$urls = explode(' ',  $value);
+					$value = '';
+					foreach ($urls as $url) {
+						$value .= '<a target="_blank" href="'. $url . '">'. $url .'</a><br>';
+					}
 				}
 
 				return $this->getTableRow($title, $value);
@@ -270,6 +274,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 					if (isset($valueItem['subtype']) && $valueItem['subtype'] == LearningOutcome::POST_TYPE) {
 						$fields = $this->filterVisible(LearningOutcomeFields::get_general_fields(), LearningOutcome::POST_TYPE);
 
+						$content  .= $this->getTableRow( __('Learning outcome'), get_the_title($valueItem['id']) .  '<br>' . get_the_content(null, false,$valueItem['id']) );
 						foreach ($fields as $field) {
 							$slugFilter = '_' . $field['slug'] . '_' . LearningOutcome::POST_TYPE . '_is_url';
 							if ( ! isset( $this->is_url_options[ $slugFilter ] ) || $this->is_url_options[ $slugFilter ]->option_value !== 'yes' ) {

@@ -30,18 +30,19 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 					$post = get_post( $post );
 				}
 
-				$searchIndex = Meilisearch::get_index( carbon_get_theme_option( 'meilisearch_index_key' ) );
+				$searchIndex = Meilisearch::get_index( );
 				$searchIndex->deleteDocument( $post->ID );
 			} catch (Exception $e) {
 				return false;
 			}
 		}
 
-		public static function delete_all_index( $post_type ) {
+		public static function delete_all_index( ) {
 			try {
 
 				$client = Meilisearch::get_client();
-				$client->index( $post_type )->deleteAllDocuments();
+				$client->index(  carbon_get_theme_option( 'meilisearch_index_key' ) )->deleteAllDocuments();
+
 			} catch (Exception $e) {
 				return false;
 			}
@@ -55,7 +56,7 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 					return false;
 				}
 
-				$searchIndex = Meilisearch::get_index( carbon_get_theme_option( 'meilisearch_index_key' ) );
+				$searchIndex = Meilisearch::get_index(  );
 
 				$current_post_status = get_post_status($post);
 

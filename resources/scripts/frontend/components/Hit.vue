@@ -2,7 +2,7 @@
   <div class="tw-border tw-border-solid tw-border-gray-800 tw-p-5">
     <a :href="hit.guid">{{ hit.post_title }}</a>
 	  <ul v-if="visibleFields.length">
-		  <li v-for="value of visibleFields" :key="value">{{value}}</li>
+		  <li v-for="value of visibleFields" :key="value" v-html="value"></li>
 	  </ul>
   </div>
 </template>
