@@ -2,7 +2,9 @@
   <div class="container">
     <div class="tw-mx-5">
 
-
+      <div v-if="resultText && isResult" class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
+		  {{ resultText }}
+	  </div>
       <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
 
 		  <div class="tw-mb-5 tw-w-full">
@@ -97,6 +99,8 @@ export default {
       searchClient: null,
       meilisearchUrl: null,
       meilisearchKey: null,
+		resultText: null,
+		isResult: false,
 		meilisearchIndexKey: null,
       searchString: null,
       fees: null,
@@ -139,6 +143,7 @@ export default {
         this.meilisearchUrl = response.data.url;
         this.meilisearchKey = response.data.key;
         this.meilisearchIndexKey = response.data.index_key;
+        this.resultText = response.data.result_text;
 
         this.searchClient = new MeiliSearch({
           host: this.meilisearchUrl,
@@ -223,8 +228,10 @@ export default {
 		  const params = new Proxy(new URLSearchParams(window.location.search), {
 			  get: (searchParams, prop) => searchParams.get(prop),
 		  });
+			  this.isResult = false;
 
 		  if (params.dimensions) {
+			  this.isResult = true;
 			  let facet = " (";
 			  let index = 1;
 			  for (const dimension of params.dimensions.split(',')) {

@@ -110,6 +110,7 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 				'url' => carbon_get_theme_option( 'meilisearch_url' ),
 				'key' => carbon_get_theme_option( 'meilisearch_key' ),
 				'index_key' => carbon_get_theme_option( 'meilisearch_index_key' ),
+				'result_text' => carbon_get_theme_option( 'catalogue_search_page_result_text' ),
 			] );
 			die;
 		}

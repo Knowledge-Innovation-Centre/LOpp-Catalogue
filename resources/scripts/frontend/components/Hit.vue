@@ -27,7 +27,7 @@ export default {
 	  visibleFields() {
 		  const values = []
 		  for (const property in this.hit) {
-			  if (this.displayFields.includes(property)) {
+			  if (this.displayFields.includes(property) && this.hit[property]) {
 				  values.push(this.hit[property])
 			  }
 		  }

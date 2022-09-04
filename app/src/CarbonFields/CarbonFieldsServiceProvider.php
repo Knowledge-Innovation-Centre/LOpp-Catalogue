@@ -99,6 +99,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 						'post_type' => 'page',
 					)
 				) )->set_max(1),
+				Field::make( 'text', 'catalogue_search_page_result_text', __( 'Catalogue search page result text' ) ),
 				Field::make( 'checkbox', 'enable_lmm', __( 'Enable learning maturity models' ) )
 					->set_option_value( 'yes' ),
 				Field::make( 'checkbox', 'hide_rows_no_data', __( 'Hide rows with no data' ) )
