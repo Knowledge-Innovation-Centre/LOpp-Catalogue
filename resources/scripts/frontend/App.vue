@@ -230,6 +230,8 @@ export default {
 		  });
 			  this.isResult = false;
 
+			  console.log(params);
+			  console.log(params.dimensions);
 		  if (params.dimensions) {
 			  this.isResult = true;
 			  let facet = " (";
@@ -246,6 +248,7 @@ export default {
 			  facet += ") ";
 			  filters.push(facet);
 		  }
+		  console.log(filters);
 		  return filters
 	  },
     getFilters() {
