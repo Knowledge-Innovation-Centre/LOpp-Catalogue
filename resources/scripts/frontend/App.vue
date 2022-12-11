@@ -1,12 +1,9 @@
 <template>
   <div class="container">
-    <div class="tw-mx-5">
-
       <div v-if="resultText && isResult" class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
 		  {{ resultText }}
 	  </div>
       <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
-
 		  <div class="tw-mb-5 tw-w-full">
 			  <h4 class="tw-mb-3">{{ $t('Search') }}</h4>
 			  <input v-model="searchString" :placeholder="$t('Enter text')" type="text" class="tw-w-full"/>
@@ -71,11 +68,6 @@
         <pagination :limit="limit" :offset="offset" :nb-hits="nbHits"
                     @update-offset="updateOffset($event)"></pagination>
       </div>
-
-
-    </div>
-
-
   </div>
 </template>
 
@@ -129,7 +121,6 @@ export default {
     }
   },
   created() {
-
     this.loadData();
   },
   methods: {
@@ -154,7 +145,6 @@ export default {
       formData.append("action", "get_display_fields");
       Api.post(ajaxurl, formData).then(response => {
         this.displayFields = response.data;
-		console.log(this.displayFields);
       })
       formData = new FormData();
       formData.append("action", "get_xml_fields");
@@ -224,14 +214,11 @@ export default {
 
     },
 	  setDimensionsFilter(filters) {
-
 		  const params = new Proxy(new URLSearchParams(window.location.search), {
 			  get: (searchParams, prop) => searchParams.get(prop),
 		  });
-			  this.isResult = false;
+		  this.isResult = false;
 
-			  console.log(params);
-			  console.log(params.dimensions);
 		  if (params.dimensions) {
 			  this.isResult = true;
 			  let facet = " (";
@@ -248,7 +235,6 @@ export default {
 			  facet += ") ";
 			  filters.push(facet);
 		  }
-		  console.log(filters);
 		  return filters
 	  },
     getFilters() {
