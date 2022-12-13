@@ -30,29 +30,36 @@ Vue.prototype.$t = (t) => {
   return t
 };
 
-let loaded = false;
+(function(doc,found) {
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+
+      var yourdiv = doc.querySelector("#search-catalog-items");
+
+      if(found && !yourdiv){
+        // Was there but is gone, do something
+        found = false;
+
+      }
+
+      if(yourdiv){
+        // Found it, do something
+        found = true;
+        loadSearchCatalogItems();
+      }
+
+    });
+  });
+  observer.observe(doc, { childList: true, subtree: true });
+})(document,false);
 
 loadSearchCatalogItems()
 
-setTimeout(() => {
-  // we use timeout if we load through assessment report
-  loadSearchCatalogItems()
-}, 1000)
-
 function loadSearchCatalogItems() {
   if (document.getElementById('search-catalog-items')) {
-    if (loaded) {
-      return;
-    }
-    loaded = true;
-
     new Vue({
-      // store,
       el: '#search-catalog-items',
-      // router,
       render: (h) => h(App),
     });
   }
 }
-
-// Your code goes here ...

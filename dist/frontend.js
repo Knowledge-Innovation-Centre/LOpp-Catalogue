@@ -11503,24 +11503,31 @@ _vue2.default.prototype.$t = function (t) {
   return t;
 };
 
-var loaded = false;
+(function (doc, found) {
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+
+      var yourdiv = doc.querySelector("#search-catalog-items");
+
+      if (found && !yourdiv) {
+        found = false;
+      }
+
+      if (yourdiv) {
+        found = true;
+        loadSearchCatalogItems();
+      }
+    });
+  });
+  observer.observe(doc, { childList: true, subtree: true });
+})(document, false);
 
 loadSearchCatalogItems();
 
-setTimeout(function () {
-  loadSearchCatalogItems();
-}, 1000);
-
 function loadSearchCatalogItems() {
   if (document.getElementById('search-catalog-items')) {
-    if (loaded) {
-      return;
-    }
-    loaded = true;
-
     new _vue2.default({
       el: '#search-catalog-items',
-
       render: function render(h) {
         return h(_App2.default);
       }
