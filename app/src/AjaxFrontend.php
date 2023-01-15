@@ -127,7 +127,6 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 				'orderby'          => 'ID',
 				'post_status'      => 'publish',
 				'order'            => 'DESC',
-				'suppress_filters' => true,
 				'posts_per_page'   => - 1 // this will retrive all the post that is published
 			);
 			$catalog_items = new WP_Query( $args );

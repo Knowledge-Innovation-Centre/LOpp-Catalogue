@@ -248,7 +248,11 @@ if ( ! class_exists( Catalogue::class ) ) {
 					$urls = explode(' ',  $value);
 					$value = '';
 					foreach ($urls as $url) {
-						$value .= '<a target="_blank" href="'. $url . '">'. $url .'</a><br>';
+						if ( strpos(  $url, 'http' ) !== false ) {
+							$value .= '<a target="_blank" href="' . $url . '">' . $url . '</a><br>';
+						} else {
+							$value .= $url . ' ';
+						}
 					}
 				}
 
