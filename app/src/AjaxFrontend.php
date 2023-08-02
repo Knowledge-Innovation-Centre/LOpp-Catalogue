@@ -7,6 +7,9 @@ namespace LearningOpportunitiesCatalogue;
 use LearningOpportunitiesCatalogue\PostTypes\Catalogue;
 use LearningOpportunitiesCatalogue\PostTypes\CatalogueFields;
 use LearningOpportunitiesCatalogue\PostTypes\CatalogueSearchIndex;
+use LearningOpportunitiesCatalogue\PostTypes\DimensionSubsetItem;
+use LearningOpportunitiesCatalogue\PostTypes\LearningOutcome;
+use LearningOpportunitiesCatalogue\PostTypes\LearningOutcomeFields;
 use WP_Query;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,26 +45,33 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 			$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
+			$fields = array_merge( $fields, LearningOutcomeFields::get_general_fields() );
 
 			foreach ( $fields as $field ) {
 
 				$slug       = '_' . $field['slug'];
 				$slugFilter = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_filter';
 				if ( ! isset( $options[ $slugFilter ] ) ) {
-					continue;
+					$slugFilter = '_' . $field['slug'] . '_' . LearningOutcome::POST_TYPE . '_filter';
+					if ( ! isset( $options[ $slugFilter ] ) ) {
+						continue;
+					}
 				}
 				if ( $options[ $slugFilter ]->option_value == 'disable' ) {
 					continue;
 				}
+
 				if ( $options[ $slugFilter ]->option_value == 'slider' ) {
 
 					$field['max'] = (float) $this->end_meta_value( $slug, 'max' );
 					$field['min'] = (float) $this->end_meta_value( $slug, 'min' );
 				}
-				if ( in_array($options[ $slugFilter ]->option_value, ['checkbox', 'dropdown']) ) {
+				if ( in_array($options[ $slugFilter ]->option_value, ['checkbox', 'dropdown', 'multiselect']) ) {
 					if ( isset( $field['options'] ) ) {
 						$field['values'] = $field['options'];
-
+					} elseif (  $field['type'] == 'association'  ) {
+						$field['values'] = $this->get_association_elements( $field );
+						$field['search_key'] = $this->get_search_key( $field );
 					} else {
 						$field['values'] = $this->unique_meta_value( $slug );
 					}
@@ -85,8 +95,33 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			return $wpdb->get_var( $query );
 		}
 
+		function get_association_elements( $field ) {
+			$posts = get_posts([
+				'post_type' => $field['post_type'],
+				'numberposts' => -1
+			]) ;
+
+			$mappedPosts = [];
+
+			foreach ($posts as $post) {
+				$mappedPosts[] = [
+					'id' => $post->ID,
+					'label' => $post->post_title,
+					];
+			}
+
+			return  $mappedPosts;
+
+		}
+		function get_search_key( $field ) {
+			if ($field['post_type'] == DimensionSubsetItem::POST_TYPE) {
+				return 'loc_subset_items';
+			}
+		}
+
 		function unique_meta_value( $meta ) {
 			global $wpdb;
+
 			$query = $wpdb->prepare(
 				"SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key='%s'",
 				$meta
@@ -95,6 +130,7 @@ if ( ! class_exists( AjaxFrontend::class ) ) {
 			$values = [];
 
 			$results = $wpdb->get_results( $query, ARRAY_N );
+
 			foreach ( $results as $result ) {
 				if ( $result[0] && $result[0] != '' ) {
 

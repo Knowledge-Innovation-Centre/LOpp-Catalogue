@@ -209,6 +209,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 						'disable'  => __( 'Disable' ),
 						'checkbox' => __( 'Checkbox' ),
 						'dropdown' => __( 'Dropdown' ),
+						'multiselect' => __( 'Multiselect' ),
 						'slider'   => __( 'Slider' ),
 						'date'     => __( 'Date' ),
 					] )->set_width( 30 );
@@ -260,6 +261,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 							'disable'  => __( 'Disable' ),
 							'checkbox' => __( 'Checkbox' ),
 							'dropdown' => __( 'Dropdown' ),
+							'multiselect' => __( 'Multiselect' ),
 							'slider'   => __( 'Slider' ),
 							'date'     => __( 'Date' ),
 						] )->set_width( 15 ),
@@ -369,7 +371,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 		}
 
 		foreach ( $filter_fields as $field ) {
-			if (  in_array( $field['filter_type'], [  'checkbox', 'dropdown', 'slider', 'date' ] )) {
+			if (  in_array( $field['filter_type'], [  'checkbox', 'dropdown', 'multiselect', 'slider', 'date' ] )) {
 					$facets[] = $field['slug'];
 			}
 		}

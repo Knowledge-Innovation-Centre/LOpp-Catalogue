@@ -3,7 +3,7 @@
  * Plugin Name: Learning Opportunities Catalogue
  * Plugin URI: https://knowledgeinnovation.eu/
  * Description:
- * Version: 1.7.7
+ * Version: 1.8.0
  * Requires at least: 4.7
  * Requires PHP: 5.5.9
  * Author: Jure Jager & Carmen L. Padron - Knowledge innovation
@@ -50,7 +50,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'src'
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'helpers.php';
 
 // Bootstrap plugin after all dependencies and helpers are loaded.
-\LearningOpportunitiesCatalogue::make()->bootstrap( require __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php' );
+LearningOpportunitiesCatalogue::make()->bootstrap( require __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php' );
 
 // Register hooks.
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'hooks.php';

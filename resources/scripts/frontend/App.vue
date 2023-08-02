@@ -9,9 +9,11 @@
 			  <input v-model="searchString" :placeholder="$t('Enter text')" type="text" class="tw-w-full"/>
 		  </div>
 	  </div>
-      <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
+      <div class="tw-grid lg:tw-grid-cols-3 md:tw-grid-cols-2 tw-gap-4 sm:tw-grid-cols-1 tw-max-w-full tw-mb-5">
 
-        <div v-for="(filterField, index) in filterFields" class="tw-mb-5 tw-mr-0 sm:tw-mr-5" :key="index">
+        <template v-for="(filterField, index) in filterFields" >
+			<div :class="{'tw-col-span-3' : filterField.type === 'multiselect'}" :key="index">
+
           <h4 class="tw-mb-3">{{ filterField.title }}</h4>
           <date-picker v-if="filterField.type === 'date'" @input="filterDate($event, filterField.field)"></date-picker>
 
@@ -19,6 +21,7 @@
               v-else-if="filterField.type === 'slider'"
               :min="filterField.min"
               :max="filterField.max"
+			  class="tw-mx-2"
               :lazy="true"
               v-model="filterValues[filterField.field]"
               @change="search()"
@@ -34,6 +37,18 @@
 				  {{ value }}
 			  </option>
 		  </select>
+          <v-select
+              v-else-if="filterField.type === 'multiselect'"
+			  class="tw-max-w-full"
+              v-model="filterValues[filterField.field]"
+			  :options="filterField.values"
+			  :multiple="true"
+              @input="search()"
+          >
+			  <option :value="key" v-for="(value, key) in filterField.values" :key="key">
+				  {{ value }}
+			  </option>
+		  </v-select>
 
           <ul v-else class="tw-list-none tw-p-0">
 
@@ -45,7 +60,8 @@
           </ul>
 
 
-        </div>
+			</div>
+        </template>
       </div>
       <div class="">
         <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
@@ -79,6 +95,8 @@ import 'vue-slider-component/theme/antd.css'; // NEW
 import DatePicker from "./components/DatePicker.vue"
 import Pagination from "./components/Pagination.vue"
 import Hits from "./components/Hits.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 import debounce from "lodash/debounce"
 import {MeiliSearch} from 'meilisearch'
@@ -110,6 +128,7 @@ export default {
     Hits,
     VueSlider,
     DatePicker,
+	  vSelect,
     Pagination
   },
   watch: {
@@ -159,7 +178,8 @@ export default {
           let filter = {
             type: field.filter,
             field: field.slug,
-            title: field.title
+            title: field.title,
+			  search_key: field.search_key,
           }
 
           if (field.filter === 'slider') {
@@ -172,7 +192,7 @@ export default {
             this.$set(this.filterValues, field.slug, [field.min, field.max])
 
           }
-          if (['checkbox', 'dropdown'].includes(field.filter)) {
+          if (['checkbox', 'dropdown', 'multiselect'].includes(field.filter)) {
             filter.values = field.values;
             this.$set(this.filterValues, field.slug, [])
           }
@@ -272,6 +292,25 @@ export default {
 					facet +=  " OR ";
 				}
 				facet += slug + " = " + "'" + valueItem + "'";
+
+				index++;
+			}
+			facet += ") ";
+			filters.push(facet);
+        }
+        if (['multiselect'].includes(filterField.type)) {
+          if (!value.length) {
+            continue;
+          }
+			let facet = " (";
+
+			let index = 1;
+			for (const valueItem of value) {
+
+				if (index !== 1) {
+					facet +=  " OR ";
+				}
+				facet += filterField.search_key + " = " + "'" + valueItem.id + "'";
 
 				index++;
 			}

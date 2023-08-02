@@ -107,25 +107,19 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 		}
 
 		private static function getIndex($post, $fields, $catalogItemIndex, $allMeta) {
-
-
-//				print_r($allMeta);
 			foreach ( $fields as $field ) {
 
 				$value = self::get_value( $post, $field, $allMeta );
-//				print_r($field);
-//				print_r($value);
 				if ( ! is_array( $value ) ) {
-					if ($field['slug'] == 'duration') {
-						$catalogItemIndex[ $field['slug'] ] = (float)$value;
-						continue;
 
+					if (is_numeric($value)) {
+						$value = (float)$value;
 					}
+
 					$catalogItemIndex[ $field['slug'] ] = $value;
 					continue;
 				}
 				foreach ( $value as $key => $valueItem ) {
-
 					$catalogItemIndex[ $key ] = $valueItem;
 				}
 			}

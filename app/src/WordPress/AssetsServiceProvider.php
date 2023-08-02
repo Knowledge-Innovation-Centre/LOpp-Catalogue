@@ -2,13 +2,13 @@
 
 namespace LearningOpportunitiesCatalogue\WordPress;
 
+use LearningOpportunitiesCatalogue;
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
 
 /**
  * Register and enqueues assets.
  */
-class AssetsServiceProvider implements ServiceProviderInterface
-{
+class AssetsServiceProvider implements ServiceProviderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -20,9 +20,9 @@ class AssetsServiceProvider implements ServiceProviderInterface
 	 * {@inheritDoc}
 	 */
 	public function bootstrap( $container ) {
-		add_action( 'wp_enqueue_scripts', [$this, 'enqueueFrontendAssets'] );
-		add_action( 'admin_enqueue_scripts', [$this, 'enqueueAdminAssets'] );
-		add_action( 'wp_footer', [$this, 'loadSvgSprite'] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueueFrontendAssets' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
+		add_action( 'wp_footer', [ $this, 'loadSvgSprite' ] );
 	}
 
 	/**
@@ -37,19 +37,19 @@ class AssetsServiceProvider implements ServiceProviderInterface
 		}
 
 		// Enqueue scripts.
-		\LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
-			'theme-js-bundle',
-			\LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.js' ),
-			[ 'jquery', 'jquery-ui-tabs' ],
+		LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
+			'theme-js-bundle-loc',
+			LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.js' ),
+			[ 'jquery', 'jquery-ui-tabs', 'jquery-ui-tabs' ],
 			true
 		);
 
 		// Enqueue styles.
-		$style = \LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.css' );
+		$style = LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.css' );
 
 		if ( $style ) {
-			\LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
-				'theme-css-bundle',
+			LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
+				'theme-css-bundle-loc',
 				$style
 			);
 		}
@@ -62,19 +62,19 @@ class AssetsServiceProvider implements ServiceProviderInterface
 	 */
 	public function enqueueAdminAssets() {
 		// Enqueue scripts.
-		\LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
-			'theme-admin-js-bundle',
-			\LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'admin', '.js' ),
-			[ 'jquery' ],
+		LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
+			'theme-admin-js-bundle-loc',
+			LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'admin', '.js' ),
+			[ 'jquery', 'underscore' ],
 			true
 		);
 
 		// Enqueue styles.
-		$style = \LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'admin', '.css' );
+		$style = LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'admin', '.css' );
 
 		if ( $style ) {
-			\LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
-				'theme-admin-css-bundle',
+			LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
+				'theme-admin-css-bundle-loc',
 				$style
 			);
 		}

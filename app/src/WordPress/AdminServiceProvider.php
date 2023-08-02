@@ -33,11 +33,17 @@ class AdminServiceProvider implements ServiceProviderInterface {
 	 */
 	public function registerAdminPages() {
 		add_menu_page(__('LOC', 'learning-opportunities-catalogue'), __('LOC', 'learning-opportunities-catalogue'), 'edit_posts',  'edit.php?post_type=loc_catalogue_item');
-		add_menu_page( __('LMM Dimensions', 'learning-opportunities-catalogue'), __('LMM Dimensions', 'learning-opportunities-catalogue'), 'edit_posts','edit.php?post_type=' . Dimension::POST_TYPE);
-
 		add_submenu_page( 'edit.php?post_type=loc_catalogue_item', __('Learning outcome', 'learning-opportunities-catalogue'), __('Learning outcome', 'learning-opportunities-catalogue'), 'edit_posts','edit.php?post_type=' . LearningOutcome::POST_TYPE);
-		add_submenu_page( 'edit.php?post_type=' . Dimension::POST_TYPE, __('Dimension subsets', 'learning-opportunities-catalogue'), __('Dimension subsets', 'learning-opportunities-catalogue'), 'edit_posts','edit.php?post_type=' . DimensionSubset::POST_TYPE);
-		add_submenu_page( 'edit.php?post_type=' . Dimension::POST_TYPE, __('Dimension subset items', 'learning-opportunities-catalogue'), __('Dimension subset items', 'learning-opportunities-catalogue'), 'edit_posts','edit.php?post_type=' . DimensionSubsetItem::POST_TYPE);
+
+		$enable_lmm = carbon_get_theme_option( 'enable_lmm' );
+
+		if ( $enable_lmm ) {
+
+			add_menu_page( __( 'LMM Dimensions', 'learning-opportunities-catalogue' ), __( 'LMM Dimensions', 'learning-opportunities-catalogue' ), 'edit_posts', 'edit.php?post_type=' . Dimension::POST_TYPE );
+
+			add_submenu_page( 'edit.php?post_type=' . Dimension::POST_TYPE, __( 'Dimension subsets', 'learning-opportunities-catalogue' ), __( 'Dimension subsets', 'learning-opportunities-catalogue' ), 'edit_posts', 'edit.php?post_type=' . DimensionSubset::POST_TYPE );
+			add_submenu_page( 'edit.php?post_type=' . Dimension::POST_TYPE, __( 'Dimension subset items', 'learning-opportunities-catalogue' ), __( 'Dimension subset items', 'learning-opportunities-catalogue' ), 'edit_posts', 'edit.php?post_type=' . DimensionSubsetItem::POST_TYPE );
+		}
 
 		add_submenu_page('edit.php?post_type=loc_catalogue_item', __('LOC importer', 'learning-opportunities-catalogue'),__('LOC importer', 'learning-opportunities-catalogue'), 'edit_posts', 'learning-opportunities-catalogue-settings', [
 			$this,
