@@ -84,7 +84,8 @@ if ( ! class_exists( Catalogue::class ) ) {
 			         ->add_tab( __( 'Information about the LOpp' ), CatalogueFields::get_carbon_fields( 'get_information_about_the_lopp_fields',$this->post_type ) )
 			         ->add_tab( __( 'Learning specification' ), CatalogueFields::get_carbon_fields( 'get_learning_specification_fields', $this->post_type ) )
 			         ->add_tab( __( 'Contact' ), CatalogueFields::get_carbon_fields( 'get_contact_fields', $this->post_type ) )
-			         ->add_tab( __( 'Related learning specifications' ), CatalogueFields::get_carbon_fields( 'get_part', $this->post_type ) );
+			         ->add_tab( __( 'Related learning specifications' ), CatalogueFields::get_carbon_fields( 'get_part', $this->post_type ) )
+			         ->add_tab( __( 'Additional field' ), CatalogueFields::get_carbon_fields( 'additional_fields', $this->post_type ) );
 		}
 
 		function filterVisible($fields, $postType) {
@@ -126,6 +127,15 @@ if ( ! class_exists( Catalogue::class ) ) {
 				$newFields[] = $field['slug'];
 			}
 
+			$additionalFields =  carbon_get_theme_option( 'loc_option_catalogue_fields' );
+
+			foreach ($additionalFields as $additional_field) {
+				if ($additional_field['visible_in_list']) {
+					$newFields[] = $additional_field['slug'];
+				}
+
+			}
+
 			return $newFields;
 		}
 
@@ -143,6 +153,7 @@ if ( ! class_exists( Catalogue::class ) ) {
 				$informationAboutTheLoopFields =  $this->filterVisible(CatalogueFields::get_information_about_the_lopp_fields(), Catalogue::POST_TYPE);
 				$learningSpecificationFields =  $this->filterVisible(CatalogueFields::get_learning_specification_fields(), Catalogue::POST_TYPE);
 				$contactFields =  $this->filterVisible(CatalogueFields::get_contact_fields(), Catalogue::POST_TYPE);
+				$additionalFields =  carbon_get_theme_option( 'loc_option_catalogue_fields' );
 
 
 				$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_is_url'";
@@ -170,6 +181,9 @@ if ( ! class_exists( Catalogue::class ) ) {
 						endif;
 						if (count($contactFields)):
 						$content .= '<li class="tw-border tw-border-solid tw-border-gray-800"><a href="#tabs-4">' . __( 'Contact' ) . '</a></li>';
+						endif;
+						if (count($additionalFields)):
+						$content .= '<li class="tw-border tw-border-solid tw-border-gray-800"><a href="#tabs-5">' . __( 'Additional fields' ) . '</a></li>';
 						endif;
 						$content .= '</ul>
 				  <div id="tabs-1">
@@ -211,6 +225,15 @@ if ( ! class_exists( Catalogue::class ) ) {
 							$content .= '
 						</tbody >
 					</table >
+				  </div><div id="tabs-5">
+					<table>
+						<tbody>';
+							foreach ( $additionalFields as $field ) :
+								$content .= $this->getAdditionalFieldTableRowCarbon(get_the_ID(), $field);
+							endforeach;
+							$content .= '
+						</tbody >
+					</table >
 				  </div>
 				</div>';
 
@@ -238,6 +261,29 @@ if ( ! class_exists( Catalogue::class ) ) {
 				. '</tr>';
 
 		}
+
+		private function getAdditionalFieldTableRowCarbon($id, $field) {
+
+			$value = carbon_get_post_meta($id, $field['slug']);
+			$title = $field['title'];
+			if (is_string($value)) {
+				if ($field['is_url']) {
+
+					$urls = explode(' ',  $value);
+					$value = '';
+					foreach ($urls as $url) {
+						if ( strpos(  $url, 'http' ) !== false ) {
+							$value .= '<a target="_blank" href="' . $url . '">' . $url . '</a><br>';
+						} else {
+							$value .= $url . ' ';
+						}
+					}
+				}
+			}
+
+			return $this->getTableRow($title, $value);
+		}
+
 		private function getTableRowCarbon($id, $slug, $title) {
 			$value = carbon_get_post_meta($id, $slug);
 

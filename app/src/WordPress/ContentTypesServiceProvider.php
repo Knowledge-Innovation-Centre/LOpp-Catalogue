@@ -36,7 +36,6 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		add_action( 'init', [$catalogue, 'register' ]);
 		add_action( 'before_delete_post', [$catalogue, 'before_delete_post' ], 10, 3);
 		add_action( 'updated_post_meta', [$catalogue, 'updated_post_meta' ], 10, 4 );
-		add_action( 'publish_post', [$catalogue, 'publish_post' ], 10, 2 );
 		add_action( 'carbon_fields_register_fields', [$catalogue, 'custom_fields' ]);
 
 		$catalogueImporter = new CatalogueImporter();

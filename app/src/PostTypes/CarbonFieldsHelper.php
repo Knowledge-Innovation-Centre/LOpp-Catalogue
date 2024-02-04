@@ -4,6 +4,7 @@
 namespace LearningOpportunitiesCatalogue\PostTypes;
 
 use Carbon_Fields\Field;
+use LearningOpportunitiesCatalogue\CarbonFields\CarbonFieldsServiceProvider;
 
 trait CarbonFieldsHelper {
 
@@ -13,7 +14,14 @@ trait CarbonFieldsHelper {
 		$query   = "SELECT option_name, option_value FROM " . $wpdb->prefix . "options where option_name LIKE '%_required'";
 		$options = $wpdb->get_results( $query, OBJECT_K );
 
-		foreach ( self::$type() as $field ) {
+
+		if ($type== 'additional_fields') {
+			$carbonFields = carbon_get_theme_option( 'loc_option_catalogue_fields' );
+		} else {
+			$carbonFields = self::$type();
+		}
+
+		foreach ( $carbonFields as $field ) {
 			if ( $field['post_type'] ?? false ) {
 				$addField = Field::make( $field["type"], $field["slug"], $field["title"] )->set_types( [
 					[

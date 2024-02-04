@@ -81,7 +81,7 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 				$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
 				$fields = array_merge( $fields, CatalogueFields::get_learning_specification_fields() );
 				$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
-				// $fields = array_merge( $fields, carbon_get_theme_option( 'loc_option_catalogue_fields' ) );
+				$fields = array_merge( $fields, carbon_get_theme_option( 'loc_option_catalogue_fields' ) );
 
 				$learningOutcomes = carbon_get_post_meta($post->ID, 'learning_outcome');
 
@@ -108,7 +108,6 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 
 		private static function getIndex($post, $fields, $catalogItemIndex, $allMeta) {
 			foreach ( $fields as $field ) {
-
 				$value = self::get_value( $post, $field, $allMeta );
 				if ( ! is_array( $value ) ) {
 

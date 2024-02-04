@@ -242,19 +242,20 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 			}
 			$container = $container->add_tab( $fieldsForThemeOptions['title'], $fields_for_theme_options );
 		}
+
 		$container->add_tab( __( 'Additional fields' ), [
 			Field::make( 'complex', 'loc_option_catalogue_fields', __( 'Catalog item fields' ) )
 				->set_visible_in_rest_api( true )
 				->add_fields( [
-					Field::make( 'text', 'title', __( 'Field title' ) )->set_width( 25 ),
-					Field::make( 'text', 'slug', __( 'Field slug' ) )->set_width( 25 ),
+					Field::make( 'text', 'title', __( 'Field title' ) )->set_width( 15 ),
+					Field::make( 'text', 'slug', __( 'Field slug' ) )->set_width( 15 ),
 					Field::make( 'select', 'type', __( 'Field type' ) )
 						->add_options( [
 							'text'     => __( 'Text' ),
 							'date'     => __( 'Date' ),
 							'textarea' => __( 'Textarea' ),
 						] )->set_width( 10 ),
-					Field::make( 'text', 'searchable', __( 'Searchable' ) )
+					Field::make( 'text', 'searchable', __( 'Search weight' ) )
 						->set_attribute( 'type', 'number' )->set_width( 10 ),
 					Field::make( 'select', 'filter', __( 'Filter' ) )
 						->set_options( [
@@ -264,14 +265,28 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 							'multiselect' => __( 'Multiselect' ),
 							'slider'   => __( 'Slider' ),
 							'date'     => __( 'Date' ),
-						] )->set_width( 15 ),
+						] )->set_width( 10 ),
 					Field::make( 'select', 'width', __( 'Width in editor' ) )
 						->set_options( [
 							'100' => '100%',
 							'50'  => '50%',
 							'33'  => '33%',
 							'20'  => '20%',
-						] )->set_width( 15 ),
+						] )->set_width( 5 ),
+					Field::make( 'checkbox', 'visible', __( 'Visible in website (frontend) table' ) )
+					     ->set_option_value( 'yes' )
+					     ->set_width( 5 ),
+					Field::make( 'checkbox', 'visible_in_list', __( 'Visible in catalogue list (frontend)' ) )
+					     ->set_option_value( 'yes' )
+					     ->set_width( 5 ),
+					Field::make( 'checkbox', 'required', 'Required field' )
+					     ->set_option_value( 'yes' )
+					     ->set_width( 5 ),
+					Field::make( 'checkbox', 'is_url', 'Is url' )
+					     ->set_option_value( 'yes' )
+					     ->set_width( 5 ),
+
+
 				] )
 		] );
 	}
