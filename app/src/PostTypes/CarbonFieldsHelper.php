@@ -55,7 +55,10 @@ trait CarbonFieldsHelper {
 			$slug = '_' . $field['slug'] . '_'. $postType . '_required';
 
 			if ( isset( $options[ $slug ] ) && $options[ $slug ]->option_value == 'yes' ) {
-				$addField = $addField->set_required(true);
+				$addField = $addField->set_required();
+			}
+			if ( isset(  $field['required'] ) &&  $field['required'] ) {
+				$addField = $addField->set_required();
 			}
 
 

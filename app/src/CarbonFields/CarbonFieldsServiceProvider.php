@@ -247,8 +247,8 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface {
 			Field::make( 'complex', 'loc_option_catalogue_fields', __( 'Catalog item fields' ) )
 				->set_visible_in_rest_api( true )
 				->add_fields( [
-					Field::make( 'text', 'title', __( 'Field title' ) )->set_width( 15 ),
-					Field::make( 'text', 'slug', __( 'Field slug' ) )->set_width( 15 ),
+					Field::make( 'text', 'title', __( 'Field title' ) )->set_width( 15 )->set_required(),
+					Field::make( 'text', 'slug', __( 'Field slug' ) )->set_width( 15 )->set_required(),
 					Field::make( 'select', 'type', __( 'Field type' ) )
 						->add_options( [
 							'text'     => __( 'Text' ),
