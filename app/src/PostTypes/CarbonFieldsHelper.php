@@ -22,6 +22,12 @@ trait CarbonFieldsHelper {
 		}
 
 		foreach ( $carbonFields as $field ) {
+			if (!$field["slug"]) {
+				continue;
+			}
+			if (!$field["title"]) {
+				continue;
+			}
 			if ( $field['post_type'] ?? false ) {
 				$addField = Field::make( $field["type"], $field["slug"], $field["title"] )->set_types( [
 					[
