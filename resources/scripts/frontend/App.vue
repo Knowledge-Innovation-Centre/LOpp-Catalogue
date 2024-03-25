@@ -1,93 +1,74 @@
 <template>
   <div class="container">
-      <div v-if="resultText && isResult" class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
-		  {{ resultText }}
-	  </div>
-      <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
-		  <div class="tw-mb-5 tw-w-full">
-			  <h4 class="tw-mb-3">{{ $t('Search') }}</h4>
-			  <input v-model="searchString" :placeholder="$t('Enter text')" type="text" class="tw-w-full"/>
-		  </div>
-	  </div>
-      <div class="tw-grid lg:tw-grid-cols-3 md:tw-grid-cols-2 tw-gap-4 sm:tw-grid-cols-1 tw-max-w-full tw-mb-5">
-
-        <template v-for="(filterField, index) in filterFields" >
-			<div :class="{'tw-col-span-3' : filterField.type === 'multiselect'}" :key="index">
-
-          <h4 class="tw-mb-3">{{ filterField.title }}</h4>
-          <date-picker v-if="filterField.type === 'date'" @input="filterDate($event, filterField.field)"></date-picker>
-
-          <vue-slider
-              v-else-if="filterField.type === 'slider'"
-              :min="filterField.min"
-              :max="filterField.max"
-			  class="tw-mx-2"
-              :lazy="true"
-              v-model="filterValues[filterField.field]"
-              @change="search()"
-
-          ></vue-slider>
-          <select
-              v-else-if="filterField.type === 'dropdown'"
-			  class="tw-max-w-full"
-              v-model="filterValues[filterField.field]"
-              @change="search()"
-          >
-			  <option :value="key" v-for="(value, key) in filterField.values" :key="key">
-				  {{ value }}
-			  </option>
-		  </select>
-          <v-select
-              v-else-if="filterField.type === 'multiselect'"
-			  class="tw-max-w-full"
-              v-model="filterValues[filterField.field]"
-			  :options="filterField.values"
-			  :multiple="true"
-              @input="search()"
-          >
-			  <option :value="key" v-for="(value, key) in filterField.values" :key="key">
-				  {{ value }}
-			  </option>
-		  </v-select>
-
-          <ul v-else class="tw-list-none tw-p-0">
-
-            <li class="tw-flex tw-items-center" v-for="(value, key) in filterField.values" :key="key">
-              <input type="checkbox"
-                     v-model="filterValues[filterField.field]" @change="search()" :value="key">
-              <span class="tw-ml-5">{{ value }}</span>
-            </li>
-          </ul>
-
-
-			</div>
+    <div v-if="resultText && isResult" class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-mx-0 tw-max-w-full">
+      {{ resultText }}
+    </div>
+    <div class="flex items-center search-container mb-10">
+      <div class="tw-mb-5 search">
+        <h4 class="text-xl mb-2 font-bold dark:text-white text-align:center">{{ $t('Search by keyword') }}</h4>
+        <input v-model="searchString" :placeholder="$t('Enter keyword')" type="text" class="tw-w-full search-input" />
+      </div>
+    </div>
+    <div class="filter-container">
+      <!-- Checkbox/Radio Container -->
+      <div class="checkbox-container">
+        <template v-for="(filterField, index) in filterFields">
+          <div v-if="['checkbox', 'radio'].includes(filterField.type)"
+            :class="{ 'tw-col-span-3': filterField.type === 'multiselect' }" :key="'checkbox-' + index">
+            <h4 class="tw-mb-3 filter-title">{{ filterField.title }}</h4>
+            <ul class="tw-list-none tw-p-0 mb-7">
+              <li class="tw-flex tw-items-center" v-for="(value, key) in filterField.values" :key="key">
+                <input type="checkbox" v-model="filterValues[filterField.field]" @change="search()" :value="key">
+                <span class="tw-ml-5">{{ value }}</span>
+              </li>
+            </ul>
+          </div>
         </template>
       </div>
-      <div class="">
-        <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
-        <span v-if="meilisearchFail">
-                {{
-            $t('There is a problem with search engine. Try using default wordpress search at top of the page...')
-          }}
-              </span>
-        <hits v-else :display-fields="displayFields" :hits="hits"></hits>
-      </div>
-      <div class="tw-flex tw-justify-between tw-mt-5">
-		  <select class="tw-w-20-important" v-model="limit">
-			  <option :value="3">3</option>
-			  <option :value="6">6</option>
-			  <option :value="12">12</option>
-			  <option :value="24">24</option>
-			  <option :value="48">48</option>
-			  <option :value="96">96</option>
-		  </select>
-        <pagination :limit="limit" :offset="offset" :nb-hits="nbHits"
-                    @update-offset="updateOffset($event)"></pagination>
-      </div>
+
+      <!-- Dropdown Container -->
+      <div class="dropdown-container">
+        <template v-for="(filterField, index) in filterFields">
+          <div v-if="filterField.type === 'dropdown'" :key="'dropdown-' + index">
+            <h4 class="tw-mb-3 filter-title">{{ filterField.title }}</h4>
+            <select id="dropdown-filters" class="mb-7 bg-gray-50 border border-black-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              @change="search()" placeholder="asfsaf">
+              <option disabled selected>Choose a {{filterField.title}}</option>
+              <option class="dropdown-option" :value="key" v-for="(value, key) in filterField.values"
+                :key="key">
+                {{ value }}
+              </option>
+            </select>
+          </div>
+        </template>
+      </div>    
+    </div>
+    <h1 class="text-4xl font-extrabold dark:text-white mb-8">Suggested Courses</h1>
+    <div class="">
+      <div v-if="loading" class="loader">{{ $t('Loading...') }}</div>
+      <span v-if="meilisearchFail">
+        {{
+      $t('There is a problem with search engine. Try using default wordpress search at top of the page...')
+    }}
+      </span>
+      <hits v-else :display-fields="displayFields" :hits="hits"></hits>
+    </div>
+    <div class="tw-flex tw-justify-between tw-mt-5">
+      <select class="tw-w-20-important" v-model="limit">
+        <option :value="3">3</option>
+        <option :value="6">6</option>
+        <option :value="12">12</option>
+        <option :value="24">24</option>
+        <option :value="48">48</option>
+        <option :value="96">96</option>
+      </select>
+      <pagination :limit="limit" :offset="offset" :nb-hits="nbHits" @update-offset="updateOffset($event)"></pagination>
+    </div>
   </div>
 </template>
 
 <script>
+
 import Api from "../Api";
 
 import VueSlider from 'vue-slider-component'; // NEW
@@ -95,11 +76,10 @@ import 'vue-slider-component/theme/antd.css'; // NEW
 import DatePicker from "./components/DatePicker.vue"
 import Pagination from "./components/Pagination.vue"
 import Hits from "./components/Hits.vue";
-import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
+import "./components/App.css";
 
 import debounce from "lodash/debounce"
-import {MeiliSearch} from 'meilisearch'
+import { MeiliSearch } from 'meilisearch'
 
 
 export default {
@@ -109,12 +89,12 @@ export default {
       searchClient: null,
       meilisearchUrl: null,
       meilisearchKey: null,
-		resultText: null,
-		isResult: false,
-		meilisearchIndexKey: null,
+      resultText: null,
+      isResult: false,
+      meilisearchIndexKey: null,
       searchString: null,
       fees: null,
-		displayFields: [],
+      displayFields: [],
       filterFields: [],
       filterValues: {},
       limit: 12,
@@ -128,11 +108,10 @@ export default {
     Hits,
     VueSlider,
     DatePicker,
-	  vSelect,
-    Pagination
+    Pagination,
   },
   watch: {
-     searchString() {
+    searchString() {
       this.querySearch();
     },
     limit() {
@@ -144,7 +123,7 @@ export default {
   },
   methods: {
     querySearch: debounce(function () {
-       this.search();
+      this.search();
     }, 500),
     loadData() {
       let formData = new FormData();
@@ -160,7 +139,7 @@ export default {
           apiKey: this.meilisearchKey
         })
       })
-       formData = new FormData();
+      formData = new FormData();
       formData.append("action", "get_display_fields");
       Api.post(ajaxurl, formData).then(response => {
         this.displayFields = response.data;
@@ -179,7 +158,7 @@ export default {
             type: field.filter,
             field: field.slug,
             title: field.title,
-			  search_key: field.search_key,
+            search_key: field.search_key,
           }
 
           if (field.filter === 'slider') {
@@ -205,61 +184,77 @@ export default {
         this.search();
       });
     },
-     search() {
+    search() {
       if (!this.searchClient) {
         return;
       }
       this.loading = true;
       let filters = this.getFilters();
-      // let facets = this.getFacets();
-      let searchParams = {}
+      let searchParams = {};
       if (filters.length) {
-        searchParams.filter = filters.join(' AND ')
+        searchParams.filter = filters.join(' AND ');
       }
-      searchParams.limit = this.limit
-      searchParams.offset = this.offset
+      searchParams.limit = this.limit;
+      searchParams.offset = this.offset;
+
       try {
+        const apiUrl = `${this.meilisearchUrl}/indexes/${this.meilisearchIndexKey}/search`;
+        const apiKey = this.meilisearchKey;
 
-        this.searchClient.index(this.meilisearchIndexKey).search(this.searchString, searchParams).then(response => {
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            q: this.searchString,
+            ...searchParams, 
+          }),
+        };
 
-        this.hits = response.hits;
-        this.nbHits = response.nbHits;
-		}).finally(() => {
-      		this.loading = false;
-		})
-
+        fetch(apiUrl, requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            this.hits = data.hits;
+            this.nbHits = data.nbHits;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       } catch (e) {
         this.meilisearchFail = true;
       }
-
     },
-	  setDimensionsFilter(filters) {
-		  const params = new Proxy(new URLSearchParams(window.location.search), {
-			  get: (searchParams, prop) => searchParams.get(prop),
-		  });
-		  this.isResult = false;
 
-		  if (params.dimensions) {
-			  this.isResult = true;
-			  let facet = " (";
-			  let index = 1;
-			  for (const dimension of params.dimensions.split(',')) {
 
-				  if (index !== 1) {
-					  facet +=  " OR ";
-				  }
-				  facet += "loc_subset_items = " + dimension;
-				  index++;
-			  }
+    setDimensionsFilter(filters) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      this.isResult = false;
 
-			  facet += ") ";
-			  filters.push(facet);
-		  }
-		  return filters
-	  },
+      if (params.dimensions) {
+        this.isResult = true;
+        let facet = " (";
+        let index = 1;
+        for (const dimension of params.dimensions.split(',')) {
+
+          if (index !== 1) {
+            facet += " OR ";
+          }
+          facet += "loc_subset_items = " + dimension;
+          index++;
+        }
+
+        facet += ") ";
+        filters.push(facet);
+      }
+      return filters
+    },
     getFilters() {
       let filters = [];
-	  filters = this.setDimensionsFilter(filters)
+      filters = this.setDimensionsFilter(filters)
 
       for (let filterField of this.filterFields) {
         if (!this.filterValues[filterField.field]) {
@@ -283,49 +278,49 @@ export default {
           if (!value.length) {
             continue;
           }
-			let facet = " (";
+          let facet = " (";
 
-			let index = 1;
-			for (const valueItem of value) {
+          let index = 1;
+          for (const valueItem of value) {
 
-				if (index !== 1) {
-					facet +=  " OR ";
-				}
-				facet += slug + " = " + "'" + valueItem + "'";
+            if (index !== 1) {
+              facet += " OR ";
+            }
+            facet += slug + " = " + "'" + valueItem + "'";
 
-				index++;
-			}
-			facet += ") ";
-			filters.push(facet);
+            index++;
+          }
+          facet += ") ";
+          filters.push(facet);
         }
         if (['multiselect'].includes(filterField.type)) {
           if (!value.length) {
             continue;
           }
-			let facet = " (";
+          let facet = " (";
 
-			let index = 1;
-			for (const valueItem of value) {
+          let index = 1;
+          for (const valueItem of value) {
 
-				if (index !== 1) {
-					facet +=  " OR ";
-				}
-				facet += filterField.search_key + " = " + "'" + valueItem.id + "'";
+            if (index !== 1) {
+              facet += " OR ";
+            }
+            facet += filterField.search_key + " = " + "'" + valueItem.id + "'";
 
-				index++;
-			}
-			facet += ") ";
-			filters.push(facet);
+            index++;
+          }
+          facet += ") ";
+          filters.push(facet);
         }
         if (['dropdown'].includes(filterField.type)) {
           if (!value.length) {
             continue;
           }
-			let facet = " (";
-				facet += slug + " = " + "'" + value + "'";
+          let facet = " (";
+          facet += slug + " = " + "'" + value + "'";
 
-			facet += ") ";
-			filters.push(facet);
+          facet += ") ";
+          filters.push(facet);
         }
       }
       return filters;
@@ -370,11 +365,14 @@ export default {
     }
   },
 };
+
 </script>
 
 <style>
 
-.entry-content > :not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce) {
+@import 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css';
+
+.entry-content> :not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce) {
   max-width: 1280px !important;
 }
 
@@ -406,6 +404,7 @@ export default {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
@@ -417,14 +416,10 @@ export default {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
-
-.tw-w-20-important {
-	width: 5rem !important;
-}
-
 </style>
