@@ -11,7 +11,7 @@
 
         {{ $t('Selected files:') }}
         <div v-if="!attachments.length">{{ $t('No files selected') }}</div>
-        <div class="tw-mt-5" :class="failedImportAttachmentIds.includes(attachment.id) ? 'tw-text-red-500' : ''" v-for="attachment in attachments">
+        <div v-for="attachment in attachments" :class="failedImportAttachmentIds.includes(attachment.id) ? 'tw-text-red-500' : ''" class="tw-mt-5">
            {{ attachment.name }}
         </div>
 
@@ -27,7 +27,7 @@
           {{ $t('Select learning maturity model XML') }}
         </button>
 
-        <div class="tw-mt-5" v-for="attachmentLearningMaturity in attachmentsLearningMaturity">
+        <div v-for="attachmentLearningMaturity in attachmentsLearningMaturity" class="tw-mt-5">
           {{ $t('Selected files:') }} {{ attachmentLearningMaturity.name }}
         </div>
 
@@ -43,27 +43,27 @@
           {{ $t('Select controlled vocabularies XML') }}
         </button>
 
-        <div class="tw-mt-5" v-for="attachmentVocabulary in attachmentsVocabulary">
+        <div v-for="attachmentVocabulary in attachmentsVocabulary" class="tw-mt-5">
           {{ $t('Selected files:') }} {{ attachmentVocabulary.name }}
         </div><div class="tw-flex tw-flex-col tw-mt-4">
 
 			<label>
-				<input type="radio" v-model="selectedImportType" value="iscedf_code"> ISCEDF codes
+				<input v-model="selectedImportType" type="radio" value="iscedf_code"> ISCEDF codes
 			</label>
 			<label>
-				<input type="radio" v-model="selectedImportType" value="assessment_type"> Assessment types
+				<input v-model="selectedImportType" type="radio" value="assessment_type"> Assessment types
 			</label>
 			<label>
-				<input type="radio" v-model="selectedImportType" value="type_of_credential"> Types of credential
+				<input v-model="selectedImportType" type="radio" value="type_of_credential"> Types of credential
 			</label>
 			<label>
-				<input type="radio" v-model="selectedImportType" value="eqf_level"> EQF levels
+				<input v-model="selectedImportType" type="radio" value="eqf_level"> EQF levels
 			</label>
 			<label>
-				<input type="radio" v-model="selectedImportType" value="provider_types"> Provider types
+				<input v-model="selectedImportType" type="radio" value="provider_types"> Provider types
 			</label>
 			<label>
-				<input type="radio" v-model="selectedImportType" value="learning_settings"> Learning setting
+				<input v-model="selectedImportType" type="radio" value="learning_settings"> Learning setting
 			</label>
 
 		</div>
@@ -85,8 +85,8 @@
 </template>
 
 <script>
-import Api from "../Api";
 import Vue from 'vue'
+import FormDataApi from "../FormDataApi";
 
 let frame = null
 export default {
@@ -217,7 +217,7 @@ export default {
         formData.append("action", type);
         formData.append("loc_xml_id", attachment.id);
         formData.append("import_option_type", this.selectedImportType);
-        let response = await Api.post(ajaxurl, formData, {
+        let response = await FormDataApi.post(ajaxurl, formData, {
           processData: false,
           contentType: false
         }).then(response => {

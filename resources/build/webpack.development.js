@@ -1,30 +1,44 @@
 /**
  * The external dependencies.
  */
-const url = require('url');
-const { ProvidePlugin, WatchIgnorePlugin } = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-assets-manifest');
-const chokidar = require('chokidar');
-const get = require('lodash/get');
+
+import url from 'url';
+
+import webpack from 'webpack';
+
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ManifestPlugin from 'webpack-assets-manifest';
+import get from 'lodash/get.js';
+import { VueLoaderPlugin } from 'vue-loader';
+import entry from './webpack/entry.js';
+import output from './webpack/output.js';
+import resolve from './webpack/resolve.js';
+import externals from './webpack/externals.js';
 
 /**
  * The internal dependencies.
  */
-const utils = require('./lib/utils');
-const configLoader = require('./config-loader');
-const spriteSmith = require('./spritesmith');
-const spriteSvg = require('./spritesvg');
-const postcss = require('./postcss');
-const DevelopmentModePlugin = require('./lib/development-mode-plugin');
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+import {
+  detectEnv,
+  distImagesPath,
+  filehashFilter,
+  getUserConfig,
+  rootPath,
+  srcImagesPath,
+  tests,
+} from './lib/utils.js';
+import configLoader from './config-loader.js';
+import spriteSmith from './spritesmith.js';
+import spriteSvg from './spritesvg.js';
+import postcss from './postcss.js';
+import DevelopmentModePlugin from './lib/development-mode-plugin.js';
 
 /**
  * Setup the environment.
  */
-const env = utils.detectEnv();
-const userConfig = utils.getUserConfig();
+const env = detectEnv();
+const userConfig = getUserConfig();
 const devPort = get(userConfig, 'development.port', 3000);
 const devHotUrl = url.parse(get(userConfig, 'development.hotUrl', 'http://localhost/').replace(/\/$/, ''));
 const hotUrl = `${devHotUrl.protocol}//${devHotUrl.host}:${devPort}/`;
@@ -38,9 +52,7 @@ const babelLoader = {
     cacheDirectory: true,
     comments: false,
     presets: [
-      'env',
-      // airbnb not included as stage-2 already covers it
-      'stage-2',
+      '@babel/preset-env',
     ],
   },
 };
@@ -49,14 +61,14 @@ const babelLoader = {
  * Setup webpack plugins.
  */
 const plugins = [
-  new CleanWebpackPlugin(utils.distPath(), {
-    root: utils.rootPath(),
+  new CleanWebpackPlugin(),
+  new webpack.WatchIgnorePlugin({
+    paths: [
+      distImagesPath('sprite.png'),
+      distImagesPath('sprite@2x.png'),
+    ],
   }),
-  new WatchIgnorePlugin([
-    utils.distImagesPath('sprite.png'),
-    utils.distImagesPath('sprite@2x.png'),
-  ]),
-  new ProvidePlugin({
+  new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
   }),
@@ -76,33 +88,33 @@ const plugins = [
 /**
  * Export the configuration.
  */
-module.exports = {
+export default {
   /**
    * The input.
    */
-  entry: require('./webpack/entry'),
+  entry,
 
   /**
    * The output.
    */
   output: {
-    ...require('./webpack/output'),
+    ...output,
     ...(env.isHot
-        // Required to work around https://github.com/webpack/webpack-dev-server/issues/1385
-        ? { publicPath: hotUrl }
-        : {}
+    // Required to work around https://github.com/webpack/webpack-dev-server/issues/1385
+      ? { publicPath: hotUrl }
+      : {}
     ),
   },
 
   /**
    * Resolve utilities.
    */
-  resolve: require('./webpack/resolve'),
+  resolve,
 
   /**
    * Resolve the dependencies that are available in the global scope.
    */
-  externals: require('./webpack/externals'),
+  externals,
 
   /**
    * Setup the transformations.
@@ -123,7 +135,7 @@ module.exports = {
        */
       {
         type: 'javascript/auto',
-        test: utils.rootPath('config.json'),
+        test: rootPath('config.json'),
         use: configLoader,
       },
 
@@ -131,7 +143,7 @@ module.exports = {
        * Handle scripts.
        */
       {
-        test: utils.tests.scripts,
+        test: tests.scripts,
         exclude: /node_modules/,
         use: babelLoader,
       },
@@ -140,13 +152,12 @@ module.exports = {
        * Handle styles.
        */
       {
-        test: utils.tests.styles,
+        test: tests.styles,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: '../',
-              hmr: env.isHot,
             },
           },
           'css-loader',
@@ -162,15 +173,15 @@ module.exports = {
        * Handle images.
        */
       {
-        test: utils.tests.images,
+        test: tests.images,
         exclude: [
-          utils.srcImagesPath('sprite-svg'),
+          srcImagesPath('sprite-svg'),
         ],
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: utils.filehashFilter,
+              name: filehashFilter,
               outputPath: 'images',
             },
           },
@@ -181,9 +192,9 @@ module.exports = {
        * Handle SVG sprites.
        */
       {
-        test: utils.tests.svgs,
+        test: tests.svgs,
         include: [
-          utils.srcImagesPath('sprite-svg'),
+          srcImagesPath('sprite-svg'),
         ],
         use: [
           {
@@ -199,12 +210,12 @@ module.exports = {
        * Handle fonts.
        */
       {
-        test: utils.tests.fonts,
+        test: tests.fonts,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: utils.filehashFilter,
+              name: filehashFilter,
               outputPath: 'fonts',
             },
           },
@@ -219,6 +230,13 @@ module.exports = {
         use: [
           {
             loader: 'vue-loader',
+            options: {
+              compilerOptions: {
+                compatConfig: {
+                  MODE: 2,
+                },
+              },
+            },
           },
         ],
       },
@@ -242,22 +260,15 @@ module.exports = {
     hot: true,
     host: devHotUrl.host,
     port: devPort,
-    disableHostCheck: true,
+    allowedHosts: 'all',
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    overlay: true,
 
-    // Reload on view file changes.
-    before: (app, server) => {
-      chokidar
-        .watch([
-          './views/**/*.php',
-          './*.php',
-        ])
-        .on('all', () => {
-          server.sockWrite(server.sockets, 'content-changed');
-        });
+    client: {
+
+      overlay: true,
+
     },
   },
 };

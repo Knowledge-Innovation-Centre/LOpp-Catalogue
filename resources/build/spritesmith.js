@@ -1,21 +1,21 @@
 /**
  * The external dependencies.
  */
-const SpritesmithPlugin = require('webpack-spritesmith');
+import SpritesmithPlugin from 'webpack-spritesmith';
 
 /**
  * The internal dependencies.
  */
-const utils = require('./lib/utils');
+import { distImagesPath, srcImagesPath, srcStylesPath } from './lib/utils.js';
 
-module.exports = new SpritesmithPlugin({
+export default new SpritesmithPlugin({
   src: {
-    cwd: utils.srcImagesPath('sprite'),
+    cwd: srcImagesPath('sprite'),
     glob: '*.{jpg,jpeg,png}',
   },
   target: {
-    image: utils.distImagesPath('sprite.png'),
-    css: utils.srcStylesPath('frontend/_sprite.scss'),
+    image: distImagesPath('sprite.png'),
+    css: srcStylesPath('frontend/_sprite.scss'),
   },
   apiOptions: {
     cssImageRef: '~@dist/images/sprite.png',

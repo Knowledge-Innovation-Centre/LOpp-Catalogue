@@ -41,7 +41,7 @@
             </select>
           </div>
         </template>
-      </div>    
+      </div>
     </div>
     <h1 class="text-4xl font-extrabold dark:text-white mb-8">Suggested Courses</h1>
     <div class="">
@@ -80,6 +80,7 @@ import "./components/App.css";
 
 import debounce from "lodash/debounce"
 import { MeiliSearch } from 'meilisearch'
+import FormDataApi from "../FormDataApi";
 
 
 export default {
@@ -128,7 +129,7 @@ export default {
     loadData() {
       let formData = new FormData();
       formData.append("action", "get_meilisearch_key");
-      let setSearchClient = Api.post(ajaxurl, formData).then(response => {
+      let setSearchClient = FormDataApi.post(ajaxurl, formData).then(response => {
         this.meilisearchUrl = response.data.url;
         this.meilisearchKey = response.data.key;
         this.meilisearchIndexKey = response.data.index_key;
@@ -141,12 +142,12 @@ export default {
       })
       formData = new FormData();
       formData.append("action", "get_display_fields");
-      Api.post(ajaxurl, formData).then(response => {
+	  FormDataApi.post(ajaxurl, formData).then(response => {
         this.displayFields = response.data;
       })
       formData = new FormData();
       formData.append("action", "get_xml_fields");
-      let xmlFieldsPromise = Api.post(ajaxurl, formData).then(response => {
+      let xmlFieldsPromise = FormDataApi.post(ajaxurl, formData).then(response => {
         for (let field of response.data) {
           if (!field.filter) {
             continue;
@@ -209,7 +210,7 @@ export default {
           },
           body: JSON.stringify({
             q: this.searchString,
-            ...searchParams, 
+            ...searchParams,
           }),
         };
 

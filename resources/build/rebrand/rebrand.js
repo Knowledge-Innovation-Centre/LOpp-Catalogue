@@ -1,18 +1,12 @@
 /**
  * The external dependencies.
  */
-const chalk = require('chalk');
 
 /**
  * The internal dependencies.
  */
 const utils = require('../lib/utils');
 const steps = require('./steps');
-
-if (chalk.level === 0) {
-  // Make sure we get color even if run-s switches the output stream.
-  chalk.level = 1;
-}
 
 const ignore = [
   utils.rootPath('dist/**/*'),
@@ -38,4 +32,4 @@ steps.requireCleanWorkingDirectory()
   .then(() => steps.askForReplacementTokens(log))
   .then((tokens) => log('Rebranding - this may take a while ...') || steps.replaceTokens(tokens, match, ignore))
   .then(() => log('Done.'))
-  .catch((e) => logError(chalk.red(e.message)));
+  .catch((e) => logError(e.message));

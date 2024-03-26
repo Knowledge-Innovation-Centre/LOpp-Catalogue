@@ -1,7 +1,7 @@
 /**
  * The external dependencies.
  */
-const postcss = require('postcss');
+import postcss from 'postcss';
 
 /**
  * Combine @media rules at the end of the file.

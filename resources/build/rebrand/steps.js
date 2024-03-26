@@ -1,6 +1,8 @@
 /**
  * The external dependencies.
  */
+import { rootPath } from '../lib/utils.js';
+
 const path = require('path');
 const chalk = require('chalk');
 const { pascalCase, constantCase, snakeCase } = require('change-case');
@@ -12,7 +14,6 @@ const forEach = require('lodash/forEach');
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
 
 /**
  * Require that the current working directory does not have unstaged changes or untracked files.
@@ -44,33 +45,33 @@ const askForReplacementTokens = (log) => inquirer
       type: 'input',
       name: 'name',
       message: 'User-friendly project name (e.g. "My Awesome Project")',
-      filter: value => value.trim(),
-      validate: value => value.length !== 0,
+      filter: (value) => value.trim(),
+      validate: (value) => value.length !== 0,
     },
     {
       type: 'input',
       name: 'namespace',
       message: 'Namespace (e.g. "MyAwesomeProject")',
-      filter: value => pascalCase(value.trim()),
-      validate: value => value.length !== 0,
+      filter: (value) => pascalCase(value.trim()),
+      validate: (value) => value.length !== 0,
     },
   ])
   .then((answers) => {
     const tokens = {
       'WP Emerge Starter Theme': answers.name,
       'WP Emerge Starter Plugin': answers.name,
-      'MyApp': pascalCase(answers.namespace),
-      'MY_APP': constantCase(answers.namespace),
-      'my_app': snakeCase(answers.namespace),
+      MyApp: pascalCase(answers.namespace),
+      MY_APP: constantCase(answers.namespace),
+      my_app: snakeCase(answers.namespace),
     };
 
     log('');
     log('The following changes will be applied:');
     log('--------------------------------------');
     log(`WP Emerge Starter Theme/Plugin => ${chalk.cyan(tokens['WP Emerge Starter Theme'])}`);
-    log(`MyApp                          => ${chalk.cyan(tokens['MyApp'])}`);
-    log(`MY_APP                         => ${chalk.cyan(tokens['MY_APP'])}`);
-    log(`my_app                         => ${chalk.cyan(tokens['my_app'])}`);
+    log(`MyApp                          => ${chalk.cyan(tokens.MyApp)}`);
+    log(`MY_APP                         => ${chalk.cyan(tokens.MY_APP)}`);
+    log(`my_app                         => ${chalk.cyan(tokens.my_app)}`);
     log('--------------------------------------');
     log('');
     log(chalk.yellow('WARNING: This is a one-time replacement only. Once applied it cannot be undone or updated automatically.'));
@@ -109,7 +110,7 @@ const replaceTokens = (tokens, matchGlobs, ignoreGlobs) => {
 
   // Rename specific files that match tokens.
   forEach(rename, (file) => {
-    const from = utils.rootPath(file);
+    const from = rootPath(file);
 
     if (!shell.test('-e', from)) {
       return;

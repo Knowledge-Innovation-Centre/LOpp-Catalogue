@@ -1,65 +1,62 @@
 // eslint-disable-next-line no-unused-vars
-import config from '@config';
 import './vendor/*.js';
 import '@styles/frontend';
-import './spritesvg';
-
+// import './spritesvg.js';
 import Vue from 'vue';
 import App from './App.vue';
 
-(function ( frontend, $ ) {
-  $( document ).ready( () => {
-    $( "#tabs" ).tabs({
+(function (frontend, $) {
+  $(document).ready(() => {
+    $('#tabs').tabs({
       active: 0,
-      activate: function(event, ui) {
-
-        var scrollTop = $(window).scrollTop(); // save current scroll position
+      activate(event, ui) {
+        const scrollTop = $(window).scrollTop(); // save current scroll position
         window.location.hash = ui.newPanel.attr('id'); // add hash to url
         $(window).scrollTop(scrollTop); // keep scroll at current position
-      }});
-  } );
-})( window.frontend = window.frontend || {}, jQuery );
+      },
+    });
+  });
+}(window.frontend = window.frontend || {}, jQuery));
 
-
+let loaded = false;
 Vue.config.productionTip = false;
 
 // const { _x } = wp.i18n;
 
 // Vue.prototype.$t = _x;
-Vue.prototype.$t = (t) => {
-  return t
-};
+Vue.prototype.$t = (t) => t;
 
-(function(doc,found) {
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
+(function (doc, found) {
+  const observer = new MutationObserver(((mutations) => {
+    mutations.forEach((mutation) => {
+      const yourdiv = doc.querySelector('#search-catalog-items');
 
-      var yourdiv = doc.querySelector("#search-catalog-items");
-
-      if(found && !yourdiv){
+      if (found && !yourdiv) {
         // Was there but is gone, do something
         found = false;
-
       }
 
-      if(yourdiv){
+      if (yourdiv) {
         // Found it, do something
         found = true;
         loadSearchCatalogItems();
       }
-
     });
-  });
-  observer.observe(doc, { childList: true, subtree: true });
-})(document,false);
+  }));
 
-loadSearchCatalogItems()
+  observer.observe(doc, { childList: true, subtree: true });
+}(document, false));
+
+loadSearchCatalogItems();
 
 function loadSearchCatalogItems() {
   if (document.getElementById('search-catalog-items')) {
-    new Vue({
-      el: '#search-catalog-items',
-      render: (h) => h(App),
-    });
+    if (!loaded) {
+      loaded = true;
+      new Vue({
+        el: '#search-catalog-items',
+        render: (h) => h(App),
+      });
+    }
   }
 }

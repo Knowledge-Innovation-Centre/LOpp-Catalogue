@@ -1,8 +1,8 @@
 /**
  * The external dependencies.
  */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 class DevelopmentModePlugin {
   constructor({ hot = false }) {
@@ -19,9 +19,9 @@ class DevelopmentModePlugin {
 
         const filename = path.resolve(stats.compilation.outputOptions.path, 'development.json');
         fs.writeFileSync(filename, JSON.stringify(development));
-      }
+      },
     );
   }
 }
 
-module.exports = DevelopmentModePlugin;
+export default DevelopmentModePlugin;

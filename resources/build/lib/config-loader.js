@@ -1,6 +1,8 @@
 /**
  * The external dependencies.
  */
+import { getWhitelistedUserConfig } from './utils.js';
+
 const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
@@ -8,7 +10,6 @@ const loaderUtils = require('loader-utils');
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
 
 /**
  * Get maps SASS from variables.
@@ -22,10 +23,10 @@ const getMapsSass = (variables, level = 0) => {
   const maps = Object.keys(variables);
 
   for (let i = 0; i < maps.length; i++) {
-    let map = maps[i];
-    let values = variables[map];
-    let indentation = '  '.repeat(level);
-    let mapPrefix = level === 0 ? '$' : '';
+    const map = maps[i];
+    const values = variables[map];
+    const indentation = '  '.repeat(level);
+    const mapPrefix = level === 0 ? '$' : '';
     let mapSuffix = level === 0 ? ';' : ',';
     mapSuffix = level === 0 || i < maps.length - 1 ? mapSuffix : '';
 
@@ -33,14 +34,14 @@ const getMapsSass = (variables, level = 0) => {
       continue;
     }
 
-    let names = Object.keys(values);
+    const names = Object.keys(values);
 
     sass.push(`${indentation}${mapPrefix}${map}: (`);
 
     for (let j = 0; j < names.length; j++) {
-      let name = names[j];
-      let value = values[name];
-      let suffix = j < names.length - 1 ? ',' : '';
+      const name = names[j];
+      const value = values[name];
+      const suffix = j < names.length - 1 ? ',' : '';
 
       if (typeof value === 'object' && value !== null) {
         sass.push(`${indentation}${getMapsSass(value, level + 1)}${suffix}`);
@@ -67,11 +68,11 @@ const getMapsSass = (variables, level = 0) => {
  * @returns {object}
  */
 const flattenVariables = (variables, prefix) => {
-  prefix = typeof prefix !== 'undefined' ? prefix + '-' : '';
+  prefix = typeof prefix !== 'undefined' ? `${prefix}-` : '';
   let flattenned = {};
 
-  for (let name in variables) {
-    let value = variables[name];
+  for (const name in variables) {
+    const value = variables[name];
 
     if (typeof value === 'string') {
       flattenned[prefix + name] = value;
@@ -96,8 +97,8 @@ const getFlatVariablesSass = (variables) => {
   const sassVariables = flattenVariables(variables);
   const sass = [];
 
-  for (let name in sassVariables) {
-    let value = sassVariables[name];
+  for (const name in sassVariables) {
+    const value = sassVariables[name];
     sass.push(`$${name}: ${value};`);
   }
 
@@ -127,7 +128,7 @@ const getSass = (config) => {
  */
 module.exports = function (rawConfig) {
   const options = loaderUtils.getOptions(this);
-  const config = utils.getWhitelistedUserConfig(JSON.parse(rawConfig));
+  const config = getWhitelistedUserConfig(JSON.parse(rawConfig));
 
   if (typeof options.sassOutput !== 'undefined') {
     const sass = getSass(config);

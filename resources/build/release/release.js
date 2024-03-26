@@ -1,33 +1,27 @@
 /**
  * The external dependencies.
  */
-const process = require('process');
-const path = require('path');
-const EventEmitter = require('events');
-const chalk = require('chalk');
+import process from 'process';
+import path from 'path';
+import EventEmitter from 'events';
 
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
-const config = require('../../../config.json');
-const steps = require('./steps');
-
-if (chalk.level === 0) {
-  // Make sure we get color even if run-s switches the output stream.
-  chalk.level = 1;
-}
+import {rootPath} from '../lib/utils.js';
+import config from '../../../config.json' assert {type: 'json'};
+import steps from './steps.js';
 
 const { log, error: logError } = console;
 const name = process.argv[2] || 'wpemerge-release';
-const source = utils.rootPath();
+const source = rootPath();
 const destination = path.join(path.dirname(source), name);
 const emitter = new EventEmitter();
 
-emitter.on('file.copy', file => process.stdout.write(`Copying ${path.relative(source, file)} ...`));
+emitter.on('file.copy', (file) => process.stdout.write(`Copying ${path.relative(source, file)} ...`));
 emitter.on('file.copied', () => log(' done'));
 
-(new Promise(resolve => resolve()))
+(new Promise((resolve) => resolve()))
   .then(() => {
     steps.validate(destination);
 
@@ -40,4 +34,4 @@ emitter.on('file.copied', () => log(' done'));
 
     return steps.zip(destination, `${destination}.zip`);
   })
-  .catch(e => logError(chalk.red(e.message)));
+  .catch((e) => logError(e.message));

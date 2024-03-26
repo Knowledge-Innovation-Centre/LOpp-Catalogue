@@ -1,45 +1,52 @@
 {
-    "version": "1.7.7",
-    "type": "wordpress-plugin",
-    "keywords": [
-        "wordpress",
-        "plugin",
-        "starter plugin",
-        "wpemerge"
-    ],
-    "license": "GPL-2.0-only",
-    "require": {
-        "php": ">=7.4",
-        "composer/installers": "^1.4",
-        "htmlburger/wpemerge": "~0.16.0",
-        "htmlburger/wpemerge-app-core": "~0.16.1",
-        "htmlburger/carbon-fields": "^3.3",
-        "johnbillion/extended-cpts": "^4.5",
-        "meilisearch/meilisearch-php": "^0.19.2",
-        "guzzlehttp/guzzle": "^7.4",
-        "http-interop/http-factory-guzzle": "^1.2"
-    },
-    "require-dev": {
-        "filp/whoops": "^2.2",
-        "htmlburger/wpemerge-cli": "~0.16.0",
-        "symfony/debug": "~3.0",
-        "wp-coding-standards/wpcs": "^2.0",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "LearningOpportunitiesCatalogue\\": "app/src/"
-        }
-    },
-    "scripts": {
-        "install-test-env": [
-            "wpemerge config:create"
-        ],
-        "install-dev-env": [
-            "@php wpemerge config:create",
-            "@php wpemerge install:dependencies",
-            "@php wpemerge assets:build"
-        ],
-        "post-create-project-cmd": "@install-dev-env"
+  "version": "1.7.7",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "starter plugin",
+    "wpemerge"
+  ],
+  "license": "GPL-2.0-only",
+  "require": {
+    "php": ">=7.4",
+    "composer/installers": "^1.4",
+    "htmlburger/wpemerge": "^0.17.0",
+    "htmlburger/wpemerge-app-core": "^0.17.0",
+    "htmlburger/carbon-fields": "^3.3",
+    "johnbillion/extended-cpts": "^4.5",
+    "guzzlehttp/guzzle": "^7.4",
+    "http-interop/http-factory-guzzle": "^1.2",
+    "meilisearch/meilisearch-php": "^1.6"
+  },
+  "require-dev": {
+    "filp/whoops": "^2.2",
+    "htmlburger/wpemerge-cli": "^0.17.0",
+    "symfony/debug": "~3.0",
+    "wp-coding-standards/wpcs": "^2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LearningOpportunitiesCatalogue\\": "app/src/"
     }
+  },
+  "scripts": {
+    "install-test-env": [
+      "wpemerge config:create"
+    ],
+    "install-dev-env": [
+      "@php wpemerge config:create",
+      "@php wpemerge install:dependencies",
+      "@php wpemerge assets:build"
+    ],
+    "post-create-project-cmd": "@install-dev-env"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": true
+    }
+  }
 }

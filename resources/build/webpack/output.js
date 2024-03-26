@@ -1,11 +1,11 @@
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
+import { detectEnv, distPath } from '../lib/utils.js';
 
-const env = utils.detectEnv();
+const env = detectEnv();
 
-module.exports = {
-  path: utils.distPath(),
+export default {
+  path: distPath(),
   filename: `[name]${env.filenameSuffix}.js`,
 };

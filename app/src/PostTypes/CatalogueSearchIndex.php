@@ -2,8 +2,6 @@
 
 namespace LearningOpportunitiesCatalogue\PostTypes;
 
-
-
 use Exception;
 use LearningOpportunitiesCatalogue\Meilisearch;
 
@@ -21,7 +19,6 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 
 		public static function delete_index( $post ) {
 			try {
-
 				if ( ! Meilisearch::health() ) {
 					return false;
 				}
@@ -30,52 +27,49 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 					$post = get_post( $post );
 				}
 
-				$searchIndex = Meilisearch::get_index( );
+				$searchIndex = Meilisearch::get_index();
 				$searchIndex->deleteDocument( $post->ID );
-			} catch (Exception $e) {
+			} catch ( Exception $e ) {
 				return false;
 			}
 		}
 
-		public static function delete_all_index( ) {
+		public static function delete_all_index() {
 			try {
-
 				$client = Meilisearch::get_client();
-				$client->index(  carbon_get_theme_option( 'meilisearch_index_key' ) )->deleteAllDocuments();
-
-			} catch (Exception $e) {
+				$client->index( carbon_get_theme_option( 'meilisearch_index_key' ) )->deleteAllDocuments();
+			} catch ( Exception $e ) {
 				return false;
 			}
 		}
 
 		public static function update_index( $post_ID ) {
-
 			try {
 				$post = get_post( $post_ID );
 				if ( ! Meilisearch::health() ) {
 					return false;
 				}
 
-				$searchIndex = Meilisearch::get_index(  );
+				$searchIndex = Meilisearch::get_index();
 
-				$current_post_status = get_post_status($post);
+				$current_post_status = get_post_status( $post );
 
-				if($current_post_status != 'publish') {
-					self::delete_index($post);
+				if ( $current_post_status != 'publish' ) {
+					self::delete_index( $post );
+
 					return true;
 				}
 
 				$catalogItemIndex                 = [];
 				$catalogItemIndex['id']           = $post->ID;
 				$catalogItemIndex['post_title']   = $post->post_title;
-				$catalogItemIndex['post_content'] = strip_tags($post->post_content);
-				$catalogItemIndex['guid']         = get_permalink($post);
+				$catalogItemIndex['post_content'] = strip_tags( $post->post_content );
+				$catalogItemIndex['guid']         = get_permalink( $post );
 
 				$allMeta = get_post_meta( $post->ID, '', true );
 				$allMeta = array_map( function ( $n ) {
 					return $n[0];
 				}, $allMeta );
-
 
 				$fields = CatalogueFields::get_general_fields();
 				$fields = array_merge( $fields, CatalogueFields::get_information_about_the_lopp_fields() );
@@ -83,36 +77,33 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 				$fields = array_merge( $fields, CatalogueFields::get_contact_fields() );
 				$fields = array_merge( $fields, carbon_get_theme_option( 'loc_option_catalogue_fields' ) );
 
-				$learningOutcomes = carbon_get_post_meta($post->ID, 'learning_outcome');
+				$learningOutcomes = carbon_get_post_meta( $post->ID, 'learning_outcome' );
 
 				$subsetIds = [];
 
-				foreach ($learningOutcomes as $learningOutcome) {
-
+				foreach ( $learningOutcomes as $learningOutcome ) {
 					$relatedObjects = carbon_get_post_meta( $learningOutcome['id'], 'dimension_subset_item' );
 
 					foreach ( $relatedObjects as $related_object ) {
 						$subsetIds[] = $related_object["id"];
 					}
 				}
-				$catalogItemIndex['loc_subset_items']         = $subsetIds;
+				$catalogItemIndex['loc_subset_items'] = $subsetIds;
 
-				$catalogItemIndex = self::getIndex($post, $fields, $catalogItemIndex, $allMeta);
+				$catalogItemIndex = self::getIndex( $post, $fields, $catalogItemIndex, $allMeta );
 
-				$searchIndex->addDocuments( [ $catalogItemIndex ] );
-
-			} catch (Exception $e) {
-				var_dump($e);
+				return $searchIndex->addDocuments( [ $catalogItemIndex ], 'id' );
+			} catch ( Exception $e ) {
+				var_dump( $e );
 			}
 		}
 
-		private static function getIndex($post, $fields, $catalogItemIndex, $allMeta) {
+		private static function getIndex( $post, $fields, $catalogItemIndex, $allMeta ) {
 			foreach ( $fields as $field ) {
 				$value = self::get_value( $post, $field, $allMeta );
 				if ( ! is_array( $value ) ) {
-
-					if (is_numeric($value)) {
-						$value = (float)$value;
+					if ( is_numeric( $value ) ) {
+						$value = (float) $value;
 					}
 
 					$catalogItemIndex[ $field['slug'] ] = $value;
@@ -132,7 +123,7 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 			// 	continue;
 			// }
 
-			if (!isset($post->ID)) {
+			if ( ! isset( $post->ID ) ) {
 				return;
 			}
 
@@ -151,7 +142,6 @@ if ( ! class_exists( CatalogueSearchIndex::class ) ) {
 					$allMetaRelatedObject = array_map( function ( $n ) {
 						return $n[0];
 					}, $allMetaRelatedObject );
-
 
 					$fieldsRelatedObject = $field['fields']::get_general_fields();
 					foreach ( $fieldsRelatedObject as $fieldRelatedObject ) {

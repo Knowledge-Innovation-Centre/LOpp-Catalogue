@@ -1,10 +1,10 @@
 /**
  * The external dependencies.
  */
-const fs = require('fs');
-const path = require('path');
-const shell = require('shelljs');
-const archiver = require('archiver');
+import fs from 'fs';
+import path from 'path';
+import shell from 'shelljs';
+import archiver from 'archiver';
 
 /**
  * Zip a directory.
@@ -48,6 +48,6 @@ const zip = (source, destination) => new Promise((resolve, reject) => {
   archive.finalize();
 });
 
-module.exports = {
+export default {
   zip,
 };

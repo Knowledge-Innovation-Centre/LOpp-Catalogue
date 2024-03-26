@@ -10,11 +10,11 @@ import Axios from 'axios';
  * The 'mynamespace' object is injected into the page
  * using the WordPress wp_localize_script function.
  */
-const Api = Axios.create({
+const FormDataApi = Axios.create({
   headers: {
-    'content-type': 'application/json',
+    'Content-Type': 'multipart/form-data',
     // "X-WP-Nonce": aoat_config.nonce
   },
 });
 
-export default Api;
+export default FormDataApi;

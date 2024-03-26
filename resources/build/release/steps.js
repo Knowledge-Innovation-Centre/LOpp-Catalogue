@@ -1,17 +1,18 @@
 /**
  * The external dependencies.
  */
-const fs = require('fs');
-const path = require('path');
-const shell = require('shelljs');
-const glob = require('glob');
+import {getUserConfig} from '../lib/utils.js';
+
+import fs from 'fs';
+import path from 'path';
+import shell from 'shelljs';
+import {sync} from 'glob';
 
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
-const composer = require('./composer');
-const archive = require('./archive');
+import composer from './composer.js';
+import archive from './archive.js';
 
 /**
  * Emit if the passed emitter is valid.
@@ -21,7 +22,7 @@ const archive = require('./archive');
  */
 function emit(emitter) {
   if (emitter) {
-     emitter.emit.apply(emitter, Array.prototype.slice.call(arguments, 1));
+    emitter.emit.apply(emitter, Array.prototype.slice.call(arguments, 1));
   }
 }
 
@@ -75,7 +76,7 @@ const copyFile = (fileSource, source, destination, emitter) => {
   emit(emitter, 'file.copy', fileSource);
 
   if (fileRelative === 'config.json') {
-    fs.writeFileSync(fileDestination, JSON.stringify(utils.getUserConfig(fileSource, true)));
+    fs.writeFileSync(fileDestination, JSON.stringify(getUserConfig(fileSource, true)));
   } else {
     shell.mkdir('-p', path.dirname(fileDestination));
     shell.cp('-R', fileSource, fileDestination);
@@ -96,7 +97,7 @@ const copyFile = (fileSource, source, destination, emitter) => {
 const copyFiles = (patterns, source, destination, emitter) => {
   for (let i = 0; i < patterns.length; i++) {
     const pattern = patterns[i];
-    const matches = glob.sync(path.join(source, pattern));
+    const matches = sync(path.join(source, pattern));
 
     for (let j = 0; j < matches.length; j++) {
       copyFile(matches[j], source, destination, emitter);
@@ -155,11 +156,9 @@ const installComposerDependencies = (source, destination) => {
  * @param {string} destination
  * @returns {Promise}
  */
-const zip = (source, destination) => {
-  return archive.zip(source, destination);
-};
+const zip = (source, destination) => archive.zip(source, destination);
 
-module.exports = {
+export default {
   validate,
   createDirectory,
   copyFiles,

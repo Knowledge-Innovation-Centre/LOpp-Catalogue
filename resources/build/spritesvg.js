@@ -1,9 +1,9 @@
 /**
  * The external dependencies.
  */
-const SvgSpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+import SvgSpriteLoaderPlugin from 'svg-sprite-loader/plugin.js';
 
-module.exports = new SvgSpriteLoaderPlugin({
+export default new SvgSpriteLoaderPlugin({
   plainSprite: true,
   spriteAttrs: {
     'aria-hidden': 'true',

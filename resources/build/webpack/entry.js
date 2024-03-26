@@ -1,11 +1,11 @@
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
-const keyBy = require('lodash/keyBy');
-const mapValues = require('lodash/mapValues');
+import keyBy from 'lodash/keyBy.js';
+import mapValues from 'lodash/mapValues.js';
+import { getUserConfig, srcScriptsPath } from '../lib/utils.js';
 
-module.exports = mapValues(
-  keyBy(utils.getUserConfig().bundles, bundle => bundle),
-  bundle => utils.srcScriptsPath(`${bundle}/index.js`)
+export default mapValues(
+  keyBy(getUserConfig().bundles, (bundle) => bundle),
+  (bundle) => srcScriptsPath(`${bundle}/index.js`),
 );

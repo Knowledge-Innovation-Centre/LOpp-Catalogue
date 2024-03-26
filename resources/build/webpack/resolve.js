@@ -1,22 +1,32 @@
 /**
  * The internal dependencies.
  */
-const utils = require('../lib/utils');
+import {
+  distPath,
+  rootPath,
+  srcFontsPath,
+  srcImagesPath,
+  srcScriptsPath,
+  srcStylesPath,
+  srcVendorPath,
+} from '../lib/utils.js';
 
-module.exports = {
-  modules: [utils.srcScriptsPath(), 'node_modules'],
+export default {
+  modules: [srcScriptsPath(), 'node_modules'],
   extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
   alias: {
-    '@config': utils.rootPath('config.json'),
-    '@scripts': utils.srcScriptsPath(),
-    '@styles': utils.srcStylesPath(),
-    '@images': utils.srcImagesPath(),
-    '@fonts': utils.srcFontsPath(),
-    '@vendor': utils.srcVendorPath(),
-    '@dist': utils.distPath(),
-    '~': utils.rootPath('node_modules'),
-    'isotope': 'isotope-layout',
-    'masonry': 'masonry-layout',
+    '@config': rootPath('config.json'),
+    '@scripts': srcScriptsPath(),
+    '@styles': srcStylesPath(),
+    '@images': srcImagesPath(),
+    '@fonts': srcFontsPath(),
+    '@vendor': srcVendorPath(),
+    '@dist': distPath(),
+    '~': rootPath('node_modules'),
+    isotope: 'isotope-layout',
+    masonry: 'masonry-layout',
     'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
+    vue: '@vue/compat',
   },
+  fallback: { url: false },
 };

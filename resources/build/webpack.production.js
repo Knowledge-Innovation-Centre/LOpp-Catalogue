@@ -1,26 +1,27 @@
-/**
- * The external dependencies.
- */
-const { ProvidePlugin, WatchIgnorePlugin } = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const ManifestPlugin = require('webpack-assets-manifest');
+import webpack from 'webpack';
 
-/**
- * The internal dependencies.
- */
-const utils = require('./lib/utils');
-const configLoader = require('./config-loader');
-const spriteSmith = require('./spritesmith');
-const spriteSvg = require('./spritesvg');
-const postcss = require('./postcss');
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ManifestPlugin from 'webpack-assets-manifest';
+
+import {VueLoaderPlugin} from 'vue-loader';
+import entry from './webpack/entry.js';
+import output from './webpack/output.js';
+import resolve from './webpack/resolve.js';
+import externals from './webpack/externals.js';
+
+import {detectEnv, distImagesPath, filehashFilter, rootPath, srcImagesPath, tests,} from './lib/utils.js';
+import configLoader from './config-loader.js';
+import spriteSmith from './spritesmith.js';
+import spriteSvg from './spritesvg.js';
+import postcss from './postcss.js';
+import ImageminPlugin from 'imagemin-webpack-plugin';
+import imageminMozjpeg from 'imagemin-mozjpeg'
 
 /**
  * Setup the env.
  */
-const env = utils.detectEnv();
+const env = detectEnv();
 
 /**
  * Setup babel loader.
@@ -31,9 +32,7 @@ const babelLoader = {
     cacheDirectory: false,
     comments: false,
     presets: [
-      'env',
-      // airbnb not included as stage-2 already covers it
-      'stage-2',
+      '@babel/preset-env',
     ],
   },
 };
@@ -42,11 +41,13 @@ const babelLoader = {
  * Setup webpack plugins.
  */
 const plugins = [
-  new WatchIgnorePlugin([
-    utils.distImagesPath('sprite.png'),
-    utils.distImagesPath('sprite@2x.png'),
-  ]),
-  new ProvidePlugin({
+  new webpack.WatchIgnorePlugin({
+    paths: [
+      distImagesPath('sprite.png'),
+      distImagesPath('sprite@2x.png'),
+    ],
+  }),
+  new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
   }),
@@ -56,7 +57,7 @@ const plugins = [
   new VueLoaderPlugin(),
   spriteSmith,
   spriteSvg,
-  new ImageminPlugin({
+  new ImageminPlugin.default({
     optipng: {
       optimizationLevel: 7,
     },
@@ -83,7 +84,7 @@ const plugins = [
       ],
     },
     plugins: [
-      require('imagemin-mozjpeg')({
+      imageminMozjpeg({
         quality: 100,
       }),
     ],
@@ -93,34 +94,32 @@ const plugins = [
 
 // When doing a combined build, only clean up the first time.
 if (env.isCombined && env.isDebug) {
-  plugins.push(new CleanWebpackPlugin(utils.distPath(), {
-    root: utils.rootPath(),
-  }));
+  plugins.push(new CleanWebpackPlugin());
 }
 
 /**
  * Export the configuration.
  */
-module.exports = {
+export default {
   /**
    * The input.
    */
-  entry: require('./webpack/entry'),
+  entry,
 
   /**
    * The output.
    */
-  output: require('./webpack/output'),
+  output,
 
   /**
    * Resolve utilities.
    */
-  resolve: require('./webpack/resolve'),
+  resolve,
 
   /**
    * Resolve the dependencies that are available in the global scope.
    */
-  externals: require('./webpack/externals'),
+  externals,
 
   /**
    * Setup the transformations.
@@ -141,7 +140,7 @@ module.exports = {
        */
       {
         type: 'javascript/auto',
-        test: utils.rootPath('config.json'),
+        test: rootPath('config.json'),
         use: configLoader,
       },
 
@@ -149,7 +148,7 @@ module.exports = {
        * Handle scripts.
        */
       {
-        test: utils.tests.scripts,
+        test: tests.scripts,
         exclude: /node_modules/,
         use: babelLoader,
       },
@@ -158,7 +157,7 @@ module.exports = {
        * Handle styles.
        */
       {
-        test: utils.tests.styles,
+        test: tests.styles,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -175,7 +174,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                outputStyle: env.isDebug ? 'compact' : 'compressed',
+                outputStyle: env.isDebug ? 'expanded' : 'compressed',
               },
             },
           },
@@ -186,15 +185,15 @@ module.exports = {
        * Handle images.
        */
       {
-        test: utils.tests.images,
+        test: tests.images,
         exclude: [
-          utils.srcImagesPath('sprite-svg'),
+          srcImagesPath('sprite-svg'),
         ],
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: utils.filehashFilter,
+              name: filehashFilter,
               outputPath: 'images',
             },
           },
@@ -205,9 +204,9 @@ module.exports = {
        * Handle SVG sprites.
        */
       {
-        test: utils.tests.svgs,
+        test: tests.svgs,
         include: [
-          utils.srcImagesPath('sprite-svg'),
+          srcImagesPath('sprite-svg'),
         ],
         use: [
           {
@@ -224,12 +223,12 @@ module.exports = {
        * Handle fonts.
        */
       {
-        test: utils.tests.fonts,
+        test: tests.fonts,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: utils.filehashFilter,
+              name: filehashFilter,
               outputPath: 'fonts',
             },
           },
@@ -244,6 +243,13 @@ module.exports = {
         use: [
           {
             loader: 'vue-loader',
+            options: {
+              compilerOptions: {
+                compatConfig: {
+                  MODE: 2,
+                },
+              },
+            },
           },
         ],
       },

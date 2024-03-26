@@ -1,16 +1,9 @@
-module.exports = {
+export default {
   prefix: 'tw-',
-  future: {
-
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
-  purge: [
-    './resources/scripts/**/*.vue',
-  ],
+  content: ['./resources/**/*.{html,js,vue}'],
   theme: {
     extend: {},
   },
   variants: {},
   plugins: [],
-}
+};

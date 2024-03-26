@@ -1,34 +1,37 @@
 /**
  * The internal dependencies.
  */
-const utils = require('./lib/utils');
+import postCss from 'postcss-discard-comments';
+import autoprefixer from 'autoprefixer';
+import {detectEnv} from './lib/utils.js';
+import tailwindcss from './tailwindcss.js';
 
-const env = utils.detectEnv();
-
+const env = detectEnv();
 /**
  * Setup PostCSS plugins.
  */
-const plugins = [
-  require('tailwindcss')(utils.srcPath('build/tailwindcss.js')),
-  require('postcss-discard-comments'),
-  require('autoprefixer'),
+const plugins = {
+  // import('tailwindcss')(srcPath('build/tailwindcss.js')),
+  tailwindcss,
+  postCss,
+  autoprefixer,
   // Uncomment to enable combined media queries.
   // require('./lib/combine-media-queries'),
-];
+};
 
 if (env.isProduction && !env.isDebug) {
-  plugins.push(
-    require('cssnano')({
-      preset: 'default',
-    })
-  );
+  // plugins.cssnano = cssnanoPlugin({
+  //   preset: 'default',
+  // });
 }
 
 /**
  * Prepare the configuration.
  */
 const config = {
-  plugins,
+  postcssOptions: {
+    plugins,
+  },
 };
 
-module.exports = config;
+export default config;

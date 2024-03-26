@@ -1,56 +1,49 @@
 /**
  * The external dependencies.
  */
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-const pick = require('lodash/pick');
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import pick from 'lodash/pick.js';
+import {fileURLToPath} from "url";
 
 /**
  * User config cache.
  */
 let userConfig = null;
 
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename);
+
 /**
  * API.
  */
-module.exports.rootPath = (basePath = '', destPath = '') =>
-  path.resolve(path.dirname(__dirname), '../../', basePath, destPath);
+export function rootPath(basePath = '', destPath = '') { return path.resolve(path.dirname(__dirname), '../../', basePath, destPath); }
 
-module.exports.srcPath = (basePath = '', destPath = '') =>
-  path.resolve(path.dirname(__dirname), '../', basePath, destPath);
+export function srcPath(basePath = '', destPath = '') { return path.resolve(path.dirname(__dirname), '../', basePath, destPath); }
 
-module.exports.distPath = (basePath = '', destPath = '') =>
-  path.resolve(path.dirname(__dirname), '../../dist', basePath, destPath);
+export function distPath(basePath = '', destPath = '') { return path.resolve(path.dirname(__dirname), '../../dist', basePath, destPath); }
 
-module.exports.srcScriptsPath = destPath =>
-  exports.srcPath('scripts', destPath);
+export function srcScriptsPath(destPath) { return srcPath('scripts', destPath); }
 
-module.exports.srcStylesPath = destPath =>
-  exports.srcPath('styles', destPath);
+export function srcStylesPath(destPath) { return srcPath('styles', destPath); }
 
-module.exports.srcImagesPath = destPath =>
-  exports.srcPath('images', destPath);
+export function srcImagesPath(destPath) { return srcPath('images', destPath); }
 
-module.exports.srcFontsPath = destPath =>
-  exports.srcPath('fonts', destPath);
+export function srcFontsPath(destPath) { return srcPath('fonts', destPath); }
 
-module.exports.srcVendorPath = destPath =>
-  exports.srcPath('vendor', destPath);
+export function srcVendorPath(destPath) { return srcPath('vendor', destPath); }
 
-module.exports.distScriptsPath = destPath =>
-  exports.distPath('scripts', destPath);
+export function distScriptsPath(destPath) { return distPath('scripts', destPath); }
 
-module.exports.distStylesPath = destPath =>
-  exports.distPath('styles', destPath);
+export function distStylesPath(destPath) { return distPath('styles', destPath); }
 
-module.exports.distImagesPath = destPath =>
-  exports.distPath('images', destPath);
+export function distImagesPath(destPath) { return distPath('images', destPath); }
 
-module.exports.distFontsPath = destPath =>
-  exports.distPath('fonts', destPath);
+export function distFontsPath(destPath) { return distPath('fonts', destPath); }
 
-module.exports.tests = {
+export const tests = {
   scripts: /\.(js|jsx)$/,
   styles: /\.(css|scss|sass)$/,
   svgs: /\.svg$/,
@@ -58,7 +51,7 @@ module.exports.tests = {
   fonts: /\.(eot|ttf|woff|woff2)$/,
 };
 
-module.exports.detectEnv = () => {
+export function detectEnv() {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const wpemergeEnv = process.env.WPEMERGE_ENV || '';
   const isCombined = !!process.env.WPEMERGE_COMBINED_BUILD;
@@ -75,14 +68,14 @@ module.exports.detectEnv = () => {
     isDebug,
     filenameSuffix: isProduction && !isDebug ? '.min' : '',
   };
-};
+}
 
-module.exports.getWhitelistedUserConfig = (config) => {
+export function getWhitelistedUserConfig(config) {
   const whitelist = config.release.configWhitelist || [];
   return pick(config, whitelist);
-};
+}
 
-module.exports.getUserConfig = (file, whitelisted = false) => {
+export function getUserConfig(file, whitelisted = false) {
   const userConfigPath = file || path.join(process.cwd(), 'config.json');
 
   if (userConfig !== null) {
@@ -102,16 +95,16 @@ module.exports.getUserConfig = (file, whitelisted = false) => {
   }
 
   if (whitelisted) {
-    return module.exports.getWhitelistedUserConfig(userConfig);
+    return getWhitelistedUserConfig(userConfig);
   }
 
   return userConfig;
-};
+}
 
-module.exports.filehash = (file) => {
+export function filehash(file) {
   const hash = crypto.createHash('sha1');
   hash.update(fs.readFileSync(file));
   return hash.digest('hex');
-};
+}
 
-module.exports.filehashFilter = file => `[name].${module.exports.filehash(file).substr(0, 10)}.[ext]`;
+export function filehashFilter(file) { return `[name].${filehash(file).substr(0, 10)}.[ext]`; }

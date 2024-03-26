@@ -22,10 +22,10 @@ trait CarbonFieldsHelper {
 		}
 
 		foreach ( $carbonFields as $field ) {
-			if (!$field["slug"]) {
+			if (!$field["slug"] || $field["slug"] == "") {
 				continue;
 			}
-			if (!$field["title"]) {
+			if (!$field["title"] || $field["title"] == "") {
 				continue;
 			}
 			if ( $field['post_type'] ?? false ) {
