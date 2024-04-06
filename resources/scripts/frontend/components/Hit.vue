@@ -3,7 +3,7 @@
 	<div
 		class="flex flex-col relative max-w-sm bg-white border border-gray- shadow dark:bg-gray-800 dark:border-gray-700 mb-3 card-hov card-container">
 		<div>
-			<img :src="hit.image_url || altimg" :alt="altimg" class="w-full h-auto mb-1 max-h-10 ">
+			<img :alt="altimg" :src="hit.featured_image || altimg" class="w-full h-auto mb-1 max-h-10 ">
 			<div class="absolute top-0 right-0 bg-gray-800 text-white p-2 text-s rounded-bl-lg topic">
 				<span>Topic (ICT/OTHER)</span>
 			</div>
@@ -20,30 +20,30 @@
 
 
 					<div class="flex items-center min-h-12 mb-1">
-						<svg class="mr-2 w-6 h-6 text-gray-800 dark:text-white mr-2 w-10 flex-shrink-0"
-							aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-							viewBox="0 0 24 24">
-							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								d="M6 4h12M6 4v16M6 4H5m13 0v16m0-16h1m-1 16H6m12 0h1M6 20H5M9 7h1v1H9V7Zm5 0h1v1h-1V7Zm-5 4h1v1H9v-1Zm5 0h1v1h-1v-1Zm-3 4h2a1 1 0 0 1 1 1v4h-4v-4a1 1 0 0 1 1-1Z" />
+						<svg aria-hidden="true"
+							class="mr-2 w-6 h-6 text-gray-800 dark:text-white mr-2 w-10 flex-shrink-0" fill="none" height="24" viewBox="0 0 24 24" width="24"
+							xmlns="http://www.w3.org/2000/svg">
+							<path d="M6 4h12M6 4v16M6 4H5m13 0v16m0-16h1m-1 16H6m12 0h1M6 20H5M9 7h1v1H9V7Zm5 0h1v1h-1V7Zm-5 4h1v1H9v-1Zm5 0h1v1h-1v-1Zm-3 4h2a1 1 0 0 1 1 1v4h-4v-4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2" />
 						</svg>
 						<a :href="hit.guid" class="text-gray-600 text-base">{{ hit.provided_by }}</a>
 					</div>
 
 					<div class="flex items-start mb-1 ">
-						<svg class="w-6 h-6 text-gray-800 dark:text-white mr-2" aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+						<svg aria-hidden="true" class="w-6 h-6 text-gray-800 dark:text-white mr-2"
+							fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2" />
 						</svg>
 
 						<a :href="hit.guid" class="text-gray-600 text-base">{{ hit.language }}</a>
 					</div>
 
 					<div class="flex items-start mb-2">
-						<svg class="w-6 h-6 text-gray-800 dark:text-white mr-2 flex-shrink-0" aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+						<svg aria-hidden="true" class="w-6 h-6 text-gray-800 dark:text-white mr-2 flex-shrink-0"
+							fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2" />
 						</svg>
 						<a :href="hit.guid" class="text-gray-600 text-base">{{ hit.workload_in_hours }}</a>
 					</div>
