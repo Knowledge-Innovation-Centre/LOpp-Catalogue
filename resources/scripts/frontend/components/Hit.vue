@@ -5,7 +5,7 @@
 		<div>
 			<img :alt="altimg" :src="hit.featured_image || altimg" class="w-full h-auto mb-1 max-h-10 ">
 			<div class="absolute top-0 right-0 bg-gray-800 text-white p-2 text-s rounded-bl-lg topic">
-				<span>Topic (ICT/OTHER)</span>
+				<span>{{ hit.education_subject }}</span>
 			</div>
 		</div>
 		<div class="flex flex-col justify-between grow card-info ">
