@@ -4,6 +4,7 @@ import '@styles/frontend';
 // import './spritesvg.js';
 import Vue from 'vue';
 import App from './App.vue';
+import AppSingleCatalogue from './AppSingleCatalogue.vue';
 
 (function (frontend, $) {
   $(document).ready(() => {
@@ -59,4 +60,11 @@ function loadSearchCatalogItems() {
       });
     }
   }
+}
+
+if (document.getElementById('catalogue-single-page')) {
+    new Vue({
+      el: '#catalogue-single-page',
+      render: (h) => h(AppSingleCatalogue),
+    });
 }
