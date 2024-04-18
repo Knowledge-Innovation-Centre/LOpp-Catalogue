@@ -164,6 +164,17 @@ if (! class_exists(AjaxFrontend::class)) {
 			die;
 		}
 
+		public function get_catalogue_post()
+		{
+			$post = get_post($_POST['post_id']);
+
+			if ($post->post_type == Catalogue::POST_TYPE) {
+				echo json_encode($post);
+			}
+
+			die;
+		}
+
 		function end_meta_value($meta, $end = "max")
 		{
 			global $wpdb;

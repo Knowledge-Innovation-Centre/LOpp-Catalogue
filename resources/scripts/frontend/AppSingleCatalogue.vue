@@ -19,6 +19,7 @@ export default {
 	data() {
 		return {
 			data: [],
+			post: {},
 			fieldSettings: [],
 		}
 	},
@@ -33,10 +34,16 @@ export default {
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.data = response.data;
 			})
-			 formData = new FormData();
+			formData = new FormData();
 			formData.append("action", "get_field_settings");
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.fieldSettings = response.data;
+			})
+			formData = new FormData();
+			formData.append("action", "get_catalogue_post");
+			formData.append("post_id", this.post_id);
+			FormDataApi.post(ajaxurl, formData).then(response => {
+				this.data = response.data;
 			})
 		}
 	}

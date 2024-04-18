@@ -66,6 +66,8 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		add_action('admin_head', [$this, 'my_action_javascript']);
 		add_action('wp_ajax_get_catalogue_values', [$ajaxFrontEnd, 'get_catalogue_values']);
 		add_action('wp_ajax_nopriv_get_catalogue_values', [$ajaxFrontEnd, 'get_catalogue_values']);
+		add_action('wp_ajax_get_catalogue_post', [$ajaxFrontEnd, 'get_catalogue_post']);
+		add_action('wp_ajax_nopriv_get_catalogue_post', [$ajaxFrontEnd, 'get_catalogue_post']);
 		add_action('wp_ajax_get_field_settings', [$ajaxFrontEnd, 'get_field_settings']);
 		add_action('wp_ajax_nopriv_get_field_settings', [$ajaxFrontEnd, 'get_field_settings']);
 	}
