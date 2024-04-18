@@ -16,15 +16,6 @@ class ShortcodesServiceProvider implements ServiceProviderInterface
 	{
 		// phpcs:ignore
 		add_shortcode('search-catalog-items', [$this, 'searchCatalogItems']);
-		add_shortcode('catalogue-single-page', [$this, 'catalogueSinglePage']);
-	}
-
-	public function catalogueSinglePage($atts, $content)
-	{
-		global $post;
-		$current_id = $post->ID;
-
-		return '<div id="catalogue-single-page" data-post-id="' . $current_id . '"></div>';
 	}
 
 	/**

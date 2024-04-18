@@ -153,7 +153,12 @@ if (! class_exists(Catalogue::class)) {
 
 		function add_content_after($content)
 		{
+			global $post;
+			$current_id = $post->ID;
+
 			if (carbon_get_theme_option('hide_table_on_catalogue_single_page')) {
+				$content .= '<div id="catalogue-single-page" data-post-id="' . $current_id . '"></div>';
+
 				return $content;
 			}
 			global $post;

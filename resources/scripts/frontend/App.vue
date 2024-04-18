@@ -54,7 +54,7 @@
       <hits v-else :display-fields="displayFields" :hits="hits"></hits>
     </div>
     <div class="tw-flex tw-justify-between tw-mt-5">
-      <select v-model="limit" class="tw-w-20-important">
+      <select :value="limit" class="tw-w-20-important" @input="limit = Number($event.target.value)">
         <option :value="3">3</option>
         <option :value="6">6</option>
         <option :value="12">12</option>
@@ -216,7 +216,7 @@ export default {
           .then(response => response.json())
           .then(data => {
             this.hits = data.hits;
-            this.nbHits = data.nbHits;
+            this.nbHits = data.estimatedTotalHits;
           })
           .finally(() => {
             this.loading = false;
