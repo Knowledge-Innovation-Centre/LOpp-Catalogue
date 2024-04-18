@@ -63,8 +63,11 @@ function loadSearchCatalogItems() {
 }
 
 if (document.getElementById('catalogue-single-page')) {
+
+  const post_id = document.getElementById("catalogue-single-page").getAttribute('data-post-id');
+
     new Vue({
       el: '#catalogue-single-page',
-      render: (h) => h(AppSingleCatalogue),
+      render: (h) => h(AppSingleCatalogue, {props: {post_id}}),
     });
 }

@@ -19,60 +19,118 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register( $container ) {
-		// Nothing to register.
+	public function bootstrap($container)
+	{
+		add_action('init', [$this, 'registerPostTypes']);
+		add_action('init', [$this, 'registerTaxonomies']);
+
+		$catalogue = new Catalogue();
+		add_action('init', [$catalogue, 'register']);
+		add_action('before_delete_post', [$catalogue, 'before_delete_post'], 10, 3);
+		add_action('updated_post_meta', [$catalogue, 'updated_post_meta'], 10, 4);
+		add_action('carbon_fields_register_fields', [$catalogue, 'custom_fields']);
+
+		$catalogueImporter = new CatalogueImporter();
+		add_action('wp_ajax_loc_catalog_import_xml', [$catalogueImporter, 'import']);
+		add_action('wp_ajax_loc_maturity_model_import_xml', [$catalogueImporter, 'import_maturity_model']);
+		add_action('wp_ajax_loc_vocabularies_import_xml', [$catalogueImporter, 'import_vocabularies']);
+
+		$learning_outcome = new LearningOutcome();
+		add_action('init', [$learning_outcome, 'register']);
+		add_action('carbon_fields_register_fields', [$learning_outcome, 'custom_fields']);
+
+		$dimension = new Dimension();
+		add_action('init', [$dimension, 'register']);
+		add_action('carbon_fields_register_fields', [$dimension, 'custom_fields']);
+		$dimensionSubset = new DimensionSubset();
+		add_action('init', [$dimensionSubset, 'register']);
+		add_action('carbon_fields_register_fields', [$dimensionSubset, 'custom_fields']);
+		$dimensionSubsetItem = new DimensionSubsetItem();
+		add_action('init', [$dimensionSubsetItem, 'register']);
+		add_action('carbon_fields_register_fields', [$dimensionSubsetItem, 'custom_fields']);
+
+		$ajaxFrontEnd = new AjaxFrontend();
+		add_action('wp_ajax_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields']);
+		add_action('wp_ajax_nopriv_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields']);
+		add_action('wp_ajax_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key']);
+		add_action('wp_ajax_nopriv_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key']);
+		add_action('wp_ajax_get_display_fields', [$ajaxFrontEnd, 'get_display_fields']);
+		add_action('wp_ajax_nopriv_get_display_fields', [$ajaxFrontEnd, 'get_display_fields']);
+		add_action('wp_ajax_reindex_items', [$ajaxFrontEnd, 'reindex_items']);
+		add_action('wp_ajax_delete_index_items', [$ajaxFrontEnd, 'delete_index_items']);
+		add_action('wp_head', [$ajaxFrontEnd, 'ajax_url']);
+
+		add_filter('the_content', [$catalogue, 'add_content_after']);
+
+		add_action('admin_bar_menu', [$this, 'my_ajax_button'], 100);
+		add_action('admin_head', [$this, 'my_action_javascript']);
+		add_action('wp_ajax_get_catalogue_values', [$ajaxFrontEnd, 'get_catalogue_values']);
+		add_action('wp_ajax_nopriv_get_catalogue_values', [$ajaxFrontEnd, 'get_catalogue_values']);
+		add_action('wp_ajax_get_field_settings', [$ajaxFrontEnd, 'get_field_settings']);
+		add_action('wp_ajax_nopriv_get_field_settings', [$ajaxFrontEnd, 'get_field_settings']);
+	}
+
+	function my_action_javascript()
+	{
+		?>
+		<script type="text/javascript">
+			jQuery(document).ready(function ($) {
+
+				$('.reindex-items').click(function () {
+					let data = {
+						action: 'reindex_items',
+					};
+
+					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+					$.post(ajaxurl, data, function (response) {
+						alert('Reindex complete: ' + response);
+					});
+				});
+				$('.delete-index-items').click(function () {
+					let data = {
+						action: 'delete_index_items',
+					};
+
+					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+					$.post(ajaxurl, data, function (response) {
+						alert('Delete index complete: ' + response);
+					});
+				});
+
+
+			});
+		</script>
+		<?php
+	}
+
+	public function my_ajax_button($admin_bar)
+	{
+		$admin_bar->add_menu([
+			'id'    => 'reindex-items',
+			'title' => 'Reindex all items',
+			'href'  => '#',
+			'meta'  => [
+				'title' => __('Reindex items'),
+				'class' => 'reindex-items',
+			],
+		]);
+		$admin_bar->add_menu([
+			'id'    => 'delete-index-items',
+			'title' => 'Delete index',
+			'href'  => '#',
+			'meta'  => [
+				'title' => __('Delete index'),
+				'class' => 'delete-index-items',
+			],
+		]);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function bootstrap( $container ) {
-		add_action( 'init', [$this, 'registerPostTypes'] );
-		add_action( 'init', [$this, 'registerTaxonomies'] );
-
-
-
-		$catalogue = new Catalogue();
-		add_action( 'init', [$catalogue, 'register' ]);
-		add_action( 'before_delete_post', [$catalogue, 'before_delete_post' ], 10, 3);
-		add_action( 'updated_post_meta', [$catalogue, 'updated_post_meta' ], 10, 4 );
-		add_action( 'carbon_fields_register_fields', [$catalogue, 'custom_fields' ]);
-
-		$catalogueImporter = new CatalogueImporter();
-		add_action( 'wp_ajax_loc_catalog_import_xml', [$catalogueImporter, 'import' ] );
-		add_action( 'wp_ajax_loc_maturity_model_import_xml', [$catalogueImporter, 'import_maturity_model' ] );
-		add_action( 'wp_ajax_loc_vocabularies_import_xml', [$catalogueImporter, 'import_vocabularies' ] );
-
-		$learning_outcome = new LearningOutcome();
-		add_action( 'init', [$learning_outcome, 'register' ] );
-		add_action( 'carbon_fields_register_fields', [$learning_outcome, 'custom_fields' ] );
-
-		$dimension = new Dimension();
-		add_action( 'init', [$dimension, 'register' ] );
-		add_action( 'carbon_fields_register_fields', [$dimension, 'custom_fields' ] );
-		$dimensionSubset = new DimensionSubset();
-		add_action( 'init', [$dimensionSubset, 'register' ] );
-		add_action( 'carbon_fields_register_fields', [$dimensionSubset, 'custom_fields' ] );
-		$dimensionSubsetItem = new DimensionSubsetItem();
-		add_action( 'init', [$dimensionSubsetItem, 'register' ] );
-		add_action( 'carbon_fields_register_fields', [$dimensionSubsetItem, 'custom_fields' ] );
-
-
-		$ajaxFrontEnd = new AjaxFrontend();
-		add_action( 'wp_ajax_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields'] );
-		add_action( 'wp_ajax_nopriv_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields'] );
-		add_action( 'wp_ajax_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key'] );
-		add_action( 'wp_ajax_nopriv_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key'] );
-		add_action( 'wp_ajax_get_display_fields', [$ajaxFrontEnd, 'get_display_fields'] );
-		add_action( 'wp_ajax_nopriv_get_display_fields', [$ajaxFrontEnd, 'get_display_fields'] );
-		add_action( 'wp_ajax_reindex_items', [$ajaxFrontEnd, 'reindex_items'] );
-		add_action( 'wp_ajax_delete_index_items', [$ajaxFrontEnd, 'delete_index_items'] );
-		add_action( 'wp_head', [$ajaxFrontEnd, 'ajax_url'] );
-
-		add_filter( 'the_content', [$catalogue, 'add_content_after' ]);
-
-		add_action( 'admin_bar_menu', [$this, 'my_ajax_button'], 100 );
-		add_action( 'admin_head', [$this, 'my_action_javascript'] );
+	public function register($container)
+	{
+		// Nothing to register.
 	}
 
 	/**
@@ -80,9 +138,8 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return void
 	 */
-	public function registerPostTypes() {
-
-
+	public function registerPostTypes()
+	{
 		// phpcs:disable
 		/*
 		register_post_type(
@@ -118,12 +175,15 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		// phpcs:enable
 	}
 
+	// add_action( 'admin_head', 'my_action_javascript' );
+
 	/**
 	 * Register taxonomies.
 	 *
 	 * @return void
 	 */
-	public function registerTaxonomies() {
+	public function registerTaxonomies()
+	{
 		// phpcs:disable
 		/*
 		register_taxonomy(
@@ -154,62 +214,4 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		*/
 		// phpcs:enable
 	}
-
-
-
-	public function my_ajax_button( $admin_bar ) {
-		$admin_bar->add_menu( [
-			'id'    => 'reindex-items',
-			'title' => 'Reindex all items',
-			'href'  => '#',
-			'meta'  => [
-				'title' => __( 'Reindex items' ),
-				'class' => 'reindex-items',
-			],
-		] );
-		$admin_bar->add_menu( [
-			'id'    => 'delete-index-items',
-			'title' => 'Delete index',
-			'href'  => '#',
-			'meta'  => [
-				'title' => __( 'Delete index' ),
-				'class' => 'delete-index-items',
-			],
-		]);
-	}
-
-	// add_action( 'admin_head', 'my_action_javascript' );
-
-	function my_action_javascript() {
-		?>
-		<script type="text/javascript">
-		jQuery(document).ready(function ($) {
-
-			$('.reindex-items').click(function () {
-				let data = {
-					action: 'reindex_items',
-				};
-
-				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-				$.post(ajaxurl, data, function (response) {
-					alert('Reindex complete: ' + response);
-				});
-			});
-			$('.delete-index-items').click(function () {
-				let data = {
-					action: 'delete_index_items',
-				};
-
-				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-				$.post(ajaxurl, data, function (response) {
-					alert('Delete index complete: ' + response);
-				});
-			});
-
-
-		});
-		</script>
-		<?php
-	}
-
 }

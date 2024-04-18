@@ -21,7 +21,10 @@ class ShortcodesServiceProvider implements ServiceProviderInterface
 
 	public function catalogueSinglePage($atts, $content)
 	{
-		return '<div id="catalogue-single-page"></div>';
+		global $post;
+		$current_id = $post->ID;
+
+		return '<div id="catalogue-single-page" data-post-id="' . $current_id . '"></div>';
 	}
 
 	/**
