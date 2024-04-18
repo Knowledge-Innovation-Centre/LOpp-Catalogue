@@ -6,7 +6,7 @@
     <div class="flex items-center search-container mb-10">
       <div class="tw-mb-5 search">
         <h4 class="text-xl mb-2 font-bold dark:text-white text-align:center">{{ $t('Search by keyword') }}</h4>
-        <input v-model="searchString" :placeholder="$t('Enter keyword')" type="text" class="tw-w-full search-input" />
+        <input v-model="searchString" :placeholder="$t('Enter keyword')" class="tw-w-full search-input" type="text" />
       </div>
     </div>
     <div class="filter-container">
@@ -14,11 +14,11 @@
       <div class="checkbox-container">
         <template v-for="(filterField, index) in filterFields">
           <div v-if="['checkbox', 'radio'].includes(filterField.type)"
-            :class="{ 'tw-col-span-3': filterField.type === 'multiselect' }" :key="'checkbox-' + index">
+            :key="'checkbox-' + index" :class="{ 'tw-col-span-3': filterField.type === 'multiselect' }">
             <h4 class="tw-mb-3 filter-title">{{ filterField.title }}</h4>
             <ul class="tw-list-none tw-p-0 mb-7">
-              <li class="tw-flex tw-items-center" v-for="(value, key) in filterField.values" :key="key">
-                <input type="checkbox" v-model="filterValues[filterField.field]" @change="search()" :value="key">
+              <li v-for="(value, key) in filterField.values" :key="key" class="tw-flex tw-items-center">
+                <input v-model="filterValues[filterField.field]" :value="key" type="checkbox" @change="search()">
                 <span class="tw-ml-5">{{ value }}</span>
               </li>
             </ul>
@@ -32,10 +32,10 @@
           <div v-if="filterField.type === 'dropdown'" :key="'dropdown-' + index">
             <h4 class="tw-mb-3 filter-title">{{ filterField.title }}</h4>
             <select id="dropdown-filters" class="mb-7 bg-gray-50 border border-black-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              @change="search()" placeholder="asfsaf">
+              placeholder="asfsaf" @change="search()">
               <option disabled selected>Choose a {{filterField.title}}</option>
-              <option class="dropdown-option" :value="key" v-for="(value, key) in filterField.values"
-                :key="key">
+              <option v-for="(value, key) in filterField.values" :key="key" :value="key"
+                class="dropdown-option">
                 {{ value }}
               </option>
             </select>
@@ -54,7 +54,7 @@
       <hits v-else :display-fields="displayFields" :hits="hits"></hits>
     </div>
     <div class="tw-flex tw-justify-between tw-mt-5">
-      <select class="tw-w-20-important" v-model="limit">
+      <select v-model="limit" class="tw-w-20-important">
         <option :value="3">3</option>
         <option :value="6">6</option>
         <option :value="12">12</option>
@@ -62,14 +62,12 @@
         <option :value="48">48</option>
         <option :value="96">96</option>
       </select>
-      <pagination :limit="limit" :offset="offset" :nb-hits="nbHits" @update-offset="updateOffset($event)"></pagination>
+      <pagination :limit="limit" :nb-hits="nbHits" :offset="offset" @update-offset="updateOffset($event)"></pagination>
     </div>
   </div>
 </template>
 
 <script>
-
-import Api from "../Api";
 
 import VueSlider from 'vue-slider-component'; // NEW
 import 'vue-slider-component/theme/antd.css'; // NEW
@@ -79,7 +77,7 @@ import Hits from "./components/Hits.vue";
 import "./components/App.css";
 
 import debounce from "lodash/debounce"
-import { MeiliSearch } from 'meilisearch'
+import {MeiliSearch} from 'meilisearch'
 import FormDataApi from "../FormDataApi";
 
 
@@ -195,7 +193,7 @@ export default {
       if (filters.length) {
         searchParams.filter = filters.join(' AND ');
       }
-      searchParams.limit = this.limit;
+      searchParams.limit = Number(this.limit);
       searchParams.offset = this.offset;
 
       try {
