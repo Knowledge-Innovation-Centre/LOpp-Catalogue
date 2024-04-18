@@ -43,7 +43,7 @@ export default {
 			formData.append("action", "get_catalogue_post");
 			formData.append("post_id", this.post_id);
 			FormDataApi.post(ajaxurl, formData).then(response => {
-				this.data = response.data;
+				this.post = response.data;
 			})
 		}
 	}
