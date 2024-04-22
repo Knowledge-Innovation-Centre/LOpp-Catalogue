@@ -292,13 +292,13 @@ if (! class_exists(Catalogue::class)) {
 				   . '</tr>';
 		}
 
-		private function getArray($slug, $value): array
+		private function getArray($value)
 		{
 			if ($this->hide_rows && ! $value) {
 				return '';
 			}
 
-			return [$slug => $value ?: __('No data available')];
+			return $value ?: __('No data available');
 		}
 
 		private function getAdditionalFieldTableRowCarbon($id, $field)
@@ -340,7 +340,7 @@ if (! class_exists(Catalogue::class)) {
 				}
 			}
 
-			return $this->getArray($field['slug'], $value);
+			return [$field['slug'] => $this->getArray($value)];
 		}
 
 		public function get_catalogue_values($id)
@@ -358,19 +358,19 @@ if (! class_exists(Catalogue::class)) {
 				'additional'                 => [],
 			];
 			foreach ($fields as $field) :
-				$array_of_values['general'] = array_merge($array_of_values['general'], $this->getArrayCarbon($id, $field['slug']));
+				$array_of_values['general'][$field['slug']] = $this->getArrayCarbon($id, $field['slug']);
 			endforeach;
 
 			foreach ($informationAboutTheLoopFields as $field) :
-				$array_of_values['information_about_the_lopp'] = array_merge($array_of_values['information_about_the_lopp'], $this->getArrayCarbon($id, $field['slug']));
+				$array_of_values['information_about_the_lopp'][$field['slug']] = $this->getArrayCarbon($id, $field['slug']);
 			endforeach;
 
 			foreach ($learningSpecificationFields as $field) :
-				$array_of_values['learning_specification'] = array_merge($array_of_values['learning_specification'], $this->getArrayCarbon($id, $field['slug']));
+				$array_of_values['learning_specification'][$field['slug']] = $this->getArrayCarbon($id, $field['slug']);
 			endforeach;
 
 			foreach ($contactFields as $field) :
-				$array_of_values['contact'] = array_merge($array_of_values['contact'], $this->getArrayCarbon($id, $field['slug']));
+				$array_of_values['contact'][$field['slug']] = $this->getArrayCarbon($id, $field['slug']);
 			endforeach;
 
 			foreach ($additionalFields as $field) :
@@ -461,6 +461,7 @@ if (! class_exists(Catalogue::class)) {
 		private function getArrayCarbon($id, $slug)
 		{
 			$value = carbon_get_post_meta($id, $slug);
+
 			if (is_string($value)) {
 				if (in_array($slug, $this->is_url_fields)) {
 					$urls = explode(' ', $value);
@@ -474,7 +475,7 @@ if (! class_exists(Catalogue::class)) {
 					}
 				}
 
-				return $this->getArray($slug, $value);
+				return $this->getArray($value);
 			}
 
 			$content = [];
@@ -483,24 +484,25 @@ if (! class_exists(Catalogue::class)) {
 				return $content;
 			}
 			foreach ($value as $valueItem) {
+				$item = [];
 				if (isset($valueItem['dimension'])) {
-					$content[] = $this->getArray('dimension', $valueItem['dimension']);
+					$item['dimension'] = $this->getArray($valueItem['dimension']);
 				}
 				if (isset($valueItem['knowledge'])) {
-					$content[] = $this->getArray('knowledge', $valueItem['knowledge']);
+					$item['knowledge'] = $this->getArray($valueItem['knowledge']);
 				}
 				if (isset($valueItem['skill'])) {
-					$content[] = $this->getArray('skill', $valueItem['skill']);
+					$item['skill'] = $this->getArray($valueItem['skill']);
 				}
 				if (isset($valueItem['attitude'])) {
-					$content[] = $this->getArray('attitude', $valueItem['attitude']);
+					$item['attitude'] = $this->getArray($valueItem['attitude']);
 				}
+
 				if (isset($valueItem['subtype']) && $valueItem['subtype'] == LearningOutcome::POST_TYPE) {
 					$fields = $this->filterVisible(LearningOutcomeFields::get_general_fields(), LearningOutcome::POST_TYPE);
 
-					$content[] = $this->getArray('learning_outcome', get_the_title($valueItem['id'])
-																	 . '<br>'
-																	 . get_the_content(null, false, $valueItem['id']));
+					$item['title'] = $this->getArray(get_the_title($valueItem['id']));
+					$item['content'] = $this->getArray(get_the_content(null, false, $valueItem['id']));
 					foreach ($fields as $field) {
 						$slugFilter = '_' . $field['slug'] . '_' . LearningOutcome::POST_TYPE . '_is_url';
 						if (! isset($this->is_url_options[$slugFilter])
@@ -510,26 +512,27 @@ if (! class_exists(Catalogue::class)) {
 						$this->is_url_fields[] = $field['slug'];
 					}
 
-					foreach ($fields as $field) :
-						$content[] = $this->getArrayCarbon($valueItem['id'], $field['slug'], $field['title']);
-					endforeach;
+					foreach ($fields as $field) {
+						$item[$field['slug']] = $this->getArrayCarbon($valueItem['id'], $field['slug']);
+					}
 				}
 
 				if (isset($valueItem['subtype']) && $valueItem['subtype'] == DimensionSubsetItem::POST_TYPE) {
-					$content[] = $this->getArrayCarbon($valueItem['id'], 'dimension_subset');
-					$content[] = $this->getArray('learning_outcome_maturity_model', get_the_title($valueItem['id'])
-																					. '<br>'
-																					. get_the_content(null, false, $valueItem['id']));
+					$item['dimension_subset'] = $this->getArrayCarbon($valueItem['id'], 'dimension_subset');
+					$item['learning_outcome_maturity_model'] = $this->getArray(get_the_title($valueItem['id'])
+																			   . '<br>'
+																			   . get_the_content(null, false, $valueItem['id']));
 				}
 				if (isset($valueItem['subtype']) && $valueItem['subtype'] == DimensionSubset::POST_TYPE) {
-					$content[] = $this->getArrayCarbon($valueItem['id'], 'dimension');
-					$content[] = $this->getArray('dimension_subset', get_the_title($valueItem['id']));
-					$content[] = $this->getArray('dimension_subset_description', get_the_content(null, false, $valueItem['id']));
+					$item['dimension'] = $this->getArrayCarbon($valueItem['id'], 'dimension');
+					$item['dimension_subset'] = $this->getArray(get_the_title($valueItem['id']));
+					$item['dimension_subset_description'] = $this->getArray(get_the_content(null, false, $valueItem['id']));
 				}
 				if (isset($valueItem['subtype']) && $valueItem['subtype'] == Dimension::POST_TYPE) {
-					$content[] = $this->getArray('dimension', get_the_title($valueItem['id']));
-					$content[] = $this->getArray('dimension_description', get_the_content(null, false, $valueItem['id']));
+					$item['dimension'] = $this->getArray(get_the_title($valueItem['id']));
+					$item['dimension_description'] = $this->getArray(get_the_content(null, false, $valueItem['id']));
 				}
+				$content[] = $item;
 			}
 
 			return $content;
