@@ -1,37 +1,40 @@
 <template>
 	<div class="container">
-		<div class="filter-section">
-			<div class="fields-buttons" :class="{ 'clicked': buttonsClicked }">
-				<button v-for="(value, key) in data" :key="key" @click="displayData(key)" class="data-button">
-					{{ transformKey(key) }}
-				</button>
-			</div>
-		</div>
 
-		<div class="data-section">
-			<div class="post-section">
-				
-				<div class="structure">
-					<div class="structure-item">
-						<h4>ECTS</h4>
-						<p>{{ ects }}</p>
-					</div>
-					<div class="structure-item">
-						<h4>Price</h4>
-						<p>{{ price }}</p>
-					</div>
-					<div class="structure-item">
-						<h4>Status</h4>
-						<p>{{ status }}</p>
-					</div>
-					<div class="structure-item">
-						<a :href="applyURL" class="apply-button">Apply here</a>
-					</div>
+
+
+		<div class="post-section">
+
+			<div class="structure">
+				<div class="structure-item">
+					<h4>ECTS</h4>
+					<p>{{ ects }}</p>
 				</div>
-				
-				<div class="post-content" ref="postContent" v-html="post.post_content"></div>
+				<div class="structure-item">
+					<h4>Price</h4>
+					<p>{{ price }}</p>
+				</div>
+				<div class="structure-item">
+					<h4>Status</h4>
+					<p>{{ status }}</p>
+				</div>
+				<div class="structure-item">
+					<a :href="applyURL" class="apply-button">Apply here</a>
+				</div>
 			</div>
-				
+
+			<div class="post-content" ref="postContent" v-html="post.post_content"></div>
+		</div>
+		<div class="data-section">
+			<div class="filter-section">
+				<div class="fields-buttons" :class="{ 'clicked': buttonsClicked }">
+					<button v-for="(value, key, index) in data" :key="key" @click="displayData(key, index)"
+						class="data-button" :class="{ 'data-btn-active': activeIndex === index }">
+						{{ transformKey(key) }}
+					</button>
+				</div>
+			</div>
+
 			<div class="selected-field">
 				<h3>{{ transformKey(selectedFilter) }}</h3>
 				<ul>
@@ -39,11 +42,12 @@
 						<strong>{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value }}
 					</li>
 				</ul>
-			</div>	
+			</div>
+
 		</div>
-
-
 	</div>
+
+
 </template>
 
 <script>
@@ -67,12 +71,19 @@ export default {
 			price: "",
 			status: "",
 			applyURL: "",
-			buttonsClicked: false
+			buttonsClicked: false,
+			activeIndex: 0
 		};
 	},
 	mounted() {
 		this.getData();
 		this.applyStylingToPostContent();
+		const firstButton = document.querySelector('.fields-buttons .data-button');
+
+		// Add the data-btn-active class to the first button
+		if (firstButton) {
+			firstButton.classList.add('data-btn-active');
+		}
 	},
 	updated() {
 		this.applyStylingToPostContent();
@@ -95,7 +106,6 @@ export default {
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.fieldSettings = response.data;
 				this.selectedField = JSON.parse(JSON.stringify(this.data["general"]));
-				console.log(JSON.parse(JSON.stringify(this.fieldSettings["general"]["homepage"].label)));
 			});
 
 			formData = new FormData();
@@ -105,16 +115,10 @@ export default {
 				this.post = response.data;
 			});
 		},
-		displayData(dataKey) {
-			console.log(dataKey);
+		displayData(dataKey, index) {
 			this.selectedField = JSON.parse(JSON.stringify(this.data[dataKey]));
 			this.selectedFilter = dataKey;
-			setTimeout(() => {
-				window.scrollTo({
-					top: document.body.scrollHeight,
-					behavior: 'smooth'
-				});
-			}, 100);
+			this.activeIndex = index;
 		},
 		applyStylingToPostContent() {
 			const postContent = this.$refs.postContent;
@@ -147,7 +151,8 @@ export default {
 .container {
 	padding: 30px;
 	display: flex;
-	position: relative; /* Add position relative to the container */
+	flex-direction: column;
+	/* Add position relative to the container */
 }
 
 .filter-section {
@@ -159,17 +164,19 @@ export default {
 
 .data-section {
 	flex: 1;
-	padding: 20px;
 	display: flex;
-	flex-direction: column;
+	gap: 30px;
+	margin-top: 30px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
 }
 
 .post-section {
-		border-radius: 10px;
+	border-radius: 10px;
+	padding: 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	display: flex;
 	flex-direction: column;
-	padding: 20px;
 }
 
 .structure {
@@ -247,7 +254,10 @@ export default {
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
+	/* border: 3px solid #5401FE; */
+	width: -webkit-fill-available;
 }
+
 .selected-field h3 {
 	margin-bottom: 10px;
 	align-self: flex-start;
@@ -293,26 +303,22 @@ export default {
 }
 
 .fields-buttons {
-	position: sticky; /* Change position to absolute */
-	bottom: 0; /* Align to the bottom */
-	left: 0; /* Align to the left */
 	display: flex;
-	top: 70%;
 	flex-direction: column;
 }
 
 .fields-buttons.clicked {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
 }
 
 .data-button {
 	padding: 12px 20px;
-	color: #0056b3;
-	border:none;
+	color: #5401FE;
+	border: none;
 	border-bottom: 1px solid black;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
@@ -323,7 +329,7 @@ export default {
 }
 
 .data-button:hover {
-	background-color: #0056b3;
+	background-color: #5401FE;
 }
 
 .data-button:focus-within {
@@ -331,7 +337,14 @@ export default {
 }
 
 .data-button:focus {
-	background-color: #0056b3;
+	background-color: #5401FE;
+	border: none !important;
+	outline: none !important;
+}
+
+.data-btn-active {
+	background-color: #5401FE;
+	color: #fff;
 	border: none !important;
 	outline: none !important;
 }
