@@ -9,35 +9,40 @@
 		</div>
 
 		<div class="data-section">
-			<div class="structure">
-				<div class="structure-item">
-					<h4>ECTS</h4>
-					<p>{{ ects }}</p>
+			<div class="post-section">
+				
+				<div class="structure">
+					<div class="structure-item">
+						<h4>ECTS</h4>
+						<p>{{ ects }}</p>
+					</div>
+					<div class="structure-item">
+						<h4>Price</h4>
+						<p>{{ price }}</p>
+					</div>
+					<div class="structure-item">
+						<h4>Status</h4>
+						<p>{{ status }}</p>
+					</div>
+					<div class="structure-item">
+						<a :href="applyURL" class="apply-button">Apply here</a>
+					</div>
 				</div>
-				<div class="structure-item">
-					<h4>Price</h4>
-					<p>{{ price }}</p>
-				</div>
-				<div class="structure-item">
-					<h4>Status</h4>
-					<p>{{ status }}</p>
-				</div>
-				<div class="structure-item">
-					<a :href="applyURL" class="apply-button">Apply here</a>
-				</div>
+				
+				<div class="post-content" ref="postContent" v-html="post.post_content"></div>
 			</div>
-
-			<div class="post-content" ref="postContent" v-html="post.post_content"></div>
-
+				
 			<div class="selected-field">
 				<h3>{{ transformKey(selectedFilter) }}</h3>
 				<ul>
 					<li v-for="(value, key) in selectedField" :key="key">
-						<strong>{{ transformKey(key) }}:</strong> {{ value }}
+						<strong>{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value }}
 					</li>
 				</ul>
-			</div>
+			</div>	
 		</div>
+
+
 	</div>
 </template>
 
@@ -57,7 +62,7 @@ export default {
 			post: {},
 			fieldSettings: [],
 			selectedField: {},
-			selectedFilter: "Selected Field",
+			selectedFilter: "general",
 			ects: "",
 			price: "",
 			status: "",
@@ -90,6 +95,7 @@ export default {
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.fieldSettings = response.data;
 				this.selectedField = JSON.parse(JSON.stringify(this.data["general"]));
+				console.log(JSON.parse(JSON.stringify(this.fieldSettings["general"]["homepage"].label)));
 			});
 
 			formData = new FormData();
@@ -100,9 +106,9 @@ export default {
 			});
 		},
 		displayData(dataKey) {
+			console.log(dataKey);
 			this.selectedField = JSON.parse(JSON.stringify(this.data[dataKey]));
 			this.selectedFilter = dataKey;
-
 			setTimeout(() => {
 				window.scrollTo({
 					top: document.body.scrollHeight,
@@ -141,18 +147,29 @@ export default {
 .container {
 	padding: 30px;
 	display: flex;
+	position: relative; /* Add position relative to the container */
 }
 
 .filter-section {
 	width: 30%;
 	padding: 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 .data-section {
 	flex: 1;
 	padding: 20px;
-	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.post-section {
+		border-radius: 10px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 }
 
 .structure {
@@ -228,10 +245,12 @@ export default {
 .selected-field {
 	padding: 10px;
 	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
 }
-
 .selected-field h3 {
 	margin-bottom: 10px;
+	align-self: flex-start;
 }
 
 .selected-field ul {
@@ -274,31 +293,33 @@ export default {
 }
 
 .fields-buttons {
-	position: sticky;
-	top: 20%;
+	position: sticky; /* Change position to absolute */
+	bottom: 0; /* Align to the bottom */
+	left: 0; /* Align to the left */
 	display: flex;
+	top: 70%;
 	flex-direction: column;
 }
 
 .fields-buttons.clicked {
-    position: sticky;
-    top: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
 }
 
 .data-button {
 	padding: 12px 20px;
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	border-radius: 8px;
+	color: #0056b3;
+	border:none;
+	border-bottom: 1px solid black;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	outline: none;
-	margin-bottom: 10px;
 	width: 100%;
 	text-align: center;
+	border-radius: 0px;
 }
 
 .data-button:hover {
