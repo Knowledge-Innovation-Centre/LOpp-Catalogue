@@ -23,13 +23,13 @@
 				</div>
 			</div>
 
-			<div class="post-content" ref="postContent" v-html="post.post_content"></div>
+			<div ref="postContent" class="post-content" v-html="post.post_content"></div>
 		</div>
 		<div class="data-section">
 			<div class="filter-section">
-				<div class="fields-buttons" :class="{ 'clicked': buttonsClicked }">
-					<button v-for="(value, key, index) in data" :key="key" @click="displayData(key, index)"
-						class="data-button" :class="{ 'data-btn-active': activeIndex === index }">
+				<div :class="{ 'clicked': buttonsClicked }" class="fields-buttons">
+					<button v-for="(value, key, index) in data" :key="key" :class="{ 'data-btn-active': activeIndex === index }"
+						class="data-button" @click="displayData(key, index)">
 						{{ transformKey(key) }}
 					</button>
 				</div>
@@ -39,7 +39,10 @@
 				<h3>{{ transformKey(selectedFilter) }}</h3>
 				<ul>
 					<li v-for="(value, key) in selectedField" :key="key">
-						<strong>{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value }}
+						<template v-if="selectedFilter === 'additional'"><strong >
+							{{ getTitleForAdditional(key) }}:</strong> {{ value }}
+						</template>
+						<template v-else><strong >{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value }}</template>
 					</li>
 				</ul>
 			</div>
@@ -142,6 +145,9 @@ export default {
 			return key.replace(/_/g, ' ').replace(/\b\w/g, function (char) {
 				return char.toUpperCase();
 			});
+		},
+		getTitleForAdditional(key) {
+			return this.fieldSettings.additional.find(additionalItem => additionalItem.slug === key).title;
 		}
 	}
 };
@@ -317,7 +323,7 @@ export default {
 
 .data-button {
 	padding: 12px 20px;
-	color: #5401FE;
+	color: white;
 	border: none;
 	border-bottom: 1px solid black;
 	cursor: pointer;
@@ -343,9 +349,8 @@ export default {
 }
 
 .data-btn-active {
-	background-color: #5401FE;
-	color: #fff;
-	border: none !important;
-	outline: none !important;
+	background-color: white !important;
+	border: #5401FE !important;
+	color: #5401FE;
 }
 </style>
