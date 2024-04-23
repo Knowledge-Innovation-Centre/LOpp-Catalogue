@@ -1,8 +1,5 @@
 <template>
 	<div class="container">
-
-
-
 		<div class="post-section">
 
 			<div class="structure">
@@ -49,8 +46,6 @@
 
 		</div>
 	</div>
-
-
 </template>
 
 <script>
@@ -352,5 +347,56 @@ export default {
 	background-color: white !important;
 	border: #5401FE !important;
 	color: #5401FE;
+}
+
+@media screen and (max-width: 768px) {
+	.container {
+		padding: 20px;
+	}
+
+	.data-section {
+		flex-direction: column;
+	}
+
+	.data-button {
+		padding: 8px;
+	}
+
+	.filter-section {
+		width: auto;
+	}
+
+	.structure {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.structure-item {
+		width: 100%;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+
+	.apply-button-container {
+		width: 100%;
+		text-align: center;
+	}
+
+	.apply-button {
+		width: 100%;
+	}
+
+	.post-section {
+		margin-top: 20px;
+	}
+
+	.selected-field {
+		text-align: center;
+	}
+
+	.selected-field > ul > li{
+		list-style: none;
+	}
+
 }
 </style>
