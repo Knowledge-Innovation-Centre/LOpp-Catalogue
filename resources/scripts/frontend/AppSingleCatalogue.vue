@@ -24,22 +24,31 @@
 		</div>
 		<div class="data-section">
 			<div class="filter-section">
-				<div :class="{ 'clicked': buttonsClicked }" class="fields-buttons">
-					<button v-for="(value, key, index) in data" :key="key" :class="{ 'data-btn-active': activeIndex === index }"
-						class="data-button" @click="displayData(key, index)">
+				<!-- Burger menu button -->
+				<div class="burger-menu" @click="toggleBurgerMenu">
+					<div class="burger-line"></div>
+					<div class="burger-line"></div>
+					<div class="burger-line"></div>
+				</div>
+				<h3 id="title-selected" class="mobile-selected">{{ transformKey(selectedFilter) }}</h3>
+				<!-- List of buttons -->
+				<div class="fields-buttons fields-buttons-hide" :class="{ 'clicked': burgerMenuOpen }">
+					<button v-for="(value, key, index) in data" :key="key"
+						:class="{ 'data-btn-active': activeIndex === index }" class="data-button"
+						@click="displayData(key, index)">
 						{{ transformKey(key) }}
 					</button>
 				</div>
 			</div>
-
 			<div class="selected-field">
-				<h3>{{ transformKey(selectedFilter) }}</h3>
+				
 				<ul>
 					<li v-for="(value, key) in selectedField" :key="key">
-						<template v-if="selectedFilter === 'additional'"><strong >
-							{{ getTitleForAdditional(key) }}:</strong> {{ value }}
+						<template v-if="selectedFilter === 'additional'"><strong>
+								{{ getTitleForAdditional(key) }}:</strong> {{ value }}
 						</template>
-						<template v-else><strong >{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value }}</template>
+						<template v-else><strong>{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value
+							}}</template>
 					</li>
 				</ul>
 			</div>
@@ -70,7 +79,9 @@ export default {
 			status: "",
 			applyURL: "",
 			buttonsClicked: false,
-			activeIndex: 0
+			activeIndex: 0,
+			buttonsClicked: false,
+			burgerMenuOpen: false
 		};
 	},
 	mounted() {
@@ -97,6 +108,7 @@ export default {
 				this.status = response.data.information_about_the_lopp.ects_credit_points || "N/A";
 				this.applyURL = response.data.general.homepage || "N/A";
 				this.data = response.data;
+				
 			});
 
 			formData = new FormData();
@@ -117,6 +129,10 @@ export default {
 			this.selectedField = JSON.parse(JSON.stringify(this.data[dataKey]));
 			this.selectedFilter = dataKey;
 			this.activeIndex = index;
+			const buttonsContainer = document.querySelector('.fields-buttons');
+			buttonsContainer.classList.add('menu-hidden');
+			const field = document.getElementById('title-selected');
+			field.style.display = 'flex';
 		},
 		applyStylingToPostContent() {
 			const postContent = this.$refs.postContent;
@@ -143,6 +159,13 @@ export default {
 		},
 		getTitleForAdditional(key) {
 			return this.fieldSettings.additional.find(additionalItem => additionalItem.slug === key).title;
+		},
+		toggleBurgerMenu() {
+			this.burgerMenuOpen = !this.burgerMenuOpen;
+			const buttonsContainer = document.querySelector('.fields-buttons');
+			buttonsContainer.style.display = 'flex';
+			const field = document.getElementById('title-selected');
+			field.style.display = 'none';
 		}
 	}
 };
@@ -153,7 +176,6 @@ export default {
 	padding: 30px;
 	display: flex;
 	flex-direction: column;
-	/* Add position relative to the container */
 }
 
 .filter-section {
@@ -166,7 +188,6 @@ export default {
 .data-section {
 	flex: 1;
 	display: flex;
-	gap: 30px;
 	margin-top: 30px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
@@ -209,6 +230,7 @@ export default {
 	text-decoration: none;
 	border-radius: 5px;
 	transition: background-color 0.3s ease;
+	text-decoration: none !important;
 }
 
 .apply-button:hover {
@@ -261,7 +283,6 @@ export default {
 
 .selected-field h3 {
 	margin-bottom: 10px;
-	align-self: flex-start;
 }
 
 .selected-field ul {
@@ -304,21 +325,18 @@ export default {
 }
 
 .fields-buttons {
-	display: flex;
-	flex-direction: column;
+    display: none;
+    flex-direction: column;
+    transition: all 0.3s ease;
 }
 
 .fields-buttons.clicked {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
 }
-
 .data-button {
 	padding: 12px 20px;
-	color: white;
 	border: none;
 	border-bottom: 1px solid black;
 	cursor: pointer;
@@ -335,19 +353,63 @@ export default {
 
 .data-button:focus-within {
 	border: none !important;
+	border-bottom: 1px solid black;
 }
 
 .data-button:focus {
 	background-color: #5401FE;
 	border: none !important;
 	outline: none !important;
+	border-bottom: 1px solid black;
 }
 
 .data-btn-active {
-	background-color: white !important;
 	border: #5401FE !important;
-	color: #5401FE;
+	color: #fff;
+	background: #5401FE;
+	border-bottom: 1px solid black;
 }
+
+
+
+
+
+.burger-menu {
+	display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+	margin-top: 17px;
+}
+
+.burger-line {
+    width: 100%;
+    height: 4px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Rotate burger lines to create X icon */
+.clicked .burger-line:nth-child(1) {
+    transform: rotate(-45deg) translate(-3px, 6px);
+}
+
+.clicked .burger-line:nth-child(2) {
+	opacity: 0;
+}
+
+.clicked .burger-line:nth-child(3) {
+    transform: rotate(45deg) translate(-3px, -6px);
+}
+
+.mobile-selected{
+	display: none;
+}
+
+
 
 @media screen and (max-width: 768px) {
 	.container {
@@ -364,39 +426,66 @@ export default {
 
 	.filter-section {
 		width: auto;
+		flex-direction: row;
+		gap: 10px;
+		padding-bottom: 0px !important;
 	}
 
 	.structure {
 		flex-wrap: wrap;
+		gap: 0px;
 		justify-content: center;
 	}
 
 	.structure-item {
 		width: 100%;
-		padding: 10px;
 		box-sizing: border-box;
+		flex-direction: row;
+		justify-content: center;
 	}
 
-	.apply-button-container {
-		width: 100%;
-		text-align: center;
+	.structure-item>p {
+		margin-block-end: 0px;
+		font-size: 18px;
+		padding-left: 10px;
 	}
+
 
 	.apply-button {
-		width: 100%;
+		width: 60%;
+		text-align: center;
+
 	}
 
 	.post-section {
 		margin-top: 20px;
 	}
 
-	.selected-field {
+	.selected-field>ul>li {
+		list-style: none;
+	}
+
+	.fields-buttons-hide {
+		display: none;
+	}
+
+	.burger-menu {
+		display: flex;
+	}
+
+	.mobile-selected {
+		display: block;
 		text-align: center;
 	}
 
-	.selected-field > ul > li{
-		list-style: none;
+	.menu-hidden {
+		display: none !important;
 	}
+
+	.selected-field {
+		padding-left: 40px;
+	}
+
 
 }
 </style>
