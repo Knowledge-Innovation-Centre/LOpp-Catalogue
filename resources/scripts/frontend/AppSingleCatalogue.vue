@@ -24,6 +24,15 @@
 		</div>
 		<div class="data-section">
 			<div class="filter-section">
+				<div class="fields-btns" :class="{ 'clicked': burgerMenuOpen }">
+					<button v-for="(value, key, index) in data" :key="key"
+						:class="{ 'data-btn-active': activeIndex === index }" class="data-button"
+						@click="displayData(key, index)">
+						{{ transformKey(key) }}
+					</button>
+				</div>
+			</div>
+			<div class="filter-section-mobile">
 				<!-- Burger menu button -->
 				<div class="burger-menu" @click="toggleBurgerMenu">
 					<div class="burger-line"></div>
@@ -41,18 +50,22 @@
 				</div>
 			</div>
 			<div class="selected-field">
-				
+
 				<ul>
 					<li v-for="(value, key) in selectedField" :key="key">
-						<template v-if="selectedFilter === 'additional'"><strong>
-								{{ getTitleForAdditional(key) }}:</strong> {{ value }}
+						<template v-if="this.fieldSettings[selectedFilter][key].is_url === true">
+							<strong><a style="text-decoration: none;" :href="value" target="_blank">{{ this.fieldSettings[selectedFilter][key].label }}</a> </strong>
 						</template>
-						<template v-else><strong>{{ this.fieldSettings[selectedFilter][key].label }}:</strong> {{ value
-							}}</template>
+						<template v-else-if="selectedFilter === 'additional'">
+							<strong>{{ getTitleForAdditional(key) }}:</strong> {{ value }}
+						</template>
+						<template v-else>
+							<strong>{{ this.fieldSettings[selectedFilter][key].label }}: </strong>
+							<span v-html="value"></span>
+						</template>
 					</li>
 				</ul>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -104,11 +117,11 @@ export default {
 			formData.append("post_id", this.post_id);
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.ects = response.data.information_about_the_lopp.ects_credit_points || "N/A";
-				this.price = response.data.price_details || "N/A";
+				this.price = response.data.information_about_the_lopp.price_details || "N/A";
 				this.status = response.data.information_about_the_lopp.ects_credit_points || "N/A";
 				this.applyURL = response.data.general.homepage || "N/A";
 				this.data = response.data;
-				
+
 			});
 
 			formData = new FormData();
@@ -133,6 +146,10 @@ export default {
 			buttonsContainer.classList.add('menu-hidden');
 			const field = document.getElementById('title-selected');
 			field.style.display = 'flex';
+			const burger = document.querySelector('.burger-menu');
+			burger.classList.remove('burger-menu-hidden');
+			const menu = document.querySelector(".filter-section-mobile");
+			menu.classList.remove('filter-section-mobile-center');
 		},
 		applyStylingToPostContent() {
 			const postContent = this.$refs.postContent;
@@ -166,6 +183,11 @@ export default {
 			buttonsContainer.style.display = 'flex';
 			const field = document.getElementById('title-selected');
 			field.style.display = 'none';
+			const burger = document.querySelector('.burger-menu');
+			burger.classList.add('burger-menu-hidden');
+			const menu = document.querySelector(".filter-section-mobile");
+			menu.classList.add('filter-section-mobile-center');
+			console.log(this.burgerMenuOpen)
 		}
 	}
 };
@@ -325,16 +347,17 @@ export default {
 }
 
 .fields-buttons {
-    display: none;
-    flex-direction: column;
-    transition: all 0.3s ease;
+	display: none;
+	flex-direction: column;
+	transition: all 0.3s ease;
 }
 
 .fields-buttons.clicked {
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
 }
+
 .data-button {
 	padding: 12px 20px;
 	border: none;
@@ -376,25 +399,25 @@ export default {
 
 .burger-menu {
 	display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 30px;
+	height: 20px;
+	cursor: pointer;
+	transition: transform 0.3s ease;
 	margin-top: 17px;
 }
 
 .burger-line {
-    width: 100%;
-    height: 4px;
-    background-color: #333;
-    transition: all 0.3s ease;
+	width: 100%;
+	height: 4px;
+	background-color: #333;
+	transition: all 0.3s ease;
 }
 
 /* Rotate burger lines to create X icon */
 .clicked .burger-line:nth-child(1) {
-    transform: rotate(-45deg) translate(-3px, 6px);
+	transform: rotate(-45deg) translate(-3px, 6px);
 }
 
 .clicked .burger-line:nth-child(2) {
@@ -402,10 +425,10 @@ export default {
 }
 
 .clicked .burger-line:nth-child(3) {
-    transform: rotate(45deg) translate(-3px, -6px);
+	transform: rotate(45deg) translate(-3px, -6px);
 }
 
-.mobile-selected{
+.filter-section-mobile {
 	display: none;
 }
 
@@ -486,6 +509,25 @@ export default {
 		padding-left: 40px;
 	}
 
+	.filter-section-mobile {
+		display: flex;
+		justify-content: flex-start;
+		padding-left: 20px;
+		gap: 20px;
+	}
+
+	.filter-section-mobile-center {
+		justify-content: space-evenly !important;
+		padding: 20px;
+	}
+
+	.filter-section {
+		display: none;
+	}
+
+	.burger-menu-hidden {
+		display: none;
+	}
 
 }
 </style>
