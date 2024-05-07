@@ -4,19 +4,27 @@
 
 			<div class="structure">
 				<div class="structure-item">
+					<h4>Provided at</h4>
+					<p>{{ providedAt }}</p>
+				</div>
+				<div class="structure-item">
 					<h4>ECTS</h4>
 					<p>{{ ects }}</p>
+				</div>
+				<div class="structure-item">
+					<h4>Workload in hours</h4>
+					<p>{{ workload }}</p>
 				</div>
 				<div class="structure-item">
 					<h4>Price</h4>
 					<p>{{ price }}</p>
 				</div>
 				<div class="structure-item">
-					<h4>Status</h4>
+					<h4>Application status</h4>
 					<p>{{ status }}</p>
 				</div>
 				<div class="structure-item">
-					<a :href="applyURL" class="apply-button">Apply here</a>
+					<a :href="applyURL" class="apply-button">Apply Here</a>
 				</div>
 			</div>
 
@@ -53,11 +61,12 @@
 
 				<ul>
 					<li v-for="(value, key) in selectedField" :key="key">
-						<template v-if="this.fieldSettings[selectedFilter][key].is_url === true">
-							<strong><a style="text-decoration: none;" :href="value" target="_blank">{{ this.fieldSettings[selectedFilter][key].label }}</a> </strong>
-						</template>
-						<template v-else-if="selectedFilter === 'additional'">
+						<template v-if="selectedFilter === 'additional'">
 							<strong>{{ getTitleForAdditional(key) }}:</strong> {{ value }}
+						</template>
+						<template v-else-if="this.fieldSettings[selectedFilter][key].is_url === true">
+							<strong><a class="link-value" :href="value" target="_blank">{{
+						this.fieldSettings[selectedFilter][key].label }}</a> </strong>
 						</template>
 						<template v-else>
 							<strong>{{ this.fieldSettings[selectedFilter][key].label }}: </strong>
@@ -90,6 +99,8 @@ export default {
 			ects: "",
 			price: "",
 			status: "",
+			providedAt: "",
+			workload: "",
 			applyURL: "",
 			buttonsClicked: false,
 			activeIndex: 0,
@@ -102,7 +113,6 @@ export default {
 		this.applyStylingToPostContent();
 		const firstButton = document.querySelector('.fields-buttons .data-button');
 
-		// Add the data-btn-active class to the first button
 		if (firstButton) {
 			firstButton.classList.add('data-btn-active');
 		}
@@ -118,8 +128,10 @@ export default {
 			FormDataApi.post(ajaxurl, formData).then(response => {
 				this.ects = response.data.information_about_the_lopp.ects_credit_points || "N/A";
 				this.price = response.data.information_about_the_lopp.price_details || "N/A";
-				this.status = response.data.information_about_the_lopp.ects_credit_points || "N/A";
+				this.status = response.data.additional.app_ddl || "N/A";
 				this.applyURL = response.data.general.homepage || "N/A";
+				this.providedAt = response.data.general.provided_at || "N/A";
+				this.workload = response.data.information_about_the_lopp.workload_in_hours || "N/A";
 				this.data = response.data;
 
 			});
@@ -170,9 +182,19 @@ export default {
 			}
 		},
 		transformKey(key) {
-			return key.replace(/_/g, ' ').replace(/\b\w/g, function (char) {
-				return char.toUpperCase();
-			});
+			if (key === 'general') {
+				return 'About this course';
+			}
+			if (key === 'information_about_the_lopp') {
+				return 'Information about the provider';
+			}
+			if (key === 'learning_specification') {
+				return 'What will I learn';
+			}
+			if (key === 'contact') {
+				return "Admission";
+			}
+			return 'Additional';
 		},
 		getTitleForAdditional(key) {
 			return this.fieldSettings.additional.find(additionalItem => additionalItem.slug === key).title;
@@ -227,6 +249,7 @@ export default {
 	display: flex;
 	gap: 20px;
 	margin-bottom: 20px;
+	justify-content: center;
 }
 
 .structure-item {
@@ -247,16 +270,21 @@ export default {
 
 .apply-button {
 	padding: 10px 20px;
-	background-color: #007bff;
+	background-color: #5401FE;
 	color: #fff;
 	text-decoration: none;
 	border-radius: 5px;
-	transition: background-color 0.3s ease;
+	transition: all 0.3s ease; 
 	text-decoration: none !important;
+	margin-top: 10px;
+	font-weight: 600;
 }
 
 .apply-button:hover {
-	background-color: #0056b3;
+	background-color: #eee;
+	color: #5401FE;
+	border: 1px solid #5401FE;
+	padding: 12px 22px;
 }
 
 .post-content {
@@ -361,13 +389,15 @@ export default {
 .data-button {
 	padding: 12px 20px;
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #eee;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	outline: none;
 	width: 100%;
 	text-align: center;
 	border-radius: 0px;
+	color: #5401FE;
+	font-weight: 600;
 }
 
 .data-button:hover {
@@ -392,10 +422,6 @@ export default {
 	background: #5401FE;
 	border-bottom: 1px solid black;
 }
-
-
-
-
 
 .burger-menu {
 	display: none;
@@ -432,7 +458,17 @@ export default {
 	display: none;
 }
 
+.link-value {
+	color: #5401FE;
+}
 
+a {
+	text-decoration: none !important;
+}
+
+.selected-field > ul > li > span > ul {
+	padding-left: 5px;
+}
 
 @media screen and (max-width: 768px) {
 	.container {
@@ -471,6 +507,7 @@ export default {
 		margin-block-end: 0px;
 		font-size: 18px;
 		padding-left: 10px;
+		margin-top: 4px;
 	}
 
 
@@ -514,6 +551,7 @@ export default {
 		justify-content: flex-start;
 		padding-left: 20px;
 		gap: 20px;
+		padding-top: 5px
 	}
 
 	.filter-section-mobile-center {
