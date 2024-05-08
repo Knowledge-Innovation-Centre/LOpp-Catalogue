@@ -1,7 +1,30 @@
 <template>
+	<div class="structure-item">
+		<a :href="applyURL" class="apply-button">Apply Here</a>
+	</div>
 	<div class="container">
 		<div class="post-section">
 
+			<div class="structure">
+				<div class="structure-item">
+					<h4>Language</h4>
+					<p>{{ language }}</p>
+				</div>
+				<div class="structure-item">
+					<h4>Provided by</h4>
+					<p>{{ providedBy }}</p>
+				</div>
+				<div class="structure-item">
+					<h4>Start date</h4>
+					<p>{{ startDate }}</p>
+				</div>
+				<div class="structure-item">
+					<h4>End date</h4>
+					<p>{{ endDate }}</p>
+				</div>
+
+
+			</div>
 			<div class="structure">
 				<div class="structure-item">
 					<h4>Provided at</h4>
@@ -23,11 +46,8 @@
 					<h4>Application status</h4>
 					<p>{{ status }}</p>
 				</div>
-				<div class="structure-item">
-					<a :href="applyURL" class="apply-button">Apply Here</a>
-				</div>
-			</div>
 
+			</div>
 			<div ref="postContent" class="post-content" v-html="post.post_content"></div>
 		</div>
 		<div class="data-section">
@@ -66,7 +86,11 @@
 						</template>
 						<template v-else-if="this.fieldSettings[selectedFilter][key].is_url === true">
 							<strong><a class="link-value" :href="value" target="_blank">{{
-						this.fieldSettings[selectedFilter][key].label }}</a> </strong>
+			this.fieldSettings[selectedFilter][key].label }}</a> </strong>
+						</template>
+						<template v-else-if="this.fieldSettings[selectedFilter][key].label === 'Learning outcomes'">
+							<strong>{{ this.fieldSettings[selectedFilter][key].label }}: </strong>
+							<span v-html="value[0].content"></span>
 						</template>
 						<template v-else>
 							<strong>{{ this.fieldSettings[selectedFilter][key].label }}: </strong>
@@ -102,6 +126,10 @@ export default {
 			providedAt: "",
 			workload: "",
 			applyURL: "",
+			language: "",
+			startDate: "",
+			endDate: "",
+			learningSchedule: "",
 			buttonsClicked: false,
 			activeIndex: 0,
 			buttonsClicked: false,
@@ -132,6 +160,11 @@ export default {
 				this.applyURL = response.data.general.homepage || "N/A";
 				this.providedAt = response.data.general.provided_at || "N/A";
 				this.workload = response.data.information_about_the_lopp.workload_in_hours || "N/A";
+				this.language = response.data.general.language || "N/A";
+				this.providedBy = response.data.general.provided_by || "N/A";
+				this.startDate = response.data.information_about_the_lopp.start_at_date || "N/A";
+				this.endDate = response.data.information_about_the_lopp.ended_at_date || "N/A";
+				this.learningSchedule = response.data.information_about_the_lopp.learning_schedule || "N/A";
 				this.data = response.data;
 
 			});
@@ -183,16 +216,16 @@ export default {
 		},
 		transformKey(key) {
 			if (key === 'general') {
-				return 'About this course';
+				return 'General information';
 			}
 			if (key === 'information_about_the_lopp') {
-				return 'Information about the provider';
+				return 'About the learning opportunity';
 			}
 			if (key === 'learning_specification') {
 				return 'What will I learn';
 			}
 			if (key === 'contact') {
-				return "Admission";
+				return "Contact";
 			}
 			return 'Additional';
 		},
@@ -209,8 +242,7 @@ export default {
 			burger.classList.add('burger-menu-hidden');
 			const menu = document.querySelector(".filter-section-mobile");
 			menu.classList.add('filter-section-mobile-center');
-			console.log(this.burgerMenuOpen)
-		}
+		},
 	}
 };
 </script>
@@ -274,7 +306,7 @@ export default {
 	color: #fff;
 	text-decoration: none;
 	border-radius: 5px;
-	transition: all 0.3s ease; 
+	transition: all 0.3s ease;
 	text-decoration: none !important;
 	margin-top: 10px;
 	font-weight: 600;
@@ -324,6 +356,7 @@ export default {
 
 .selected-field {
 	padding: 10px;
+	padding-top: 20px;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -466,9 +499,11 @@ a {
 	text-decoration: none !important;
 }
 
-.selected-field > ul > li > span > ul {
+.selected-field>ul>li>span>ul {
 	padding-left: 5px;
 }
+
+
 
 @media screen and (max-width: 768px) {
 	.container {
