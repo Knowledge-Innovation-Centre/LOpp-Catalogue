@@ -85,7 +85,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import FormDataApi from "../FormDataApi";
 
 let frame = null
@@ -116,10 +115,7 @@ export default {
       return 0;
     }
   },
-  watch: {},
-  created() {
 
-  },
   methods: {
     runUploader(event) {
       event.preventDefault()
@@ -131,10 +127,10 @@ export default {
       frame.on('select', function () {
         $this.attachments = frame.state().get('selection').models.map(model => model.attributes)
 
-        Vue.notify({
-          title: $this.$t('Files selected'),
-          type: 'success'
-        })
+		//   $this.$notify({
+        //   title: $this.$t('Files selected'),
+        //   type: 'success'
+        // })
       });
     },
     runUploader1(event) {
@@ -147,10 +143,10 @@ export default {
       frame.on('select', function () {
         $this.attachmentsLearningMaturity = frame.state().get('selection').models.map(model => model.attributes)
 
-        Vue.notify({
-          title: $this.$t('Files selected'),
-          type: 'success'
-        })
+		//   $this.$notify({
+        //   title: $this.$t('Files selected'),
+        //   type: 'success'
+        // })
       });
     },
     runUploader2(event) {
@@ -163,10 +159,10 @@ export default {
       frame.on('select', function () {
         $this.attachmentsVocabulary = frame.state().get('selection').models.map(model => model.attributes)
 
-        Vue.notify({
-          title: $this.$t('Files selected'),
-          type: 'success'
-        })
+		//   $this.$notify({
+        //   title: $this.$t('Files selected'),
+        //   type: 'success'
+        // })
       });
     },
     openFrame() {
@@ -231,10 +227,10 @@ export default {
         })
       }
 
-      Vue.notify({
-        title: this.$t('Files imported'),
-        type: 'success'
-      })
+		// this.$notify({
+      //   title: this.$t('Files imported'),
+      //   type: 'success'
+      // })
       this.importing = false;
 
     },

@@ -141,11 +141,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 						Field::make('text', 'description', __('Description'))->set_width(50),
 					]),
 
-				Field::make('complex', 'admission_procedure' . self::crb_get_i18n_suffix(), __('Admission procedures'))
-					->set_layout('tabbed-horizontal')
-					->add_fields([
-						Field::make('text', 'name', __('Name'))->set_width(50),
-					]),
+				//Field::make('complex', 'admission_procedure' . self::crb_get_i18n_suffix(), __('Admission procedures'))
+				//	->set_layout('tabbed-horizontal')
+				//	->add_fields([
+				//		Field::make('text', 'name', __('Name'))->set_width(50),
+				//	]),
 				Field::make('complex', 'provider_types' . self::crb_get_i18n_suffix(), __('Provider types'))
 					->set_layout('tabbed-horizontal')
 					->add_fields([
@@ -244,12 +244,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 				$title = '';
 				$slug = $prefix . 'filter';
 				$fields_for_theme_options[] = Field::make('select', $slug, $title)->set_options([
-					'disable'     => __('Disable'),
-					'checkbox'    => __('Checkbox'),
-					'dropdown'    => __('Dropdown'),
-					'multiselect' => __('Multiselect'),
-					'slider'      => __('Slider'),
-					'date'        => __('Date'),
+					'disable'  => __('Disable'),
+					'checkbox' => __('Checkbox'),
+					'dropdown' => __('Dropdown'),
+					'slider'   => __('Slider'),
+					'date'     => __('Date'),
 				])->set_width(30);
 				//$title = __('Label');
 				$slug = $prefix . 'label';
@@ -309,12 +308,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 					])->set_width(8),
 					Field::make('text', 'searchable', '')->set_attribute('type', 'number')->set_width(8),
 					Field::make('select', 'filter', '')->set_options([
-						'disable'     => __('Disable'),
-						'checkbox'    => __('Checkbox'),
-						'dropdown'    => __('Dropdown'),
-						'multiselect' => __('Multiselect'),
-						'slider'      => __('Slider'),
-						'date'        => __('Date'),
+						'disable'  => __('Disable'),
+						'checkbox' => __('Checkbox'),
+						'dropdown' => __('Dropdown'),
+						'slider'   => __('Slider'),
+						'date'     => __('Date'),
 					])->set_width(8),
 					Field::make('select', 'width', '')->set_options([
 						'100' => '100%',
