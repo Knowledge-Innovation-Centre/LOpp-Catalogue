@@ -1,0 +1,11 @@
+{
+  "admin.css": "http://localhost:3001/styles/admin.css",
+  "admin.js": "http://localhost:3001/admin.js",
+  "admin.js.map": "http://localhost:3001/admin.js.map",
+  "frontend.css": "http://localhost:3001/styles/frontend.css",
+  "frontend.js": "http://localhost:3001/frontend.js",
+  "frontend.js.map": "http://localhost:3001/frontend.js.map",
+  "images/altimg.png": "http://localhost:3001/images/altimg.e19ae1aa95.png",
+  "styles/admin.css.map": "http://localhost:3001/styles/admin.css.map",
+  "styles/frontend.css.map": "http://localhost:3001/styles/frontend.css.map"
+}
