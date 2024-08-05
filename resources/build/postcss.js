@@ -1,7 +1,7 @@
 /**
  * The internal dependencies.
  */
-import postCss from 'postcss-discard-comments';
+import postcss from 'postcss-discard-comments';
 import autoprefixer from 'autoprefixer';
 import {detectEnv} from './lib/utils.js';
 import tailwindcss from './tailwindcss.js';
@@ -13,7 +13,7 @@ const env = detectEnv();
 const plugins = {
   // import('tailwindcss')(srcPath('build/tailwindcss.js')),
   tailwindcss,
-  postCss,
+  postcss,
   autoprefixer,
   // Uncomment to enable combined media queries.
   // require('./lib/combine-media-queries'),
