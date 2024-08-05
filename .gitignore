@@ -1,10 +1,3 @@
-# Build files
-/dist/
-/resources/styles/frontend/_sprite.scss
-/resources/styles/*.config.scss
-
-# Development files
-/config.json
 
 # Build modules
 /node_modules/
