@@ -11,11 +11,11 @@ use LearningOpportunitiesCatalogue\PostTypes\LearningOutcome;
 use LearningOpportunitiesCatalogue\PostTypes\LearningOutcomeFields;
 use WP_Query;
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
-if (! class_exists(AjaxFrontend::class)) {
+if (!class_exists(AjaxFrontend::class)) {
 	/**
 	 * Enqueues the public-facing assets.
 	 */
@@ -29,6 +29,7 @@ if (! class_exists(AjaxFrontend::class)) {
 		{
 			echo '<script type="text/javascript">
            		var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+           		var indexKey = "' . carbon_get_theme_option('meilisearch_index_key') . '";
          	</script>';
 		}
 
@@ -37,8 +38,8 @@ if (! class_exists(AjaxFrontend::class)) {
 			global $wpdb;
 
 			$query = "SELECT option_name, option_value FROM "
-					 . $wpdb->prefix
-					 . "options WHERE option_name LIKE '%_filter'";
+				. $wpdb->prefix
+				. "options WHERE option_name LIKE '%_filter'";
 			$options = $wpdb->get_results($query, OBJECT_K);
 
 			$filter_fields = [];
@@ -52,9 +53,9 @@ if (! class_exists(AjaxFrontend::class)) {
 			foreach ($fields as $field) {
 				$slug = '_' . $field['slug'];
 				$slugFilter = '_' . $field['slug'] . '_' . Catalogue::POST_TYPE . '_filter';
-				if (! isset($options[$slugFilter])) {
+				if (!isset($options[$slugFilter])) {
 					$slugFilter = '_' . $field['slug'] . '_' . LearningOutcome::POST_TYPE . '_filter';
-					if (! isset($options[$slugFilter])) {
+					if (!isset($options[$slugFilter])) {
 						continue;
 					}
 				}
@@ -89,34 +90,34 @@ if (! class_exists(AjaxFrontend::class)) {
 		{
 			$fields = [
 				[
-					'title'  => __('Catalog item - General fields'),
+					'title' => __('Catalog item - General fields'),
 					'fields' => CatalogueFields::get_general_fields(),
-					'slug'   => 'general',
-					'class'  => Catalogue::class,
+					'slug' => 'general',
+					'class' => Catalogue::class,
 				],
 				[
-					'title'  => __('Catalog item - Information about the LOpp fields'),
+					'title' => __('Catalog item - Information about the LOpp fields'),
 					'fields' => CatalogueFields::get_information_about_the_lopp_fields(),
-					'slug'   => 'information_about_the_lopp',
-					'class'  => Catalogue::class,
+					'slug' => 'information_about_the_lopp',
+					'class' => Catalogue::class,
 				],
 				[
-					'title'  => __('Catalog item - Learning specification fields'),
+					'title' => __('Catalog item - Learning specification fields'),
 					'fields' => CatalogueFields::get_learning_specification_fields(),
-					'slug'   => 'learning_specification',
-					'class'  => Catalogue::class,
+					'slug' => 'learning_specification',
+					'class' => Catalogue::class,
 				],
 				[
-					'title'  => __('Catalog item - Contact fields'),
+					'title' => __('Catalog item - Contact fields'),
 					'fields' => CatalogueFields::get_contact_fields(),
-					'slug'   => 'contact',
-					'class'  => Catalogue::class,
+					'slug' => 'contact',
+					'class' => Catalogue::class,
 				],
 				[
-					'title'  => __('Learning outcome - general fields'),
+					'title' => __('Learning outcome - general fields'),
 					'fields' => LearningOutcomeFields::get_general_fields(),
-					'slug'   => 'learning_outcome',
-					'class'  => LearningOutcome::class,
+					'slug' => 'learning_outcome',
+					'class' => LearningOutcome::class,
 				],
 			];
 			$fields_for_theme_options = [];
@@ -186,7 +187,7 @@ if (! class_exists(AjaxFrontend::class)) {
 		function get_association_elements($field)
 		{
 			$posts = get_posts([
-				'post_type'   => $field['post_type'],
+				'post_type' => $field['post_type'],
 				'numberposts' => -1,
 			]);
 
@@ -194,7 +195,7 @@ if (! class_exists(AjaxFrontend::class)) {
 
 			foreach ($posts as $post) {
 				$mappedPosts[] = [
-					'id'    => $post->ID,
+					'id' => $post->ID,
 					'label' => $post->post_title,
 				];
 			}
@@ -228,17 +229,6 @@ if (! class_exists(AjaxFrontend::class)) {
 			return $values;
 		}
 
-		public function get_meilisearch_key()
-		{
-			echo json_encode([
-				'url'         => carbon_get_theme_option('meilisearch_url'),
-				'key'         => Meilisearch::get_api_key()->getKey() ?? null,
-				'index_key'   => carbon_get_theme_option('meilisearch_index_key'),
-				'result_text' => carbon_get_theme_option('catalogue_search_page_result_text'),
-			]);
-			die;
-		}
-
 		public function get_display_fields()
 		{
 			$catalog = new Catalogue();
@@ -249,10 +239,10 @@ if (! class_exists(AjaxFrontend::class)) {
 		public function reindex_items()
 		{
 			$args = [
-				'post_type'      => Catalogue::POST_TYPE,
-				'orderby'        => 'ID',
-				'post_status'    => 'publish',
-				'order'          => 'DESC',
+				'post_type' => Catalogue::POST_TYPE,
+				'orderby' => 'ID',
+				'post_status' => 'publish',
+				'order' => 'DESC',
 				'posts_per_page' => -1, // this will retrive all the post that is published
 			];
 			$catalog_items = new WP_Query($args);
@@ -266,7 +256,7 @@ if (! class_exists(AjaxFrontend::class)) {
 
 					$ok = CatalogueSearchIndex::update_index(get_the_ID());
 
-					if (! $ok) {
+					if (!$ok) {
 						echo 'Index engine not working!';
 						die;
 					}

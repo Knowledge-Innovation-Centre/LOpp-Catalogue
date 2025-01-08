@@ -52,8 +52,6 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 		$ajaxFrontEnd = new AjaxFrontend();
 		add_action('wp_ajax_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields']);
 		add_action('wp_ajax_nopriv_get_xml_fields', [$ajaxFrontEnd, 'get_xml_fields']);
-		add_action('wp_ajax_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key']);
-		add_action('wp_ajax_nopriv_get_meilisearch_key', [$ajaxFrontEnd, 'get_meilisearch_key']);
 		add_action('wp_ajax_get_display_fields', [$ajaxFrontEnd, 'get_display_fields']);
 		add_action('wp_ajax_nopriv_get_display_fields', [$ajaxFrontEnd, 'get_display_fields']);
 		add_action('wp_ajax_reindex_items', [$ajaxFrontEnd, 'reindex_items']);
@@ -76,31 +74,30 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 	{
 		?>
 		<script type="text/javascript">
-			jQuery(document).ready(function ($) {
+		jQuery(document).ready(function ($) {
 
-				$('.reindex-items').click(function () {
-					let data = {
-						action: 'reindex_items',
-					};
+			$('.reindex-items').click(function () {
+				let data = {
+					action: 'reindex_items'
+				};
 
-					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-					$.post(ajaxurl, data, function (response) {
-						alert('Reindex complete: ' + response);
-					});
+				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+				$.post(ajaxurl, data, function (response) {
+					alert('Reindex complete: ' + response);
 				});
-				$('.delete-index-items').click(function () {
-					let data = {
-						action: 'delete_index_items',
-					};
-
-					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-					$.post(ajaxurl, data, function (response) {
-						alert('Delete index complete: ' + response);
-					});
-				});
-
-
 			});
+			$('.delete-index-items').click(function () {
+				let data = {
+					action: 'delete_index_items'
+				};
+
+				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+				$.post(ajaxurl, data, function (response) {
+					alert('Delete index complete: ' + response);
+				});
+			});
+
+		});
 		</script>
 		<?php
 	}
@@ -108,19 +105,19 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 	public function my_ajax_button($admin_bar)
 	{
 		$admin_bar->add_menu([
-			'id'    => 'reindex-items',
+			'id' => 'reindex-items',
 			'title' => 'Reindex all items',
-			'href'  => '#',
-			'meta'  => [
+			'href' => '#',
+			'meta' => [
 				'title' => __('Reindex items'),
 				'class' => 'reindex-items',
 			],
 		]);
 		$admin_bar->add_menu([
-			'id'    => 'delete-index-items',
+			'id' => 'delete-index-items',
 			'title' => 'Delete index',
-			'href'  => '#',
-			'meta'  => [
+			'href' => '#',
+			'meta' => [
 				'title' => __('Delete index'),
 				'class' => 'delete-index-items',
 			],

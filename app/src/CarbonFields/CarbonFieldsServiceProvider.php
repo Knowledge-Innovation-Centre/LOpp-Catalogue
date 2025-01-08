@@ -5,7 +5,7 @@ namespace LearningOpportunitiesCatalogue\CarbonFields;
 use Carbon_Fields\Carbon_Fields;
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
-use LearningOpportunitiesCatalogue\Meilisearch;
+use KicMeilisearch\Meilisearch;
 use LearningOpportunitiesCatalogue\PostTypes\Catalogue;
 use LearningOpportunitiesCatalogue\PostTypes\CatalogueFields;
 use LearningOpportunitiesCatalogue\PostTypes\LearningOutcome;
@@ -27,7 +27,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 	public static function crb_get_i18n_suffix()
 	{
 		$suffix = '_en';
-		if (! defined('ICL_LANGUAGE_CODE')) {
+		if (!defined('ICL_LANGUAGE_CODE')) {
 			return $suffix;
 		}
 		$suffix = '_' . ICL_LANGUAGE_CODE;
@@ -114,7 +114,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 					->set_default_value(Catalogue::POST_TYPE),
 				Field::make('association', 'catalogue_search_page', __('Catalogue items search page'))->set_types([
 					[
-						'type'      => 'post',
+						'type' => 'post',
 						'post_type' => 'page',
 					],
 				])->set_max(1),
@@ -134,7 +134,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 							->set_width(33),
 					]),
 				Field::make('complex', 'learning_opportunity_types'
-									   . self::crb_get_i18n_suffix(), __('Learning opportunity types'))
+					. self::crb_get_i18n_suffix(), __('Learning opportunity types'))
 					->set_layout('tabbed-horizontal')
 					->add_fields([
 						Field::make('text', 'name', __('Name'))->set_width(50),
@@ -186,29 +186,29 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 
 		$fields = [
 			[
-				'title'  => __('Catalog item - General fields'),
+				'title' => __('Catalog item - General fields'),
 				'fields' => CatalogueFields::get_general_fields(),
-				'class'  => Catalogue::class,
+				'class' => Catalogue::class,
 			],
 			[
-				'title'  => __('Catalog item - Information about the LOpp fields'),
+				'title' => __('Catalog item - Information about the LOpp fields'),
 				'fields' => CatalogueFields::get_information_about_the_lopp_fields(),
-				'class'  => Catalogue::class,
+				'class' => Catalogue::class,
 			],
 			[
-				'title'  => __('Catalog item - Learning specification fields'),
+				'title' => __('Catalog item - Learning specification fields'),
 				'fields' => CatalogueFields::get_learning_specification_fields(),
-				'class'  => Catalogue::class,
+				'class' => Catalogue::class,
 			],
 			[
-				'title'  => __('Catalog item - Contact fields'),
+				'title' => __('Catalog item - Contact fields'),
 				'fields' => CatalogueFields::get_contact_fields(),
-				'class'  => Catalogue::class,
+				'class' => Catalogue::class,
 			],
 			[
-				'title'  => __('Learning outcome - general fields'),
+				'title' => __('Learning outcome - general fields'),
 				'fields' => LearningOutcomeFields::get_general_fields(),
-				'class'  => LearningOutcome::class,
+				'class' => LearningOutcome::class,
 			],
 		];
 
@@ -228,12 +228,12 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 			$fields_for_theme_options[] = Field::make('hidden', ($post_type . '_hidden' . rand()), __('Search weight'))
 				->set_width(8);
 			$fields_for_theme_options[] = Field::make('hidden', ($post_type
-																 . '_hidden'
-																 . rand()), __('Visible in website (frontend) table'))
+				. '_hidden'
+				. rand()), __('Visible in website (frontend) table'))
 				->set_width(8);
 			$fields_for_theme_options[] = Field::make('hidden', ($post_type
-																 . '_hidden'
-																 . rand()), __('Visible in catalogue list (frontend)'))
+				. '_hidden'
+				. rand()), __('Visible in catalogue list (frontend)'))
 				->set_width(8);
 			$fields_for_theme_options[] = Field::make('hidden', ($post_type . '_hidden' . rand()), __('Required'))
 				->set_width(8);
@@ -244,11 +244,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 				$title = '';
 				$slug = $prefix . 'filter';
 				$fields_for_theme_options[] = Field::make('select', $slug, $title)->set_options([
-					'disable'  => __('Disable'),
+					'disable' => __('Disable'),
 					'checkbox' => __('Checkbox'),
 					'dropdown' => __('Dropdown'),
-					'slider'   => __('Slider'),
-					'date'     => __('Date'),
+					'slider' => __('Slider'),
+					'date' => __('Date'),
 				])->set_width(30);
 				//$title = __('Label');
 				$slug = $prefix . 'label';
@@ -302,23 +302,23 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 					Field::make('text', 'title', '')->set_width(20)->set_required(),
 					Field::make('text', 'slug', '')->set_width(20)->set_required(),
 					Field::make('select', 'type', '')->add_options([
-						'text'     => __('Text'),
-						'date'     => __('Date'),
+						'text' => __('Text'),
+						'date' => __('Date'),
 						'textarea' => __('Textarea'),
 					])->set_width(8),
 					Field::make('text', 'searchable', '')->set_attribute('type', 'number')->set_width(8),
 					Field::make('select', 'filter', '')->set_options([
-						'disable'  => __('Disable'),
+						'disable' => __('Disable'),
 						'checkbox' => __('Checkbox'),
 						'dropdown' => __('Dropdown'),
-						'slider'   => __('Slider'),
-						'date'     => __('Date'),
+						'slider' => __('Slider'),
+						'date' => __('Date'),
 					])->set_width(8),
 					Field::make('select', 'width', '')->set_options([
 						'100' => '100%',
-						'50'  => '50%',
-						'33'  => '33%',
-						'20'  => '20%',
+						'50' => '50%',
+						'33' => '33%',
+						'20' => '20%',
 					])->set_width(8),
 					Field::make('checkbox', 'visible', '')->set_option_value('yes')->set_width(6),
 					Field::make('checkbox', 'visible_in_list', '')->set_option_value('yes')->set_width(6),
@@ -403,7 +403,7 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 	{
 		$facets = [];
 
-		if (! Meilisearch::health()) {
+		if (!Meilisearch::health()) {
 			return false;
 		}
 
@@ -424,9 +424,10 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 
 		$facets[] = 'loc_subset_items';
 
-		Meilisearch::update_api_key();
+		$indexKey = carbon_get_theme_option('meilisearch_index_key');
+		Meilisearch::update_api_key($indexKey);
 
-		$searchIndex = Meilisearch::get_index();
+		$searchIndex = Meilisearch::get_index($indexKey);
 
 		$searchIndex->updateFilterableAttributes($facets);
 		$searchIndex->updateSearchableAttributes($searchables);

@@ -3,13 +3,13 @@
 namespace LearningOpportunitiesCatalogue\PostTypes;
 
 use Exception;
-use LearningOpportunitiesCatalogue\Meilisearch;
+use KicMeilisearch\Meilisearch;
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
-if (! class_exists(CatalogueSearchIndex::class)) {
+if (!class_exists(CatalogueSearchIndex::class)) {
 	/**
 	 * The functionality shared between the admin and public-facing areas of the plugin.
 	 *
@@ -20,7 +20,7 @@ if (! class_exists(CatalogueSearchIndex::class)) {
 		public static function delete_index($post)
 		{
 			try {
-				if (! Meilisearch::health()) {
+				if (!Meilisearch::health()) {
 					return false;
 				}
 
@@ -49,7 +49,7 @@ if (! class_exists(CatalogueSearchIndex::class)) {
 		{
 			try {
 				$post = get_post($post_ID);
-				if (! Meilisearch::health()) {
+				if (!Meilisearch::health()) {
 					return false;
 				}
 
@@ -110,7 +110,7 @@ if (! class_exists(CatalogueSearchIndex::class)) {
 		{
 			foreach ($fields as $field) {
 				$value = self::get_value($post, $field, $allMeta);
-				if (! is_array($value)) {
+				if (!is_array($value)) {
 					if (is_numeric($value)) {
 						$value = (float)$value;
 					}
@@ -133,7 +133,7 @@ if (! class_exists(CatalogueSearchIndex::class)) {
 			// 	continue;
 			// }
 
-			if (! isset($post->ID)) {
+			if (!isset($post->ID)) {
 				return;
 			}
 
@@ -156,10 +156,10 @@ if (! class_exists(CatalogueSearchIndex::class)) {
 					$fieldsRelatedObject = $field['fields']::get_general_fields();
 					foreach ($fieldsRelatedObject as $fieldRelatedObject) {
 						$slugRelatedObject = $field['slug']
-											 . '.'
-											 . $related_object["id"]
-											 . '.'
-											 . $fieldRelatedObject['slug'];
+							. '.'
+							. $related_object["id"]
+							. '.'
+							. $fieldRelatedObject['slug'];
 						$value[$slugRelatedObject] = self::get_value($fieldRelatedObject, $fieldRelatedObject, $allMetaRelatedObject);
 					}
 				}

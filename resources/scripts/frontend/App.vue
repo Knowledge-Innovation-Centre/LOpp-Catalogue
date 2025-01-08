@@ -31,7 +31,7 @@
         <template v-for="(filterField, index) in filterFields">
           <div v-if="filterField.type === 'dropdown'" :key="'dropdown-' + index">
             <h4 class="tw-mb-3 filter-title">{{ filterField.title }}</h4>
-            <select id="dropdown-filters" v-model="filterValues[filterField.field]" class="mb-7 bg-gray-50 border border-black-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            <select v-model="filterValues[filterField.field]" id="dropdown-filters" class="mb-7 bg-gray-50 border border-black-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="asfsaf" @change="search()">
               <option disabled selected>Choose a {{filterField.title}}</option>
               <option v-for="(value, key) in filterField.values" :key="key" :value="key"
@@ -77,9 +77,8 @@ import Hits from "./components/Hits.vue";
 import "./components/App.css";
 
 import debounce from "lodash/debounce"
-import {MeiliSearch} from 'meilisearch'
+import { MeiliSearch } from 'meilisearch'
 import FormDataApi from "../FormDataApi";
-
 
 export default {
   data() {
@@ -127,10 +126,11 @@ export default {
     loadData() {
       let formData = new FormData();
       formData.append("action", "get_meilisearch_key");
+		formData.append("index_key", indexKey);
       let setSearchClient = FormDataApi.post(ajaxurl, formData).then(response => {
         this.meilisearchUrl = response.data.url;
         this.meilisearchKey = response.data.key;
-        this.meilisearchIndexKey = response.data.index_key;
+        this.meilisearchIndexKey = indexKey;
         this.resultText = response.data.result_text;
 
         this.searchClient = new MeiliSearch({
