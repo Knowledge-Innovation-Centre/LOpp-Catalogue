@@ -28,7 +28,8 @@ if (!class_exists(CatalogueSearchIndex::class)) {
 					$post = get_post($post);
 				}
 
-				$searchIndex = Meilisearch::get_index();
+				$indexKey = carbon_get_theme_option('meilisearch_index_key');
+				$searchIndex = Meilisearch::get_index($indexKey);
 				$searchIndex->deleteDocument($post->ID);
 			} catch (Exception $e) {
 				return false;
@@ -53,7 +54,8 @@ if (!class_exists(CatalogueSearchIndex::class)) {
 					return false;
 				}
 
-				$searchIndex = Meilisearch::get_index();
+				$indexKey = carbon_get_theme_option('meilisearch_index_key');
+				$searchIndex = Meilisearch::get_index($indexKey);
 
 				$current_post_status = get_post_status($post);
 
