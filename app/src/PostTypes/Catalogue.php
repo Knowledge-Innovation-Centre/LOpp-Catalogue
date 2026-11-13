@@ -159,7 +159,7 @@ if (! class_exists(Catalogue::class)) {
 
 			if (is_single() && $post->post_type == $this->post_type) {
 				if (carbon_get_theme_option('hide_table_on_catalogue_single_page')) {
-					return '<div id="catalogue-single-page" data-post-id="' . $current_id . '"></div>';
+					return '<div class="loc-catalogue"><div id="catalogue-single-page" data-post-id="' . $current_id . '"></div></div>';
 				}
 				$this->hide_rows = carbon_get_theme_option('hide_rows_no_data');
 				$content .= '<p>' . $post->post_excerpt . '</p>';
@@ -271,6 +271,9 @@ if (! class_exists(Catalogue::class)) {
 								   . get_permalink($catalogue_search_page[0]['id'])
 								   . '">Back to search</a></p>');
 				}
+
+				// .loc-catalogue scopes the catalogue styles to this content.
+				$content = '<div class="loc-catalogue">' . $content . '</div>';
 			}
 
 			return $content;
