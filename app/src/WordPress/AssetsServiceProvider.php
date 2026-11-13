@@ -36,15 +36,14 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 			wp_enqueue_script( 'comment-reply' );
 		}
 
-		// Enqueue scripts.
-		LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
-			'theme-js-bundle-loc',
-			LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.js' ),
-			[ 'jquery', 'jquery-ui-tabs', 'jquery-ui-tabs' ],
-			true
-		);
+		// The frontend bundle (about 600 KB) only drives the catalogue search
+		// and single catalogue item pages. Load it there, not on every page.
+		if ( static::pageNeedsFrontendScript() ) {
+			static::enqueueFrontendScript();
+		}
 
-		// Enqueue styles.
+		// Enqueue styles. Kept on every page: the stylesheet also carries global
+		// rules (e.g. link decoration, Flowbite import) that themes may rely on.
 		$style = LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.css' );
 
 		if ( $style ) {
@@ -53,6 +52,50 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 				$style
 			);
 		}
+	}
+
+	/**
+	 * Whether the current request renders something the frontend bundle mounts on:
+	 * a single catalogue item, or a post whose content holds a catalogue shortcode.
+	 * Shortcodes rendered elsewhere (page builders, widgets) enqueue the bundle
+	 * themselves, see ShortcodesServiceProvider.
+	 *
+	 * @return bool
+	 */
+	public static function pageNeedsFrontendScript() {
+		$needed = false;
+
+		if ( is_singular( \LearningOpportunitiesCatalogue\PostTypes\Catalogue::POST_TYPE ) ) {
+			$needed = true;
+		} elseif ( is_singular() ) {
+			$post = get_post();
+			if ( $post && ( has_shortcode( $post->post_content, 'search-catalog-items' )
+				|| has_shortcode( $post->post_content, 'search-catalog-page' ) ) ) {
+				$needed = true;
+			}
+		}
+
+		/**
+		 * Filters whether the catalogue frontend script loads on this request.
+		 *
+		 * @param bool $needed
+		 */
+		return (bool) apply_filters( 'loc_enqueue_frontend_script', $needed );
+	}
+
+	/**
+	 * Enqueue the frontend script bundle. Safe to call more than once and
+	 * late (from a shortcode callback): it is printed in the footer.
+	 *
+	 * @return void
+	 */
+	public static function enqueueFrontendScript() {
+		LearningOpportunitiesCatalogue::core()->assets()->enqueueScript(
+			'theme-js-bundle-loc',
+			LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.js' ),
+			[ 'jquery', 'jquery-ui-tabs' ],
+			true
+		);
 	}
 
 	/**

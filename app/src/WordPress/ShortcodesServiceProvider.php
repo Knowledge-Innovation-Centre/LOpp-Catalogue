@@ -33,11 +33,15 @@ class ShortcodesServiceProvider implements ServiceProviderInterface {
 	 * @return string
 	 */
 	public function searchCatalogItems( $atts, $content ) {
+		AssetsServiceProvider::enqueueFrontendScript();
+
 		return '<div id="search-catalog-items"></div>';
 	}
 
 	public function searchCatalogPage( $atts, $content ) {
 		global $post;
+
+		AssetsServiceProvider::enqueueFrontendScript();
 
 		return '<div id="catalogue-single-page" data-post-id="' . ( $post->ID ) . '"></div>';
 	}
