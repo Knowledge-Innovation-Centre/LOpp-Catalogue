@@ -4,7 +4,7 @@
  * Requires Plugins: kic-meilisearch
  * Plugin URI: https://knowledgeinnovation.eu/
  * Description:
- * Version: 2.3.14
+ * Version: 2.3.15
  * Requires at least: 4.7
  * Requires PHP: 5.5.9
  * Author: Jure Jager & Carmen L. Padron - Knowledge innovation

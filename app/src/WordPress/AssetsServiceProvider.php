@@ -36,21 +36,12 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 			wp_enqueue_script( 'comment-reply' );
 		}
 
-		// The frontend bundle (about 600 KB) only drives the catalogue search
-		// and single catalogue item pages. Load it there, not on every page.
+		// The frontend bundle (about 600 KB) and its stylesheet only serve the
+		// catalogue search and single catalogue item pages. Load them there only:
+		// the stylesheet imports Flowbite, whose global reset breaks theme layouts
+		// (missing logos, shrunken headings, sidebars pushed below the content).
 		if ( static::pageNeedsFrontendScript() ) {
 			static::enqueueFrontendScript();
-		}
-
-		// Enqueue styles. Kept on every page: the stylesheet also carries global
-		// rules (e.g. link decoration, Flowbite import) that themes may rely on.
-		$style = LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.css' );
-
-		if ( $style ) {
-			LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
-				'theme-css-bundle-loc',
-				$style
-			);
 		}
 	}
 
@@ -76,7 +67,7 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 		}
 
 		/**
-		 * Filters whether the catalogue frontend script loads on this request.
+		 * Filters whether the catalogue frontend script and stylesheet load on this request.
 		 *
 		 * @param bool $needed
 		 */
@@ -84,8 +75,8 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 	}
 
 	/**
-	 * Enqueue the frontend script bundle. Safe to call more than once and
-	 * late (from a shortcode callback): it is printed in the footer.
+	 * Enqueue the frontend script and stylesheet. Safe to call more than once and
+	 * late (from a shortcode callback): both are then printed in the footer.
 	 *
 	 * @return void
 	 */
@@ -96,6 +87,15 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 			[ 'jquery', 'jquery-ui-tabs' ],
 			true
 		);
+
+		$style = LearningOpportunitiesCatalogue::core()->assets()->getBundleUrl( 'frontend', '.css' );
+
+		if ( $style ) {
+			LearningOpportunitiesCatalogue::core()->assets()->enqueueStyle(
+				'theme-css-bundle-loc',
+				$style
+			);
+		}
 	}
 
 	/**
