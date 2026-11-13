@@ -35,7 +35,8 @@ class ShortcodesServiceProvider implements ServiceProviderInterface {
 	public function searchCatalogItems( $atts, $content ) {
 		AssetsServiceProvider::enqueueFrontendScript();
 
-		return '<div id="search-catalog-items"></div>';
+		// .loc-catalogue scopes the catalogue styles; it stays after Vue replaces the inner div.
+		return '<div class="loc-catalogue"><div id="search-catalog-items"></div></div>';
 	}
 
 	public function searchCatalogPage( $atts, $content ) {
@@ -43,6 +44,6 @@ class ShortcodesServiceProvider implements ServiceProviderInterface {
 
 		AssetsServiceProvider::enqueueFrontendScript();
 
-		return '<div id="catalogue-single-page" data-post-id="' . ( $post->ID ) . '"></div>';
+		return '<div class="loc-catalogue"><div id="catalogue-single-page" data-post-id="' . ( $post->ID ) . '"></div></div>';
 	}
 }

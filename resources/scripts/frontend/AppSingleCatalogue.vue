@@ -248,20 +248,20 @@ export default {
 </script>
 
 <style>
-.container {
+:where(.loc-catalogue) .container {
 	padding: 30px;
 	display: flex;
 	flex-direction: column;
 }
 
-.filter-section {
+:where(.loc-catalogue) .filter-section {
 	width: 30%;
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
 }
 
-.data-section {
+:where(.loc-catalogue) .data-section {
 	flex: 1;
 	display: flex;
 	margin-top: 30px;
@@ -269,7 +269,7 @@ export default {
 	border-radius: 10px;
 }
 
-.post-section {
+:where(.loc-catalogue) .post-section {
 	border-radius: 10px;
 	padding: 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -277,30 +277,30 @@ export default {
 	flex-direction: column;
 }
 
-.structure {
+:where(.loc-catalogue) .structure {
 	display: flex;
 	gap: 20px;
 	margin-bottom: 20px;
 	justify-content: center;
 }
 
-.structure-item {
+:where(.loc-catalogue) .structure-item {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 0 20px;
 }
 
-.structure-item h4 {
+:where(.loc-catalogue) .structure-item h4 {
 	font-size: 18px;
 	margin-bottom: 5px;
 }
 
-.structure-item p {
+:where(.loc-catalogue) .structure-item p {
 	font-size: 16px;
 }
 
-.apply-button {
+:where(.loc-catalogue) .apply-button {
 	padding: 10px 20px;
 	background-color: #5401FE;
 	color: #fff;
@@ -312,18 +312,18 @@ export default {
 	font-weight: 600;
 }
 
-.apply-button:hover {
+:where(.loc-catalogue) .apply-button:hover {
 	background-color: #eee;
 	color: #5401FE;
 	border: 1px solid #5401FE;
 	padding: 12px 22px;
 }
 
-.post-content {
+:where(.loc-catalogue) .post-content {
 	margin-bottom: 20px;
 }
 
-.info {
+:where(.loc-catalogue) .info {
 	padding: 20px;
 	margin-bottom: 30px;
 	background-color: #f9f9f9;
@@ -331,30 +331,30 @@ export default {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.info h3 {
+:where(.loc-catalogue) .info h3 {
 	font-size: 24px;
 	margin-bottom: 20px;
 	color: #333;
 }
 
-.info p {
+:where(.loc-catalogue) .info p {
 	font-size: 16px;
 	margin-bottom: 10px;
 }
 
-.info ul {
+:where(.loc-catalogue) .info ul {
 	list-style: disc;
 	padding-left: 20px;
 }
 
-.info-para {
+:where(.loc-catalogue) .info-para {
 	font-size: 16px;
 	line-height: 1.5;
 	color: #555;
 	margin-top: 20px;
 }
 
-.selected-field {
+:where(.loc-catalogue) .selected-field {
 	padding: 10px;
 	padding-top: 20px;
 	border-radius: 10px;
@@ -364,28 +364,28 @@ export default {
 	width: -webkit-fill-available;
 }
 
-.selected-field h3 {
+:where(.loc-catalogue) .selected-field h3 {
 	margin-bottom: 10px;
 }
 
-.selected-field ul {
+:where(.loc-catalogue) .selected-field ul {
 	list-style: none;
 	padding: 0;
 }
 
-.selected-field ul li {
+:where(.loc-catalogue) .selected-field ul li {
 	margin-bottom: 5px;
 }
 
-.info ul li {
+:where(.loc-catalogue) .info ul li {
 	list-style: none;
 }
 
-.info-list {
+:where(.loc-catalogue) .info-list {
 	padding-top: 10px;
 }
 
-.info-list li {
+:where(.loc-catalogue) .info-list li {
 	list-style: none;
 	display: flex;
 	align-items: center;
@@ -393,33 +393,33 @@ export default {
 	text-transform: capitalize;
 }
 
-.info-list li::before {
+:where(.loc-catalogue) .info-list li::before {
 	content: "\2192";
 	color: #007bff;
 	font-size: 1.2rem;
 	margin-right: 10px;
 }
 
-.info-list li span {
+:where(.loc-catalogue) .info-list li span {
 	font-size: 16px;
 	color: #333;
 	font-style: italic;
 	text-transform: capitalize;
 }
 
-.fields-buttons {
+:where(.loc-catalogue) .fields-buttons {
 	display: none;
 	flex-direction: column;
 	transition: all 0.3s ease;
 }
 
-.fields-buttons.clicked {
+:where(.loc-catalogue) .fields-buttons.clicked {
 	display: flex;
 	flex-direction: column;
 	transition: all 0.3s ease;
 }
 
-.data-button {
+:where(.loc-catalogue) .data-button {
 	padding: 12px 20px;
 	border: none;
 	border-bottom: 1px solid #eee;
@@ -433,30 +433,30 @@ export default {
 	font-weight: 600;
 }
 
-.data-button:hover {
+:where(.loc-catalogue) .data-button:hover {
 	background-color: #5401FE;
 }
 
-.data-button:focus-within {
+:where(.loc-catalogue) .data-button:focus-within {
 	border: none !important;
 	border-bottom: 1px solid black;
 }
 
-.data-button:focus {
+:where(.loc-catalogue) .data-button:focus {
 	background-color: #5401FE;
 	border: none !important;
 	outline: none !important;
 	border-bottom: 1px solid black;
 }
 
-.data-btn-active {
+:where(.loc-catalogue) .data-btn-active {
 	border: #5401FE !important;
 	color: #fff;
 	background: #5401FE;
 	border-bottom: 1px solid black;
 }
 
-.burger-menu {
+:where(.loc-catalogue) .burger-menu {
 	display: none;
 	flex-direction: column;
 	justify-content: space-between;
@@ -467,7 +467,7 @@ export default {
 	margin-top: 17px;
 }
 
-.burger-line {
+:where(.loc-catalogue) .burger-line {
 	width: 100%;
 	height: 4px;
 	background-color: #333;
@@ -475,70 +475,70 @@ export default {
 }
 
 /* Rotate burger lines to create X icon */
-.clicked .burger-line:nth-child(1) {
+:where(.loc-catalogue) .clicked .burger-line:nth-child(1) {
 	transform: rotate(-45deg) translate(-3px, 6px);
 }
 
-.clicked .burger-line:nth-child(2) {
+:where(.loc-catalogue) .clicked .burger-line:nth-child(2) {
 	opacity: 0;
 }
 
-.clicked .burger-line:nth-child(3) {
+:where(.loc-catalogue) .clicked .burger-line:nth-child(3) {
 	transform: rotate(45deg) translate(-3px, -6px);
 }
 
-.filter-section-mobile {
+:where(.loc-catalogue) .filter-section-mobile {
 	display: none;
 }
 
-.link-value {
+:where(.loc-catalogue) .link-value {
 	color: #5401FE;
 }
 
-a {
+:where(.loc-catalogue) a {
 	text-decoration: none !important;
 }
 
-.selected-field>ul>li>span>ul {
+:where(.loc-catalogue) .selected-field>ul>li>span>ul {
 	padding-left: 5px;
 }
 
 
 
 @media screen and (max-width: 768px) {
-	.container {
+	:where(.loc-catalogue) .container {
 		padding: 20px;
 	}
 
-	.data-section {
+	:where(.loc-catalogue) .data-section {
 		flex-direction: column;
 	}
 
-	.data-button {
+	:where(.loc-catalogue) .data-button {
 		padding: 8px;
 	}
 
-	.filter-section {
+	:where(.loc-catalogue) .filter-section {
 		width: auto;
 		flex-direction: row;
 		gap: 10px;
 		padding-bottom: 0px !important;
 	}
 
-	.structure {
+	:where(.loc-catalogue) .structure {
 		flex-wrap: wrap;
 		gap: 0px;
 		justify-content: center;
 	}
 
-	.structure-item {
+	:where(.loc-catalogue) .structure-item {
 		width: 100%;
 		box-sizing: border-box;
 		flex-direction: row;
 		justify-content: center;
 	}
 
-	.structure-item>p {
+	:where(.loc-catalogue) .structure-item>p {
 		margin-block-end: 0px;
 		font-size: 18px;
 		padding-left: 10px;
@@ -546,42 +546,42 @@ a {
 	}
 
 
-	.apply-button {
+	:where(.loc-catalogue) .apply-button {
 		width: 60%;
 		text-align: center;
 
 	}
 
-	.post-section {
+	:where(.loc-catalogue) .post-section {
 		margin-top: 20px;
 	}
 
-	.selected-field>ul>li {
+	:where(.loc-catalogue) .selected-field>ul>li {
 		list-style: none;
 	}
 
-	.fields-buttons-hide {
+	:where(.loc-catalogue) .fields-buttons-hide {
 		display: none;
 	}
 
-	.burger-menu {
+	:where(.loc-catalogue) .burger-menu {
 		display: flex;
 	}
 
-	.mobile-selected {
+	:where(.loc-catalogue) .mobile-selected {
 		display: block;
 		text-align: center;
 	}
 
-	.menu-hidden {
+	:where(.loc-catalogue) .menu-hidden {
 		display: none !important;
 	}
 
-	.selected-field {
+	:where(.loc-catalogue) .selected-field {
 		padding-left: 40px;
 	}
 
-	.filter-section-mobile {
+	:where(.loc-catalogue) .filter-section-mobile {
 		display: flex;
 		justify-content: flex-start;
 		padding-left: 20px;
@@ -589,16 +589,16 @@ a {
 		padding-top: 5px
 	}
 
-	.filter-section-mobile-center {
+	:where(.loc-catalogue) .filter-section-mobile-center {
 		justify-content: space-evenly !important;
 		padding: 20px;
 	}
 
-	.filter-section {
+	:where(.loc-catalogue) .filter-section {
 		display: none;
 	}
 
-	.burger-menu-hidden {
+	:where(.loc-catalogue) .burger-menu-hidden {
 		display: none;
 	}
 

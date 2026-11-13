@@ -371,7 +371,6 @@ export default {
 
 <style>
 
-@import 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css';
 
 .entry-content> :not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce) {
   max-width: 1280px !important;

@@ -22,7 +22,8 @@
     "i18n:pot": "wpi18n makepot --exclude=dist,node_modules,resources,tests,vendor --type=wp-plugin --domain-path=languages/ --pot-file=learning_opportunities_catalogue.pot --textdomain=learning_opportunities_catalogue",
     "rebrand": "node resources/build/rebrand/rebrand.js",
     "release": "run-s build release:zip",
-    "release:zip": "node resources/build/release/release.js learning-opportunities-catalogue-release"
+    "release:zip": "node resources/build/release/release.js learning-opportunities-catalogue-release",
+    "flowbite:scope": "node resources/build/flowbite-catalogue.cjs"
   },
   "browserslist": [
     "last 3 versions"
