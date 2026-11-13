@@ -162,6 +162,7 @@ if (! class_exists(Catalogue::class)) {
 					return '<div class="loc-catalogue"><div id="catalogue-single-page" data-post-id="' . $current_id . '"></div></div>';
 				}
 				$this->hide_rows = carbon_get_theme_option('hide_rows_no_data');
+				$post_content = $content;
 				$content .= '<p>' . $post->post_excerpt . '</p>';
 				$this->is_url_fields = [];
 
@@ -272,8 +273,9 @@ if (! class_exists(Catalogue::class)) {
 								   . '">Back to search</a></p>');
 				}
 
-				// .loc-catalogue scopes the catalogue styles to this content.
-				$content = '<div class="loc-catalogue">' . $content . '</div>';
+				// .loc-catalogue scopes the catalogue styles to what the plugin adds,
+				// not to the post's own content (the theme styles that).
+				$content = $post_content . '<div class="loc-catalogue">' . substr( $content, strlen( $post_content ) ) . '</div>';
 			}
 
 			return $content;
