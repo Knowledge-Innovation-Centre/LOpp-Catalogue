@@ -155,6 +155,12 @@ if (! class_exists(Catalogue::class)) {
 		{
 			global $post;
 			global $wpdb;
+
+			// No current post on oEmbed requests, wp-login.php POSTs and similar.
+			if (! ($post instanceof \WP_Post)) {
+				return $content;
+			}
+
 			$current_id = $post->ID;
 
 			if (is_single() && $post->post_type == $this->post_type) {

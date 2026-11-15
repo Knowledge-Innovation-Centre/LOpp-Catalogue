@@ -45,6 +45,97 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 		add_action('carbon_fields_register_fields', [$this, 'registerFields']);
 		add_action('carbon_fields_theme_options_container_saved', [$this, 'theme_options_container_saved']);
 		add_action('widgets_init', [$this, 'registerWidgets']);
+
+		// Static callback, so a second bootstrap cannot add it twice.
+		if (false === has_filter('rest_pre_dispatch', [self::class, 'guardRestApi'])) {
+			add_filter('rest_pre_dispatch', [self::class, 'guardRestApi'], 10, 3);
+		}
+	}
+
+	/**
+	 * Guard the Carbon Fields REST routes that read query parameters unchecked.
+	 *
+	 * Carbon Fields (3.6.3 to at least 3.6.11, core/REST_API/Router.php unchanged) registers
+	 * /carbon-fields/v1/association, /association/options and /attachment with permission_callback
+	 * "allow_access" and reads $_GET['container_id'], $_GET['field_id'], $_GET['type'] and
+	 * $_GET['value'] without isset(). An anonymous GET without them ends in
+	 * "Call to a member function get_options() on null". Only the admin field UI needs these
+	 * routes, so:
+	 * - anonymous users get 401, logged-in users who cannot edit posts get 403;
+	 * - missing parameters, or a container/field that is not an association field, get 400.
+	 * Logged-in editors with valid parameters reach Carbon Fields unchanged.
+	 *
+	 * Safe next to other plugins that bundle Carbon Fields and add the same guard (Kic
+	 * Publications): it acts only when no earlier filter has produced a response, so a second
+	 * guard never overrides the first, and running both gives the same result as running one.
+	 * It filters by route, so it works whichever plugin's copy of Carbon Fields was loaded, and
+	 * it touches Carbon Fields classes only after checking that they exist.
+	 *
+	 * @param mixed            $result  Response to replace the requested one, or null.
+	 * @param \WP_REST_Server  $server  Server instance.
+	 * @param \WP_REST_Request $request Request.
+	 * @return mixed
+	 */
+	public static function guardRestApi($result, $server, $request)
+	{
+		if (null !== $result || !($request instanceof \WP_REST_Request)) {
+			return $result;
+		}
+
+		// WordPress matches routes case-insensitively, so compare in lower case.
+		$route = strtolower(untrailingslashit((string) $request->get_route()));
+		$required = [
+			'/carbon-fields/v1/association' => ['container_id', 'field_id'],
+			'/carbon-fields/v1/association/options' => ['container_id', 'field_id'],
+			'/carbon-fields/v1/attachment' => ['type', 'value'],
+		];
+		if (!isset($required[$route])) {
+			return $result;
+		}
+
+		if (!current_user_can('edit_posts')) {
+			return new \WP_Error(
+				'rest_forbidden',
+				__('Sorry, you are not allowed to do that.', 'learning_opportunities_catalogue'),
+				['status' => rest_authorization_required_code()]
+			);
+		}
+
+		// Carbon Fields reads $_GET, so check the query string, not the merged parameters.
+		$query = (array) $request->get_query_params();
+		foreach ($required[$route] as $param) {
+			$value = isset($query[$param]) ? $query[$param] : null;
+			if (!is_string($value) || '' === $value) {
+				return new \WP_Error(
+					'rest_missing_callback_param',
+					sprintf(__('Missing parameter: %s', 'learning_opportunities_catalogue'), $param),
+					['status' => 400]
+				);
+			}
+		}
+
+		if ('/carbon-fields/v1/attachment' === $route) {
+			return $result;
+		}
+
+		// The same lookup Carbon Fields runs next; anything but an association field would fatal.
+		$field = null;
+		if (is_callable(['\Carbon_Fields\Helper\Helper', 'get_field'])) {
+			try {
+				$field = \Carbon_Fields\Helper\Helper::get_field(null, $query['container_id'], $query['field_id']);
+			} catch (\Throwable $e) {
+				$field = null;
+			}
+		}
+		if (!($field instanceof \Carbon_Fields\Field\Association_Field)) {
+			return new \WP_Error(
+				'rest_invalid_param',
+				__('Unknown Carbon Fields association field.', 'learning_opportunities_catalogue'),
+				['status' => 400]
+			);
+		}
+
+		return $result;
 	}
 
 	/**

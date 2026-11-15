@@ -539,16 +539,16 @@
         },
         {
             "name": "htmlburger/carbon-fields",
-            "version": "v3.6.3",
+            "version": "v3.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/htmlburger/carbon-fields.git",
-                "reference": "d913a5148cb9dc61ed239719c747f4ebb513003f"
+                "reference": "d040371b5dbdc874aeef8f517045a0e82cedea8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/htmlburger/carbon-fields/zipball/d913a5148cb9dc61ed239719c747f4ebb513003f",
-                "reference": "d913a5148cb9dc61ed239719c747f4ebb513003f",
+                "url": "https://api.github.com/repos/htmlburger/carbon-fields/zipball/d040371b5dbdc874aeef8f517045a0e82cedea8c",
+                "reference": "d040371b5dbdc874aeef8f517045a0e82cedea8c",
                 "shasum": ""
             },
             "require": {
@@ -675,7 +675,8 @@
                 "issues": "https://github.com/htmlburger/carbon-fields/issues",
                 "source": "https://github.com/htmlburger/carbon-fields"
             },
-            "time": "2023-11-28T15:52:46+00:00"
+            "time": "2026-08-27T06:31:08+00:00",
+            "published-time": "2026-08-27T06:31:57+00:00"
         },
         {
             "name": "htmlburger/wpemerge",
@@ -3021,12 +3022,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.4"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.11.0"
 }
