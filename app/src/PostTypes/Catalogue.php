@@ -562,7 +562,7 @@ if (! class_exists(Catalogue::class)) {
 
 			$post = get_post($post_id);
 
-			if ($post->post_type != $this->post_type) {
+			if (! ($post instanceof \WP_Post) || $post->post_type != $this->post_type) {
 				return;
 			}
 
