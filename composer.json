@@ -14,10 +14,7 @@
     "htmlburger/wpemerge": "^0.17.0",
     "htmlburger/wpemerge-app-core": "^0.17.0",
     "htmlburger/carbon-fields": "^3.3",
-    "johnbillion/extended-cpts": "^4.5",
-    "guzzlehttp/guzzle": "^7.4",
-    "http-interop/http-factory-guzzle": "^1.2",
-    "meilisearch/meilisearch-php": "^1.6"
+    "johnbillion/extended-cpts": "^4.5"
   },
   "require-dev": {
     "filp/whoops": "^2.2",
