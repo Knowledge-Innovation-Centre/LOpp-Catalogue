@@ -17,8 +17,26 @@ if (!class_exists(CatalogueSearchIndex::class)) {
 	 */
 	class CatalogueSearchIndex
 	{
+		/**
+		 * Whether the kic-meilisearch plugin is loaded.
+		 *
+		 * Meilisearch is optional: when kic-meilisearch is inactive its class
+		 * does not exist, and every index operation below is a no-op instead
+		 * of a fatal "Class not found" error.
+		 *
+		 * @return bool
+		 */
+		public static function is_available()
+		{
+			return class_exists(Meilisearch::class) && is_callable([Meilisearch::class, 'health']);
+		}
+
 		public static function delete_index($post)
 		{
+			if (!self::is_available()) {
+				return false;
+			}
+
 			try {
 				if (!Meilisearch::health()) {
 					return false;
@@ -38,6 +56,10 @@ if (!class_exists(CatalogueSearchIndex::class)) {
 
 		public static function delete_all_index()
 		{
+			if (!self::is_available()) {
+				return false;
+			}
+
 			try {
 				$client = Meilisearch::get_client();
 				$client->index(carbon_get_theme_option('meilisearch_index_key'))->deleteAllDocuments();
@@ -48,6 +70,10 @@ if (!class_exists(CatalogueSearchIndex::class)) {
 
 		public static function update_index($post_ID)
 		{
+			if (!self::is_available()) {
+				return false;
+			}
+
 			try {
 				$post = get_post($post_ID);
 				if (!Meilisearch::health()) {

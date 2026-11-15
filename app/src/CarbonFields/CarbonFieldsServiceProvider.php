@@ -8,6 +8,7 @@ use Carbon_Fields\Field;
 use KicMeilisearch\Meilisearch;
 use LearningOpportunitiesCatalogue\PostTypes\Catalogue;
 use LearningOpportunitiesCatalogue\PostTypes\CatalogueFields;
+use LearningOpportunitiesCatalogue\PostTypes\CatalogueSearchIndex;
 use LearningOpportunitiesCatalogue\PostTypes\LearningOutcome;
 use LearningOpportunitiesCatalogue\PostTypes\LearningOutcomeFields;
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
@@ -493,6 +494,11 @@ class CarbonFieldsServiceProvider implements ServiceProviderInterface
 	public function theme_options_container_saved()
 	{
 		$facets = [];
+
+		// kic-meilisearch inactive: nothing to configure, save the options normally.
+		if (!CatalogueSearchIndex::is_available()) {
+			return false;
+		}
 
 		if (!Meilisearch::health()) {
 			return false;

@@ -5,6 +5,7 @@ namespace LearningOpportunitiesCatalogue\WordPress;
 use LearningOpportunitiesCatalogue\AjaxFrontend;
 use LearningOpportunitiesCatalogue\PostTypes\Catalogue;
 use LearningOpportunitiesCatalogue\PostTypes\CatalogueImporter;
+use LearningOpportunitiesCatalogue\PostTypes\CatalogueSearchIndex;
 use LearningOpportunitiesCatalogue\PostTypes\Dimension;
 use LearningOpportunitiesCatalogue\PostTypes\DimensionSubset;
 use LearningOpportunitiesCatalogue\PostTypes\DimensionSubsetItem;
@@ -72,6 +73,9 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 
 	function my_action_javascript()
 	{
+		if (!CatalogueSearchIndex::is_available()) {
+			return;
+		}
 		?>
 		<script type="text/javascript">
 		jQuery(document).ready(function ($) {
@@ -104,6 +108,11 @@ class ContentTypesServiceProvider implements ServiceProviderInterface
 
 	public function my_ajax_button($admin_bar)
 	{
+		// No search index without kic-meilisearch: hide the reindex/delete buttons.
+		if (!CatalogueSearchIndex::is_available()) {
+			return;
+		}
+
 		$admin_bar->add_menu([
 			'id' => 'reindex-items',
 			'title' => 'Reindex all items',

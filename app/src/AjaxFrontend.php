@@ -238,6 +238,11 @@ if (!class_exists(AjaxFrontend::class)) {
 
 		public function reindex_items()
 		{
+			if (!CatalogueSearchIndex::is_available()) {
+				echo 'Search index disabled: kic-meilisearch is not active.';
+				die;
+			}
+
 			$args = [
 				'post_type' => Catalogue::POST_TYPE,
 				'orderby' => 'ID',
@@ -271,6 +276,11 @@ if (!class_exists(AjaxFrontend::class)) {
 
 		public function delete_index_items()
 		{
+			if (!CatalogueSearchIndex::is_available()) {
+				echo 'Search index disabled: kic-meilisearch is not active.';
+				die;
+			}
+
 			CatalogueSearchIndex::delete_all_index();
 
 			wp_reset_postdata();
